@@ -4,6 +4,7 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="navigation_add">New Post</string>
     <string name="sign_in">Sign in</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
@@ -16,5 +17,6 @@
     <string name="user_name">User Name</string>
     <string name="email">Email</string>
     <string name="logout">Logout</string>
+
 
 </resources>
