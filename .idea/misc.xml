@@ -5,8 +5,10 @@
       <map>
         <entry key="..\:/Users/faisa/AndroidStudioProjects/blogerrtest/app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="..\:/Users/faisa/AndroidStudioProjects/blogerrtest/app/src/main/res/layout/activity_main_for_testing.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/faisa/AndroidStudioProjects/blogerrtest/app/src/main/res/layout/fragment_dashboard.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/faisa/AndroidStudioProjects/blogerrtest/app/src/main/res/layout/fragment_login.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/faisa/AndroidStudioProjects/blogerrtest/app/src/main/res/layout/signup_fragment.xml" value="0.264" />
+        <entry key="..\:/Users/faisa/AndroidStudioProjects/blogerrtest/app/src/main/res/menu/bottom_nav_menu.xml" value="0.25416666666666665" />
       </map>
     </option>
   </component>
