@@ -12,6 +12,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.tuwaiq.androidgeeks.signup.SignupFragment
 import com.tuwaiq.blogerrtest.MainActivity
 import com.tuwaiq.blogerrtest.R
 import com.tuwaiq.blogerrtest.ui.dashboard.DashboardFragment
@@ -23,6 +24,7 @@ class LoginFragment : Fragment() {
     private lateinit var passwordEt:EditText
     private lateinit var loginBtn:Button
     private lateinit var googleBtn:ImageView
+    private lateinit var signUpBtn:TextView
     private lateinit var navBottomNavigation:BottomNavigationMenuView
    // private lateinit var navHost:NavHostFragment
 
@@ -47,8 +49,15 @@ class LoginFragment : Fragment() {
          passwordEt=view.findViewById(R.id.passwordet_login)
          loginBtn  =view.findViewById(R.id.login_btn)
         googleBtn  =view.findViewById(R.id.google_btn)
+        signUpBtn  =view.findViewById(R.id.singup_tv_loginpage)
        // navBottomNavigation=view.findViewById(R.id.nav_bottomview)
 
+        signUpBtn.setOnClickListener {
+
+            val fragment= SignupFragment()
+                        activity?.supportFragmentManager
+                            ?.beginTransaction()?.replace(R.id.nav_host_fragment_activity_main,fragment)
+                            ?.addToBackStack(null)?.commit() }
 
 
        // navBottomNavigation.visibility=View.VISIBLE
@@ -99,6 +108,12 @@ class LoginFragment : Fragment() {
 
                     }
                 }
+        }else{ val fragment=SignupFragment()
+            activity?.supportFragmentManager
+                ?.beginTransaction()?.replace(R.id.fragmentContainerView,fragment)
+                ?.addToBackStack(null)?.commit()
+
+
         }}
     }
 

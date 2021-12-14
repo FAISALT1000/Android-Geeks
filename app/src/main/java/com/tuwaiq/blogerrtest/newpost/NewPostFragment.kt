@@ -6,13 +6,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import androidx.lifecycle.viewModelScope
 import com.tuwaiq.blogerrtest.R
 
 class NewPostFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = NewPostFragment()
-    }
+    private lateinit var titleEt:EditText
+    private lateinit var postEt:EditText
+    private lateinit var postBtn:Button
 
     private lateinit var viewModel: NewPostViewModel
 
@@ -20,13 +23,20 @@ class NewPostFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.new_post_fragment, container, false)
+        val view= inflater.inflate(R.layout.new_post_fragment, container, false)
+
+        titleEt=view.findViewById(R.id.title_tv)
+        postEt=view.findViewById(R.id.post_et)
+        postBtn=view.findViewById(R.id.post_btn)
+
+        if (titleEt.text.isNotEmpty()){
+//            postBtn.isClickable=true
+
+       }
+
+        return view
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(NewPostViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
+
 
 }
