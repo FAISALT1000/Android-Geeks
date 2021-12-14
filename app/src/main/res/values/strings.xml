@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">blogerrtest</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="sign_in">Sign in</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">LOGIN</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="or_sign_in_with">or sign in with</string>
+    <string name="login_failed">LOGIN FAILED !!!</string>
+    <string name="login_successful">LOGIN SUCCESSFUL</string>
+    <string name="soon">soon.....</string>
+    <string name="user_name">User Name</string>
+    <string name="email">Email</string>
+    <string name="logout">Logout</string>
+
+</resources>

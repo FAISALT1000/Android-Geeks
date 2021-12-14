@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "499399952640",
+    "project_id": "blogger-test-1ba07",
+    "storage_bucket": "blogger-test-1ba07.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:499399952640:android:91a5c0e16801f9128acbe5",
+        "android_client_info": {
+          "package_name": "com.tuwaiq.blogerrtest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "499399952640-0ebb3htarqe9nhnl7ukk74gvkqam5uta.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_pZt8pRFC2Kr2qpAxh-L-Ix_Z6hZ6DCk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "499399952640-0ebb3htarqe9nhnl7ukk74gvkqam5uta.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
