@@ -88,7 +88,7 @@ class LoginFragment : Fragment() {
 
                         val intent= Intent(context, MainActivity::class.java)
                         startActivity(intent)
-//                        val fragment= DashboardFragment()
+/*//                        val fragment= DashboardFragment()
 //                        activity?.supportFragmentManager
 //                            ?.beginTransaction()?.replace(R.id.nav_host_fragment_activity_main,fragment)
 //                            ?.addToBackStack(null)?.commit()
@@ -96,15 +96,16 @@ class LoginFragment : Fragment() {
 //                        intent.putExtra("user_id",firebaseUser.uid)
 //                        intent.putExtra("email_id",firebaseUser.email)
 //                        startActivity(intent)
-//                        finish()
+//                        finish()*/
                     }
                     else{
                         Toast.makeText(context,"Try Again", Toast.LENGTH_LONG).show()
+                        /*
 //                        val fragment=LoginFragment()
 //                        activity?.supportFragmentManager
 //                            ?.beginTransaction()?.replace(R.id.fragmentContainerView,fragment)
 //                            ?.addToBackStack(null)?.commit()
-
+*/
 
                     }
                 }

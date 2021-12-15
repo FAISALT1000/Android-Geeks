@@ -1,5 +1,6 @@
 package com.tuwaiq.blogerrtest.ui.home
 
+import android.database.DatabaseUtils
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.firebase.auth.FirebaseAuth
 import com.tuwaiq.blogerrtest.R
 import com.tuwaiq.blogerrtest.databinding.FragmentHomeBinding
 
@@ -25,6 +27,7 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         homeViewModel =
             ViewModelProvider(this).get(HomeViewModel::class.java)
 
