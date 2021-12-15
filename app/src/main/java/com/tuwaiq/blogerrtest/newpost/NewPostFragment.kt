@@ -66,10 +66,10 @@ class NewPostFragment : Fragment() {
         dataBase.collection("posts")
             .add(post)
             .addOnSuccessListener {
-                Toast.makeText(context,"Success",Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,getString(R.string.success_toast),Toast.LENGTH_SHORT).show()
             }
             .addOnFailureListener {
-                Toast.makeText(context,"Failure",Toast.LENGTH_SHORT).show() }
+                Toast.makeText(context,getString(R.string.failure_toast),Toast.LENGTH_SHORT).show() }
     }
 
 
