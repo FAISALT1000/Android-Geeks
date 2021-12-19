@@ -1,10 +1,16 @@
 package com.tuwaiq.blogerrtest.ui.home
 
+import android.database.DatabaseUtils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class HomeViewModel : ViewModel() {
+    private lateinit var database:FirebaseFirestore
+    private lateinit var auth: FirebaseAuth
+
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is home Fragment"

@@ -53,6 +53,16 @@
         android:textColor="@color/white"
         android:textColorHint="@color/white" />
 
+    <ProgressBar
+        android:id="@+id/login_progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/login_btn"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="187dp"
+        android:layout_marginBottom="120dp" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/login_btn"
         android:layout_width="wrap_content"

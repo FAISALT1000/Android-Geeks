@@ -6,13 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.FragmentContainerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.tuwaiq.androidgeeks.LoginFragment
+import com.tuwaiq.blogerrtest.login.LoginFragment
 import com.tuwaiq.blogerrtest.R
-import com.tuwaiq.blogerrtest.ui.home.HomeFragment
 
 class SignupFragment : Fragment() {
     private lateinit var emailEt: EditText
@@ -39,7 +37,7 @@ class SignupFragment : Fragment() {
        // con.visibility=View.VISIBLE
 
         loginLink.setOnClickListener {
-            val fragment=LoginFragment()
+            val fragment= LoginFragment()
             activity?.supportFragmentManager
                 ?.beginTransaction()?.replace(R.id.fragmentContainerView,fragment)
                 ?.addToBackStack(null)?.commit()
@@ -64,7 +62,7 @@ class SignupFragment : Fragment() {
                     if (task.isSuccessful){
                         val firebaseUser: FirebaseUser=task.result!!.user!!
                         Toast.makeText(context,"logged in", Toast.LENGTH_LONG).show()
-                        val fragment=LoginFragment()
+                        val fragment= LoginFragment()
                         activity?.supportFragmentManager
                             ?.beginTransaction()?.replace(R.id.fragmentContainerView,fragment)
                             ?.addToBackStack(null)?.commit()

@@ -55,21 +55,25 @@ class NewPostFragment : Fragment() {
 
         val title=titleEt.text.toString().trim()
         val description=postEt.text.toString().trim()
-        val userId= auth.currentUser.toString()
+      //  val userId= auth.currentUser?.let { it.email }
+        val userId= FirebaseAuth.getInstance().currentUser?.uid
+        userId.toString()
         val date=Date()
 
-        var post=NewPostViewModel(userId,title,description,date)
+        var post= userId?.let { NewPostViewModel(it,title,description,date) }
        /* val post:MutableMap<String, Object> =HashMap()
         post["Title"] = titleEt
         post["Description"] = postEt
        // post["Date"] = date*/
-        dataBase.collection("posts")
-            .add(post)
-            .addOnSuccessListener {
-                Toast.makeText(context,getString(R.string.success_toast),Toast.LENGTH_SHORT).show()
-            }
-            .addOnFailureListener {
-                Toast.makeText(context,getString(R.string.failure_toast),Toast.LENGTH_SHORT).show() }
+        if (post != null) {
+            dataBase.collection("posts")
+                .add(post)
+                .addOnSuccessListener {
+                    Toast.makeText(context,getString(R.string.success_toast),Toast.LENGTH_SHORT).show()
+                }
+                .addOnFailureListener {
+                    Toast.makeText(context,getString(R.string.failure_toast),Toast.LENGTH_SHORT).show() }
+        }
     }
 
 

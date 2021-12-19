@@ -1,4 +1,4 @@
-package com.tuwaiq.androidgeeks
+package com.tuwaiq.blogerrtest.login
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,15 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.navigation.fragment.NavHostFragment
-import com.google.android.material.bottomnavigation.BottomNavigationMenuView
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.tuwaiq.androidgeeks.signup.SignupFragment
 import com.tuwaiq.blogerrtest.MainActivity
 import com.tuwaiq.blogerrtest.R
-import com.tuwaiq.blogerrtest.ui.dashboard.DashboardFragment
 
 
 class LoginFragment : Fragment() {
@@ -25,17 +20,12 @@ class LoginFragment : Fragment() {
     private lateinit var loginBtn:Button
     private lateinit var googleBtn:ImageView
     private lateinit var signUpBtn:TextView
-    private lateinit var navBottomNavigation:BottomNavigationMenuView
-   // private lateinit var navHost:NavHostFragment
+    private lateinit var progressBar: ProgressBar
 
 
 
-    private lateinit var auth:FirebaseAuth
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,12 +35,13 @@ class LoginFragment : Fragment() {
         val view= inflater.inflate(R.layout.fragment_login, container, false)
 
 
+        progressBar=view.findViewById(R.id.login_progressBar)
         emailEt=view.findViewById(R.id.emailet_login)
          passwordEt=view.findViewById(R.id.passwordet_login)
          loginBtn  =view.findViewById(R.id.login_btn)
         googleBtn  =view.findViewById(R.id.google_btn)
         signUpBtn  =view.findViewById(R.id.singup_tv_loginpage)
-       // navBottomNavigation=view.findViewById(R.id.nav_bottomview)
+        progressBar.visibility=View.GONE
 
         signUpBtn.setOnClickListener {
 
@@ -59,21 +50,11 @@ class LoginFragment : Fragment() {
                             ?.beginTransaction()?.replace(R.id.nav_host_fragment_activity_main,fragment)
                             ?.addToBackStack(null)?.commit() }
 
-
-       // navBottomNavigation.visibility=View.VISIBLE
-
-
-
-
        loginBtn.setOnClickListener {
-
-               loginUser()
-       }
-
+           progressBar.visibility=View.VISIBLE
+               loginUser() }
         googleBtn.setOnClickListener {
-            Toast.makeText(context,"R.string.soon",Toast.LENGTH_LONG).show()
-        }
-
+            Toast.makeText(context,"R.string.soon",Toast.LENGTH_LONG).show() }
         return view
     }
     private fun loginUser(){
@@ -83,30 +64,13 @@ class LoginFragment : Fragment() {
             FirebaseAuth.getInstance().signInWithEmailAndPassword(email,pass)
                 .addOnCompleteListener{ task->
                     if (task.isSuccessful){
-                        val firebaseUser: FirebaseUser =task.result!!.user!!
                         Toast.makeText(context,"logged in", Toast.LENGTH_LONG).show()
 
                         val intent= Intent(context, MainActivity::class.java)
                         startActivity(intent)
-/*//                        val fragment= DashboardFragment()
-//                        activity?.supportFragmentManager
-//                            ?.beginTransaction()?.replace(R.id.nav_host_fragment_activity_main,fragment)
-//                            ?.addToBackStack(null)?.commit()
-//                        val intent=Intent(context, MainActivity2::class.java)
-//                        intent.putExtra("user_id",firebaseUser.uid)
-//                        intent.putExtra("email_id",firebaseUser.email)
-//                        startActivity(intent)
-//                        finish()*/
                     }
                     else{
                         Toast.makeText(context,"Try Again", Toast.LENGTH_LONG).show()
-                        /*
-//                        val fragment=LoginFragment()
-//                        activity?.supportFragmentManager
-//                            ?.beginTransaction()?.replace(R.id.fragmentContainerView,fragment)
-//                            ?.addToBackStack(null)?.commit()
-*/
-
                     }
                 }
         }else{ val fragment=SignupFragment()
