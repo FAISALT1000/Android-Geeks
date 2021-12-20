@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.tuwaiq.blogerrtest.ui.home.HomeFragment"
+        android:name="com.tuwaiq.AndroidGeeks.ui.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.tuwaiq.blogerrtest.ui.dashboard.DashboardFragment"
+        android:name="com.tuwaiq.AndroidGeeks.ui.dashboard.DashboardFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_dashboard" >
         <action
@@ -27,7 +27,7 @@
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.tuwaiq.blogerrtest.ui.notifications.NotificationsFragment"
+        android:name="com.tuwaiq.AndroidGeeks.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" >
         <action
@@ -36,7 +36,7 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_add"
-        android:name="com.tuwaiq.blogerrtest.newpost.NewPostFragment"
+        android:name="com.tuwaiq.AndroidGeeks.newpost.NewPostFragment"
         tools:layout="@layout/new_post_fragment">
         <action
             android:id="@+id/action_newPostFragment_to_navigation_notifications"
