@@ -1,6 +1,7 @@
 package com.tuwaiq.AndroidGeeks.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,11 +13,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
 import com.tuwaiq.AndroidGeeks.R
+import com.tuwaiq.AndroidGeeks.database.Post.Posts
 
+private const val TAG = "home"
 class HomeFragment : Fragment() {
 
     private lateinit var blogRecyclerView: RecyclerView
     private lateinit var database:FirebaseFirestore
+    private val posts=Posts()
 
     val homeViewModel by lazy{ ViewModelProvider(this)[HomeViewModel::class.java] }
 
@@ -27,6 +31,9 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Log.d(TAG,"${homeViewModel.getAllPost()}")
+       // Log.d(TAG,"${FirebaseFirestore.getInstance().collection("Posts").document().collection()}")
+
         val view= inflater.inflate(R.layout.fragment_home, container, false)
 
 //        database.collection("posts").get()
