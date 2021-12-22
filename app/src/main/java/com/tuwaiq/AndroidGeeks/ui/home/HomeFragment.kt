@@ -47,14 +47,6 @@ class HomeFragment : Fragment() {
         adapter=PostAdapter(posts)
         blogRecyclerView.adapter=adapter
 
-        EventChangeListener()
-
-
-        return view
-    }
-
-    private fun EventChangeListener() {
-        Log.d(TAG,"EventChangeListener")
         database= FirebaseFirestore.getInstance()
         database.collection("Posts").addSnapshotListener(object : EventListener<QuerySnapshot>{
             override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
@@ -62,12 +54,43 @@ class HomeFragment : Fragment() {
                     Log.e(TAG,error.message.toString())// if there are error
                 }else{
                     for (dc:DocumentChange in value?.documentChanges!!){
-                        Log.d(TAG,"For Loop")
+
 
                         if (dc.type == DocumentChange.Type.ADDED){
-                            posts.add(dc.document.toObject(Posts::class.java))
-                            Log.d(TAG,"${ posts.add(dc.document.toObject(Posts::class.java))}")}}}}})
+                            dc.document
+//                            Log.d(TAG,"${ posts.add(dc.document.toObject(Posts::class.java))}")
+                            Log.d(TAG,"${ dc.document.toString().toList()}")
+//                            Log.d(TAG,"${ posts.trimToSize()}")
+                            Log.d(TAG,"${adapter.post}")
+//                            Log.d(TAG,"${ posts.size}")
+//                            Log.d(TAG,"${posts}")
 
+
+
+                        }}}}})
+
+
+        return view
+    }
+    private inner class PostAdapter(var post:List<Posts>):RecyclerView.Adapter<PostViewHolder>(){
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
+            val view=layoutInflater.inflate(R.layout.list_view_item,parent,false)
+            Log.d(TAG,"PostAdapter")
+            return PostViewHolder(view)
+        }
+
+        override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
+            val post:Posts=posts[position]
+            holder.postTitle.text=post.title
+            holder.postDate.text=post.postDate.toString()
+            holder.postDescription.text=post.description
+
+            //   holder.postTitle.text=post.title
+        }
+
+        override fun getItemCount(): Int {
+            return post.size
+        }
     }
 
     private inner class PostViewHolder (view:View) : RecyclerView.ViewHolder(view) ,View.OnClickListener {
@@ -83,24 +106,6 @@ class HomeFragment : Fragment() {
             TODO("Not yet implemented")
         }
     }
-    private inner class PostAdapter(var post:ArrayList<Posts>):RecyclerView.Adapter<PostViewHolder>(){
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
-            val view=layoutInflater.inflate(R.layout.list_view_item,parent,false)
-            Log.d(TAG,"PostAdapter")
-            return PostViewHolder(view)
-        }
 
-        override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
-            val post:Posts=posts[position]
-            holder.postTitle.text=post.title
-            holder.postDate.text=post.postDate.toString()
-            holder.postDescription.text=post.description
-         //   holder.postTitle.text=post.title
-        }
-
-        override fun getItemCount(): Int {
-          return post.size
-        }
-    }
 
 }
