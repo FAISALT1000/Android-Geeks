@@ -5,13 +5,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Adapter
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.*
 import com.tuwaiq.AndroidGeeks.R
 import com.tuwaiq.AndroidGeeks.database.Post.Posts
 
@@ -20,7 +21,8 @@ class HomeFragment : Fragment() {
 
     private lateinit var blogRecyclerView: RecyclerView
     private lateinit var database:FirebaseFirestore
-    private val posts=Posts()
+    private lateinit var adapter:PostAdapter
+    private lateinit var posts:ArrayList<Posts>
 
     val homeViewModel by lazy{ ViewModelProvider(this)[HomeViewModel::class.java] }
 
@@ -31,42 +33,73 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.d(TAG,"${homeViewModel.getAllPost()}")
-       // Log.d(TAG,"${FirebaseFirestore.getInstance().collection("Posts").document().collection()}")
+
+       // Log.d(TAG,"${homeViewModel.getAllPost()}")
 
         val view= inflater.inflate(R.layout.fragment_home, container, false)
 
-//        database.collection("posts").get()
+
 
         blogRecyclerView=view.findViewById(R.id.blog_recyclerView)
         val linearLayoutManager= LinearLayoutManager(context)
         blogRecyclerView.layoutManager=linearLayoutManager
+        posts= arrayListOf()
+        adapter=PostAdapter(posts)
+        blogRecyclerView.adapter=adapter
+
+        EventChangeListener()
 
 
         return view
     }
+
+    private fun EventChangeListener() {
+        Log.d(TAG,"EventChangeListener")
+        database= FirebaseFirestore.getInstance()
+        database.collection("Posts").addSnapshotListener(object : EventListener<QuerySnapshot>{
+            override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+                if (error !=null){
+                    Log.e(TAG,error.message.toString())// if there are error
+                }else{
+                    for (dc:DocumentChange in value?.documentChanges!!){
+                        Log.d(TAG,"For Loop")
+
+                        if (dc.type == DocumentChange.Type.ADDED){
+                            posts.add(dc.document.toObject(Posts::class.java))
+                            Log.d(TAG,"${ posts.add(dc.document.toObject(Posts::class.java))}")}}}}})
+
+    }
+
     private inner class PostViewHolder (view:View) : RecyclerView.ViewHolder(view) ,View.OnClickListener {
-        private lateinit var postImageView: ImageView
-        private lateinit var postTitle: TextView
-        private lateinit var postDate:TextView
-        private lateinit var postDescription:TextView
-        private lateinit var postLike:TextView
+
+          val postImageView: ImageView=view.findViewById(R.id.post_image)
+         val postTitle: TextView =view.findViewById(R.id.post_title_tv)
+          val postDate:TextView =view.findViewById(R.id.date_tv)
+          val postDescription:TextView =view.findViewById(R.id.postdec_tv)
+       // private  var postLike:TextView
+
+
         override fun onClick(v: View?) {
             TODO("Not yet implemented")
         }
     }
-    private inner class PostAdapter(var home:List<Home>):RecyclerView.Adapter<PostViewHolder>(){
+    private inner class PostAdapter(var post:ArrayList<Posts>):RecyclerView.Adapter<PostViewHolder>(){
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
             val view=layoutInflater.inflate(R.layout.list_view_item,parent,false)
+            Log.d(TAG,"PostAdapter")
             return PostViewHolder(view)
         }
 
         override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
-            TODO("Not yet implemented")
+            val post:Posts=posts[position]
+            holder.postTitle.text=post.title
+            holder.postDate.text=post.postDate.toString()
+            holder.postDescription.text=post.description
+         //   holder.postTitle.text=post.title
         }
 
         override fun getItemCount(): Int {
-            TODO("Not yet implemented")
+          return post.size
         }
     }
 

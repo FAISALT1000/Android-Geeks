@@ -6,6 +6,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 import com.tuwaiq.AndroidGeeks.database.Post.Posts
 import com.tuwaiq.AndroidGeeks.database.Users.UsersInfo
 
@@ -42,8 +43,8 @@ class BlogRepo {
                 .addOnFailureListener { Log.d(TAG,"addUserInfoRepoFailure") }
         }
     }
-    fun getAllPost(): Task<DocumentSnapshot> {
-        return dataBase.collection("Posts").document().get()
+    fun getAllPost(): Task<QuerySnapshot> {
+        return dataBase.collection("Posts").get()
     }
 
 //    fun getUserInfo(usersInfo: UsersInfo):LiveData<List<UsersInfo>> {
