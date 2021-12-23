@@ -99,9 +99,8 @@ class DashboardFragment : Fragment() {
         val userId= FirebaseAuth.getInstance().currentUser?.uid
         userId.toString()
         if (userId != null) {
-            val fireStoreData = dataBase.collection("users").document(userId).get()
+            val fireStoreData = dataBase.collection("users").document(userId).get() }
 
-        }
 
         if (userId != null) {
             dataBase.collection("users").document(userId)

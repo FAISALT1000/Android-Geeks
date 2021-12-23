@@ -20,32 +20,31 @@ class BlogRepo {
     fun addPost(posts: Posts, isSuccessful:Boolean):Boolean{
        var isSuccessful1=isSuccessful
        dataBase.collection("Posts").add(posts)
-
            .addOnCompleteListener { isSuccessful1=true }
            .addOnFailureListener { isSuccessful1=false}
-        return isSuccessful
-    }
+        return isSuccessful}
+
 
     fun newUser(email:String,password:String) {
      Auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { Log.d(TAG,"newUserRepoComplete")  }
-         .addOnFailureListener { Log.d(TAG,"newUserRepoFailure")
-    }}
+         .addOnFailureListener { Log.d(TAG,"newUserRepoFailure")}}
+
+
     fun loginUser(email:String, password:String, isSuccessful:Boolean){
         var isSuccessful1=isSuccessful
       val auth= Auth.signInWithEmailAndPassword(email, password)
-              if (auth.isSuccessful) isSuccessful1=true
-    }
+              if (auth.isSuccessful) isSuccessful1=true}
 
+    // user info
     fun addUserInfo(usersInfo: UsersInfo){
-
         if (userId != null) {
             dataBase.collection("UsersInfo").document(userId).set(usersInfo).addOnCompleteListener { Log.d(TAG,"addUserInfoRepoComplete") }
-                .addOnFailureListener { Log.d(TAG,"addUserInfoRepoFailure") }
-        }
-    }
+                .addOnFailureListener { Log.d(TAG,"addUserInfoRepoFailure") }}}
+
+
+
     fun getAllPost(): Task<QuerySnapshot> {
-        return dataBase.collection("Posts").get()
-    }
+        return dataBase.collection("Posts").get() }
 
 //    fun getUserInfo(usersInfo: UsersInfo):LiveData<List<UsersInfo>> {
 //       val usersInfo= listOf (dataBase.collection("UsersInfo").document(userId).get())

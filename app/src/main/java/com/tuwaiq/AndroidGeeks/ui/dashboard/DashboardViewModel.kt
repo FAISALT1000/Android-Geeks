@@ -19,3 +19,16 @@ class DashboardViewModel(
     }
     val text: LiveData<String> = _text
 }
+/*
+ private val repo=BlogRepo()
+
+
+    fun addUserInfo(usersInfo: UsersInfo){
+        viewModelScope.launch {
+            repo.addUserInfo(usersInfo)
+        }.invokeOnCompletion {
+            viewModelScope.launch {  }
+        }
+    }
+
+ */

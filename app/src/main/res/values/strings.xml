@@ -2,8 +2,9 @@
     <string name="app_name">blogger test</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
+    <string name="title_profile">Profile</string>
     <string name="title_notifications">Notifications</string>
+    <string name="title_API">API</string>
     <string name="navigation_add">New Post</string>
     <string name="sign_in">Sign in</string>
     <string name="sign_up">don\'t have an account? signup right now</string>

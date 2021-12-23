@@ -1,7 +1,6 @@
 package com.tuwaiq.AndroidGeeks.newpost
 
 import android.os.Bundle
-import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,9 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.tuwaiq.AndroidGeeks.R
-import com.tuwaiq.AndroidGeeks.database.BlogRepo
 import com.tuwaiq.AndroidGeeks.database.Post.Posts
-import com.tuwaiq.AndroidGeeks.login.LoginViewModel
 import java.util.*
 
 class NewPostFragment : Fragment() {
@@ -27,15 +24,12 @@ class NewPostFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var viewModel: NewPostViewModel
     private  var posts = Posts()
-    private var repo=BlogRepo().addPost(posts,true)
+
 
     private  val fragmentViewModel by lazy{ ViewModelProvider(this)[NewPostViewModel::class.java] }
 
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view= inflater.inflate(R.layout.new_post_fragment, container, false)
         val date=Date()
         titleEt=view.findViewById(R.id.title_tv)
@@ -46,46 +40,32 @@ class NewPostFragment : Fragment() {
         return view
     }
 
-    override fun onStart() {
-        super.onStart()
-
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        Toast.makeText(context,"NEW POST",Toast.LENGTH_SHORT).show()
+        super.onViewCreated(view, savedInstanceState)
         postBtn.setOnClickListener {
-            saveThePost()
+            val title=titleEt.text.toString()
+            val description=postEt.text.toString()
+            val userId= FirebaseAuth.getInstance().currentUser?.uid.toString()
+            val date=Date()
+            if(title.isNotEmpty()&& description.isNotEmpty()){
+            var post= fragmentViewModel.addNewPost(posts,true)
+            posts.userId= userId
+            posts.title= title
+            posts.description=description
+            posts.postDate=date
+                Toast.makeText(context,"add the post Successful",Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(context,"Must fill all the field",Toast.LENGTH_SHORT).show()
+            }
+
         }
 
 
     }
-    fun saveThePost(/*titleEt:Object,postEt:Object,date: Date*/){
-        dataBase = FirebaseFirestore.getInstance()
-
-
-
-        var post= fragmentViewModel.addNewPost(posts,true)
-        val title=titleEt.text.toString()
-        val description=postEt.text.toString()
-        val userId= FirebaseAuth.getInstance().currentUser?.uid.toString()
-        val date=Date()
-        posts.userId= userId
-        posts.title= title
-        posts.description=description
-        posts.postDate=date
-
-       /* val post:MutableMap<String, Object> =HashMap()
-        post["Title"] = titleEt
-        post["Description"] = postEt
-       // post["Date"] = date*/
-        if (repo) {
-//            dataBase.collection("posts")
-//                .add(post)
-//                .addOnSuccessListener {
-//                    Toast.makeText(context,getString(R.string.success_toast),Toast.LENGTH_SHORT).show()
-//                }
-//                .addOnFailureListener {
-//                    Toast.makeText(context,getString(R.string.failure_toast),Toast.LENGTH_SHORT).show() }
-       }
     }
 
 
 
-}
+
+
