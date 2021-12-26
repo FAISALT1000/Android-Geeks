@@ -31,11 +31,11 @@ class DashboardFragment : Fragment() {
     private lateinit var logoutBtn:Button
     private lateinit var updateDate:Date
     private lateinit var auth: FirebaseAuth
-   // private var _binding: FragmentDashboardBinding? = null
+    // private var _binding: FragmentDashboardBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
-   // private val binding get() = _binding!!
+    // private val binding get() = _binding!!
 
 
     override fun onCreateView(
@@ -83,6 +83,7 @@ class DashboardFragment : Fragment() {
 
 
         logoutBtn.setOnClickListener {
+            auth.signOut()
             Log.d(TAG,"Logout")
             Toast.makeText(context,"Logout successful", Toast.LENGTH_LONG).show()
             val intent=Intent(context,MainActivityForTesting::class.java)
@@ -135,7 +136,7 @@ class DashboardFragment : Fragment() {
             if (userId != null) {
                 dataBase.collection("users").document(userId)
                     .set(userInfo)
-        //                .add(userInfo)
+                    //                .add(userInfo)
                     .addOnSuccessListener {
                         Toast.makeText(context,getString(R.string.success_toast),Toast.LENGTH_SHORT).show()
                     }

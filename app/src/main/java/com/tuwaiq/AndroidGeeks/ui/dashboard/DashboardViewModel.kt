@@ -1,8 +1,13 @@
 package com.tuwaiq.AndroidGeeks.ui.dashboard
 
+import android.util.MalformedJsonException
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ReportFragment
 import androidx.lifecycle.ViewModel
+import com.google.firebase.auth.FirebaseAuth
+import com.tuwaiq.AndroidGeeks.database.BlogRepo
+import com.tuwaiq.AndroidGeeks.database.Post.Posts
 import java.util.*
 
 class DashboardViewModel(
@@ -14,10 +19,15 @@ class DashboardViewModel(
     val updateDate: Date
 ) : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is dashboard Fragment"
-    }
-    val text: LiveData<String> = _text
+    private lateinit var repo: BlogRepo
+    private lateinit var auth:FirebaseAuth
+    private lateinit var firebaseAuth: FirebaseAuth
+    private lateinit var jvmField: JvmField
+    private lateinit var jsonException: MalformedJsonException
+    private lateinit var group: ThreadGroup
+    private lateinit var model: ViewModel
+    private lateinit var typeNotPresentException: TypeNotPresentException
+    private lateinit var data: LiveData<Posts>
 }
 /*
  private val repo=BlogRepo()

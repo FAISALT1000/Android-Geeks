@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.tuwaiq.AndroidGeeks.signup.SignupFragment
 import com.tuwaiq.AndroidGeeks.MainActivity
 import com.tuwaiq.AndroidGeeks.R
+import com.tuwaiq.AndroidGeeks.UpdatePostDialog
 
 
 class LoginFragment : Fragment() {
@@ -26,6 +27,9 @@ class LoginFragment : Fragment() {
 
     private  val fragmentViewModel by lazy{ ViewModelProvider(this)[LoginViewModel::class.java] }
 
+    val userId= auth.currentUser?.uid
+
+
 
 
 
@@ -34,7 +38,12 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        auth.signOut()
+//        if (userId!=null){
+//
+//            val intent= Intent(context, MainActivity::class.java)
+//            startActivity(intent)
+//        }
+
 
         val view= inflater.inflate(R.layout.fragment_login, container, false)
 
@@ -73,7 +82,6 @@ class LoginFragment : Fragment() {
                 ?.addToBackStack(null)?.commit() }
 
         loginBtn.setOnClickListener {
-            progressBar.visibility=View.VISIBLE
             loginUser() }
         googleBtn.setOnClickListener {
             Toast.makeText(context,R.string.soon,Toast.LENGTH_LONG).show() }
@@ -85,6 +93,7 @@ class LoginFragment : Fragment() {
         val pass=passwordEt.text.toString()
         var isSuccessful=true//:Boolean=fragmentViewModel.loginUser(null,null,false)
         if (email.isNotEmpty()&& pass.isNotEmpty()){
+            progressBar.visibility=View.VISIBLE
 
             fragmentViewModel.loginUser(email,pass,isSuccessful)
       //      if (isSuccessful=true){
@@ -99,10 +108,14 @@ class LoginFragment : Fragment() {
 //                        Toast.makeText(context,"Try Again", Toast.LENGTH_LONG).show()
 //                    }
 //                }
-        }else{ val fragment=SignupFragment()
-            activity?.supportFragmentManager
-                ?.beginTransaction()?.replace(R.id.fragmentContainerView,fragment)
-                ?.addToBackStack(null)?.commit()
+        }else{
+            var dialog=UpdatePostDialog()
+            dialog.show(this.parentFragmentManager, "Update Post")
+
+//            val fragment=SignupFragment()
+//            activity?.supportFragmentManager
+//                ?.beginTransaction()?.replace(R.id.fragmentContainerView,fragment)
+//                ?.addToBackStack(null)?.commit()
 
 
         }}

@@ -4,6 +4,7 @@ import android.widget.ImageView
 import java.util.*
 
 data class Posts(
+
     var userId:String="",
     var title:String="",
     var description:String="",

@@ -31,9 +31,6 @@ class LoginViewModel:ViewModel() {
    }
 
 
-    fun addPost(posts: Posts,isSesscful:Boolean){
-        repo.addPost(posts,isSesscful)
-    }
 
     fun addUserInfo(usersInfo: UsersInfo){
         repo.addUserInfo(usersInfo)

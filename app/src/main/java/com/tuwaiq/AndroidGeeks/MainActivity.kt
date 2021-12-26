@@ -20,9 +20,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG,"MainActivity")
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val dialog=UpdatePostDialog()
+        dialog.show(supportFragmentManager,"no")
 
         val navView: BottomNavigationView = binding.navBottomview
 
@@ -30,9 +32,7 @@ class MainActivity : AppCompatActivity() {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications
-            )
+            setOf(R.id.navigation_home,R.id.navigation_add, R.id.navigation_dashboard, R.id.navigation_notifications)
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)

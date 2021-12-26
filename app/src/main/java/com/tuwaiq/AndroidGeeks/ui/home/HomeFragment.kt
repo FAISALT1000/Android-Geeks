@@ -14,18 +14,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.EventListener
 import com.tuwaiq.AndroidGeeks.R
+import com.tuwaiq.AndroidGeeks.UpdatePostDialog
 import com.tuwaiq.AndroidGeeks.database.Post.Posts
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
 private const val TAG = "home"
+const val KEY_ID="HomeFragment"
 class HomeFragment : Fragment() {
 
     private lateinit var blogRecyclerView: RecyclerView
     private lateinit var database:FirebaseFirestore
     private lateinit var myAdapter:PostAdapter
     private lateinit var posts:ArrayList<Posts>
+    private  var postss: Posts=Posts()
 
     val homeViewModel by lazy{ ViewModelProvider(this)[HomeViewModel::class.java] }
 
@@ -40,6 +43,9 @@ class HomeFragment : Fragment() {
         // Log.d(TAG,"${homeViewModel.getAllPost()}")
 
         val view = inflater.inflate(R.layout.fragment_home, container, false)
+
+
+
 
 
 
@@ -72,17 +78,8 @@ class HomeFragment : Fragment() {
 //                            Log.d(TAG,"${ posts.add(dc.document.toObject(Posts::class.java))}")
                             Log.d(TAG,"${ dc.document.toString().toList()}")
 //                            Log.d(TAG,"${ posts.trimToSize()}")
-                            Log.d(TAG,"${myAdapter.post}")
-//                            Log.d(TAG,"${ posts.size}")
-//                            Log.d(TAG,"${posts}")
-
-
-
-                        }
-                        myAdapter.notifyDataSetChanged()
-                    }
-
-                }}})
+                            Log.d(TAG,"${myAdapter.post}")}
+                        myAdapter.notifyDataSetChanged()}}}})
 
 
 
@@ -124,30 +121,22 @@ class HomeFragment : Fragment() {
     private inner class PostViewHolder (view:View)
         : RecyclerView.ViewHolder(view){ /*,View.OnClickListener*/
 
-          val postImageView: ImageView=view.findViewById(R.id.post_image)
+        val postImageView: ImageView=view.findViewById(R.id.post_image)
          val postTitle: TextView =view.findViewById(R.id.post_title_tv)
           val postDate:TextView =view.findViewById(R.id.date_tv)
           val postDescription:TextView =view.findViewById(R.id.postdec_tv)
        // private  var postLike:TextView
 
 
-        /*override fun onClick(v: View?) {
-            TODO("Not yet implemented")
-        }*/
+//        override fun onClick(v: View?) {
+//            if(v==itemView) {
+//                val args = Bundle()
+//                args.putSerializable(KEY_ID, postss.title)
+//            var dialog=UpdatePostDialog()
+//                dialog.arguments=args
+//                activity?
+//                    dialog.show(this.parentFragmentManager, "Update Post")
+//        }}
     }
-fun String.de(){
-    val dates = SimpleDateFormat("MM/dd/yyyy")
-    var todaysDate: Date = Date()
-    val currentDate = todaysDate
-    val finalDate = this
-    val date1_temp=dates.format(currentDate)
-    val  date2_temp=dates.format(finalDate)
-    val date1=dates.parse(date1_temp)
-    val  date2=dates.parse(date2_temp)
-    val difference: Long = (date2.time - date1.time)
-    // val difference: Long = (finalDate.time - currentDate.time)
-    val differenceDates = difference / (24 * 60 * 60 * 1000)
-    val dayDifference = differenceDates.toInt().toString()
-}
 
 }
