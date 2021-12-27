@@ -1,6 +1,6 @@
 package com.tuwaiq.AndroidGeeks.database.Post
 
-import android.widget.ImageView
+import com.google.firebase.storage.StorageReference
 import java.util.*
 
 data class Posts(
@@ -8,7 +8,7 @@ data class Posts(
     var userId:String="",
     var title:String="",
     var description:String="",
-    var postDate: Date=Date()/*,
-    val postImageUrl: String="",
-    val postLike:Int=0,*/
+    var postDate: Date=Date(),
+    val postImageUrl: String ="",
+   // val postLike:Int=0,
 )

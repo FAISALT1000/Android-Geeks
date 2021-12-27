@@ -18,9 +18,9 @@ class NewPostViewModel() : ViewModel() {
 
 
 
-    fun addPost(userID:String,title:String,description:String,date:Date){
+    fun addPost(userID:String,title:String,description:String,date:Date,imageUrl:String){
         viewModelScope.launch(Dispatchers.IO){
-            repo.addPost(userID,title,description,date)
+            repo.addPost(userID,title,description,date,imageUrl)
             viewModelScope.launch {  }
         }
     }

@@ -13,7 +13,6 @@ import com.tuwaiq.AndroidGeeks.databinding.ActivityMainBinding
 private const val TAG = "MainActivity"
 class MainActivity : AppCompatActivity() {
 
-
     private lateinit var binding: ActivityMainBinding
 
 

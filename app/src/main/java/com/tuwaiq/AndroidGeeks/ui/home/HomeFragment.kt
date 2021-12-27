@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.EventListener
+import com.google.firebase.storage.FirebaseStorage
 import com.tuwaiq.AndroidGeeks.R
-import com.tuwaiq.AndroidGeeks.UpdatePostDialog
 import com.tuwaiq.AndroidGeeks.database.Post.Posts
 import java.text.SimpleDateFormat
 import java.util.*
@@ -43,7 +43,7 @@ class HomeFragment : Fragment() {
         // Log.d(TAG,"${homeViewModel.getAllPost()}")
 
         val view = inflater.inflate(R.layout.fragment_home, container, false)
-
+        val imageUri=FirebaseStorage.getInstance().getReference()
 
 
 
@@ -95,6 +95,7 @@ class HomeFragment : Fragment() {
         override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
             val post:Posts=posts[position]
             holder.postTitle.text=post.title
+          //  holder.postImageView=post.postImageUrl
             val dates = SimpleDateFormat("MM/dd/yyyy")
             var todaysDate: Date = Date()
             val currentDate = todaysDate
@@ -121,7 +122,7 @@ class HomeFragment : Fragment() {
     private inner class PostViewHolder (view:View)
         : RecyclerView.ViewHolder(view){ /*,View.OnClickListener*/
 
-        val postImageView: ImageView=view.findViewById(R.id.post_image)
+        var postImageView: ImageView=view.findViewById(R.id.post_image)
          val postTitle: TextView =view.findViewById(R.id.post_title_tv)
           val postDate:TextView =view.findViewById(R.id.date_tv)
           val postDescription:TextView =view.findViewById(R.id.postdec_tv)

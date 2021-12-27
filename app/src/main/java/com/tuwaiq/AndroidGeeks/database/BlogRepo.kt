@@ -6,6 +6,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.storage.StorageReference
 import com.tuwaiq.AndroidGeeks.database.Post.Posts
 import com.tuwaiq.AndroidGeeks.database.Users.UsersInfo
 import java.util.*
@@ -20,11 +21,12 @@ class BlogRepo {
         private val title = posts.title
         private val description =posts.description
         private val date =posts.postDate
+    private val imageUrl=posts.postImageUrl
 
 
 
-    fun addPost(userID:String,title:String,description:String,date:Date){
-        val postss=Posts(userID,title,description,date)
+    fun addPost(userID:String,title:String,description:String,date:Date,imageUrl: String){
+        val postss=Posts(userID,title,description,date,imageUrl)
         dataBase.collection("Posts").document("${title.trim()}_from_${userID}").set(postss)
 
      }
@@ -42,7 +44,10 @@ class BlogRepo {
     fun loginUser(email:String, password:String, isSuccessful:Boolean){
         var isSuccessful1=isSuccessful
       val auth= auth.signInWithEmailAndPassword(email, password)
-              if (auth.isSuccessful) isSuccessful1=true}
+        auth.addOnFailureListener {}
+              if (auth.isSuccessful) isSuccessful1=true
+
+    }
 
     // user info
     fun addUserInfo(usersInfo: UsersInfo){

@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/faisa/AndroidStudioProjects/AndroidGeeks/app/src/main/res/drawable-v24/ic_baseline_info_24.xml" value="0.26666666666666666" />
+        <entry key="..\:/Users/faisa/AndroidStudioProjects/AndroidGeeks/app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.26666666666666666" />
         <entry key="..\:/Users/faisa/AndroidStudioProjects/AndroidGeeks/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/faisa/AndroidStudioProjects/AndroidGeeks/app/src/main/res/layout/activity_main_for_testing.xml" value="0.12183383991894631" />
         <entry key="..\:/Users/faisa/AndroidStudioProjects/AndroidGeeks/app/src/main/res/layout/fragment_dashboard.xml" value="0.25416666666666665" />
@@ -10,7 +12,9 @@
         <entry key="..\:/Users/faisa/AndroidStudioProjects/AndroidGeeks/app/src/main/res/layout/fragment_update_post_dialog.xml" value="0.2578125" />
         <entry key="..\:/Users/faisa/AndroidStudioProjects/AndroidGeeks/app/src/main/res/layout/list_view_item.xml" value="0.4" />
         <entry key="..\:/Users/faisa/AndroidStudioProjects/AndroidGeeks/app/src/main/res/layout/new_post_fragment.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/faisa/AndroidStudioProjects/AndroidGeeks/app/src/main/res/layout/update_post_fragment.xml" value="0.25052083333333336" />
         <entry key="..\:/Users/faisa/AndroidStudioProjects/AndroidGeeks/app/src/main/res/menu/bottom_nav_menu.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/faisa/AndroidStudioProjects/AndroidGeeks/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.10625" />
         <entry key="..\:/Users/faisa/AndroidStudioProjects/blogerrtest/app/src/main/res/drawable-v24/ic_baseline_info_24.xml" value="0.2703125" />
         <entry key="..\:/Users/faisa/AndroidStudioProjects/blogerrtest/app/src/main/res/drawable-v24/ic_baseline_person_outline_24.xml" value="0.2703125" />
         <entry key="..\:/Users/faisa/AndroidStudioProjects/blogerrtest/app/src/main/res/drawable/ic_add_black_24dp.xml" value="0.2703125" />
