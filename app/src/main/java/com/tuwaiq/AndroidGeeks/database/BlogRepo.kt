@@ -1,14 +1,18 @@
 package com.tuwaiq.AndroidGeeks.database
 
+import android.app.ProgressDialog
+import android.net.Uri
 import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.tuwaiq.AndroidGeeks.database.Post.Posts
 import com.tuwaiq.AndroidGeeks.database.Users.UsersInfo
+import java.text.SimpleDateFormat
 import java.util.*
 
 private const val TAG = "BlogRepo"
@@ -25,17 +29,65 @@ class BlogRepo {
 
 
 
-    fun addPost(userID:String,title:String,description:String,date:Date,imageUrl: String){
-        val postss=Posts(userID,title,description,date,imageUrl)
-        dataBase.collection("Posts").document("${title.trim()}_from_${userID}").set(postss)
 
+    fun addPost(userID:String,title:String,description:String,date:Date,photoUri: Uri){
+
+        val postss=Posts(userID,title,description,date)
+//        "${title.trim()}_from_${userID}"
+        dataBase.collection("Posts").document(postss.id.toString()).set(postss)
+        uploadImage(title, postss.id,photoUri)
+        Log.d(TAG, "title: $title")
+        Log.d(TAG, "postss.id: ${postss.id}")
+        Log.d(TAG, "photoUri: $photoUri")
      }
 
     fun addCommit(){
 
     }
 
+    private fun uploadImage(title:String, postId: String,photoUri: Uri) {
+//        val progressDialog= ProgressDialog(context)
+//        progressDialog.setMessage("Uploading File.....")
+//        progressDialog.setCancelable(false)
+//        progressDialog.show()
 
+        val formatter= SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.getDefault())
+        val todayDate=Date()
+        val fileName=formatter.format(todayDate)
+        val  storage= FirebaseStorage.getInstance()
+
+        val storagee=storage.getReference("image/$title/$fileName")
+        val uploadtask= storagee.putFile(photoUri!!)
+        uploadtask.continueWithTask{task->
+            if (!task.isSuccessful){
+                task.exception?.let { throw it }
+            }
+            storagee.downloadUrl
+        }.addOnCompleteListener { task->
+            if (task.isSuccessful){
+                task.result
+
+                val ref = dataBase.collection("Posts").document(postId)
+
+// Set the "isCapital" field of the city 'DC'
+                ref
+                    .update("postImageUrl", task.result.toString())
+                    .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully updated!") }
+                    .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }
+            }
+        }
+        /*.addOnSuccessListener{ binding.postImageView.setImageURI(null)
+
+        Toast.makeText(context,"Successfully Upload The Image",Toast.LENGTH_SHORT).show()
+
+            if (progressDialog.isShowing) progressDialog.dismiss()
+        }
+        .addOnFailureListener{
+            if (progressDialog.isShowing)progressDialog.dismiss()
+            Toast.makeText(context,"Field",Toast.LENGTH_SHORT).show()
+        }*/
+
+    }
     fun newUser(email:String,password:String) {
      auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { Log.d(TAG,"newUserRepoComplete")  }
          .addOnFailureListener { Log.d(TAG,"newUserRepoFailure")}}

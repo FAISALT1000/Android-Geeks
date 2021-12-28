@@ -21,13 +21,12 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/post_image"
+                android:id="@+id/post_image_preview"
                 android:layout_width="127dp"
                 android:layout_height="92dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@color/teal_200" />
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <TextView
                 android:id="@+id/post_title_tv"
@@ -63,7 +62,7 @@
                 android:text="TextView"
                 android:textColor="#000000"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/post_image"
+                app:layout_constraintEnd_toStartOf="@+id/post_image_preview"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.506" />
         </androidx.constraintlayout.widget.ConstraintLayout>

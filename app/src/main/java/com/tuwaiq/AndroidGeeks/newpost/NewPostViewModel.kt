@@ -1,5 +1,6 @@
 package com.tuwaiq.AndroidGeeks.newpost
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tuwaiq.AndroidGeeks.database.BlogRepo
@@ -18,9 +19,9 @@ class NewPostViewModel() : ViewModel() {
 
 
 
-    fun addPost(userID:String,title:String,description:String,date:Date,imageUrl:String){
+    fun addPost(userID:String,title:String,description:String,date:Date,photoUri:Uri){
         viewModelScope.launch(Dispatchers.IO){
-            repo.addPost(userID,title,description,date,imageUrl)
+            repo.addPost(userID,title,description,date,photoUri)
             viewModelScope.launch {  }
         }
     }

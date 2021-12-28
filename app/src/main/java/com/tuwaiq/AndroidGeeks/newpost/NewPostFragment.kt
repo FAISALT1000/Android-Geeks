@@ -6,6 +6,7 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -27,15 +28,15 @@ import java.util.*
 private const val REQUEST_CONTACT=1
 class NewPostFragment : Fragment() {
 
-    //private lateinit var titleEt:EditText
-//    private lateinit var postEt:EditText
+   /* private lateinit var titleEt:EditText
+    private lateinit var postEt:EditText*/
     private lateinit var binding: NewPostFragmentBinding
-//    private lateinit var postBtn:Button
-//    private lateinit var uploadBtn:Button
-//    private lateinit var photoImage: ImageView
+   /* private lateinit var postBtn:Button
+    private lateinit var uploadBtn:Button
+    private lateinit var photoImage: ImageView*/
     private lateinit var dataBase: FirebaseFirestore
     private lateinit var photoFile: File
-    private lateinit var photoUri: Uri
+    private var photoUri: Uri? = null
     private lateinit var auth: FirebaseAuth
     private  val userId = FirebaseAuth.getInstance().currentUser?.uid
     private lateinit var viewModel: NewPostViewModel
@@ -57,19 +58,14 @@ class NewPostFragment : Fragment() {
                 Toast.makeText(context, "you must sign in first", Toast.LENGTH_SHORT).show()
 
         }
-//        photoFile=fragmentViewModel.getPhotoFile(it)
-//        photoUri= FileProvider.getUriForFile(requireActivity(),
-//         "com.example.criminalintent",photoFile)
+   /*     photoFile=fragmentViewModel.getPhotoFile(it)
+        photoUri= FileProvider.getUriForFile(requireActivity(),
+         "com.example.criminalintent",photoFile)*/
         dataBase = FirebaseFirestore.getInstance()
         dataBase.collection("Post Image").get()
 
         binding= NewPostFragmentBinding.inflate(layoutInflater)
-//
-//        titleEt=view.findViewById(R.id.title_tv)
-//        postEt=view.findViewById(R.id.post_et)
-//        postBtn=view.findViewById(R.id.post_btn)
-//        photoImage=view.findViewById(R.id.post_imageView)
-//        uploadBtn=view.findViewById(R.id.upload_post_btn)
+
 
 
          /**  requestPermissions.launch(Manifest.permission.CAMERA)
@@ -87,36 +83,9 @@ class NewPostFragment : Fragment() {
 
                }**/
 
-
-
-
-
-
         return binding.root}
 
-    private fun uploadImage() {
-    val progressDialog=ProgressDialog(context)
-        progressDialog.setMessage("Uploading File.....")
-        progressDialog.setCancelable(false)
-        progressDialog.show()
 
-        val formatter= SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.getDefault())
-        val todayDate=Date()
-        val fileName=formatter.format(todayDate)
-       val  storage=FirebaseStorage.getInstance()
-        val storagee=storage.getReference("image/$fileName")
-
-        storagee.putFile(photoUri)
-            .addOnSuccessListener{ binding.postImageView.setImageURI(null)
-            Toast.makeText(context,"Successfully Upload The Image",Toast.LENGTH_SHORT).show()
-                if (progressDialog.isShowing) progressDialog.dismiss()
-            }
-            .addOnFailureListener{
-                if (progressDialog.isShowing)progressDialog.dismiss()
-                Toast.makeText(context,"Field",Toast.LENGTH_SHORT).show()
-            }
-
-    }
 
     private fun selectImage() {
         val intent=Intent()
@@ -145,7 +114,7 @@ class NewPostFragment : Fragment() {
 
         binding.postBtn.setOnClickListener {
             addPost()
-           // uploadImage()
+
 
         }
         binding.uploadPostBtn.setOnClickListener {
@@ -161,10 +130,7 @@ class NewPostFragment : Fragment() {
             binding.postImageView.setImageBitmap(bitmap)
         } else {
             binding.postImageView.setImageDrawable(null)
-        }
-    }
-// To Add new Post//
-    //more work need//
+        }}
     private fun addPost() {
     val title =  binding.titleTv.text.toString()
     val description =  binding.postEt.text.toString()
@@ -173,21 +139,18 @@ class NewPostFragment : Fragment() {
     val todayDate=Date()
     val fileName=formatter.format(todayDate)
     val  storage=FirebaseStorage.getInstance()
-    val storagee=storage.getReference("image/$fileName")
+        val fileName2="image/$title/$fileName"
+    val storagee=storage.getReference(fileName2)
         val date = Date()
         if (title.isNotEmpty() && description.isNotEmpty()) {
-            uploadImage()
 
-            var post = fragmentViewModel.addPost(userId,title, description, date,storagee.putFile(photoUri).toString())
 
-  /*          posts.userId = userId
-            posts.title = title
-            posts.description = description
-            posts.postDate = date*/
+            if (photoUri !=null) {
+
+                var post = fragmentViewModel.addPost(userID = userId, title = title, description = description, date = date,photoUri!!)
+            }
             Toast.makeText(context, getString(R.string.add_post_successful), Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(context, getString(R.string.fill_the_field), Toast.LENGTH_SHORT).show()
-        }
+        }else{Toast.makeText(context, getString(R.string.fill_the_field), Toast.LENGTH_SHORT).show()}
     }
 
 

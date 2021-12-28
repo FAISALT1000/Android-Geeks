@@ -7,10 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.storage.FirebaseStorage
@@ -21,13 +26,16 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 private const val TAG = "home"
+private const val TAG1 = "TAG"
 const val KEY_ID="HomeFragment"
 class HomeFragment : Fragment() {
+    //Log.d(TAG,"HomeFragment : Fragment()")
 
     private lateinit var blogRecyclerView: RecyclerView
     private lateinit var database:FirebaseFirestore
     private lateinit var myAdapter:PostAdapter
     private lateinit var posts:ArrayList<Posts>
+
     private  var postss: Posts=Posts()
 
     val homeViewModel by lazy{ ViewModelProvider(this)[HomeViewModel::class.java] }
@@ -55,6 +63,7 @@ class HomeFragment : Fragment() {
         blogRecyclerView.setHasFixedSize(true)
         posts = arrayListOf()
         myAdapter = PostAdapter(posts)
+
         blogRecyclerView.adapter = myAdapter
 
         hi()
@@ -73,13 +82,17 @@ class HomeFragment : Fragment() {
 
 
                         if (dc.type == DocumentChange.Type.ADDED){
-                          //  dc.document
-                              posts.add(dc.document.toObject(Posts::class.java))
-//                            Log.d(TAG,"${ posts.add(dc.document.toObject(Posts::class.java))}")
-                            Log.d(TAG,"${ dc.document.toString().toList()}")
+                           // dc.document.data
+                             posts.add(dc.document.toObject(Posts::class.java))
+                           Log.d(TAG,"${ dc.document.data}")
+                         //   Log.d(TAG,"${ dc.document.toString().toList()}")
 //                            Log.d(TAG,"${ posts.trimToSize()}")
-                            Log.d(TAG,"${myAdapter.post}")}
-                        myAdapter.notifyDataSetChanged()}}}})
+                           // Log.d(TAG,"${myAdapter.post}")
+                        }
+                        }
+                    Log.d(TAG, "onCreateView: $posts")
+                    myAdapter.notifyDataSetChanged()
+                }}})
 
 
 
@@ -87,7 +100,7 @@ class HomeFragment : Fragment() {
     private inner class PostAdapter(var post:ArrayList<Posts>):RecyclerView.Adapter<PostViewHolder/**/>(){
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
             //val view=layoutInflater.from().inflate(R.layout.list_view_item,parent,false)
-            val itemView= LayoutInflater.from(parent.context).inflate(R.layout.list_view_item,parent,false)
+            val itemView= LayoutInflater.from(parent.context).inflate(R.layout.list_view_item2,parent,false)
             Log.d(TAG,"PostAdapter")
             return PostViewHolder(itemView)
         }
@@ -95,7 +108,8 @@ class HomeFragment : Fragment() {
         override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
             val post:Posts=posts[position]
             holder.postTitle.text=post.title
-          //  holder.postImageView=post.postImageUrl
+            holder.test1(post)
+            Log.d(TAG1, "${post.postImageUrl}")
             val dates = SimpleDateFormat("MM/dd/yyyy")
             var todaysDate: Date = Date()
             val currentDate = todaysDate
@@ -110,25 +124,34 @@ class HomeFragment : Fragment() {
             val dayDifference = differenceDates.toInt()
             holder.postDate.text= dayDifference.toString()
             holder.postDescription.text=post.description
-
+//            holder.itemView.setOnClickListener {
+//                Toast.makeText(context, "${holder.postTitle}", Toast.LENGTH_SHORT).show()
+//           //     findNavController().navigate(R.id.action_newPostFragment_to_navigation_notifications)
+//            }
             //   holder.postTitle.text=post.title
         }
 
         override fun getItemCount(): Int {
             return post.size
         }
+
     }
 
     private inner class PostViewHolder (view:View)
-        : RecyclerView.ViewHolder(view){ /*,View.OnClickListener*/
+        : RecyclerView.ViewHolder(view),View.OnClickListener{ /*,View.OnClickListener*/
 
-        var postImageView: ImageView=view.findViewById(R.id.post_image)
+        var postImageView: ImageView=view.findViewById(R.id.post_image_preview)
          val postTitle: TextView =view.findViewById(R.id.post_title_tv)
           val postDate:TextView =view.findViewById(R.id.date_tv)
           val postDescription:TextView =view.findViewById(R.id.postdec_tv)
        // private  var postLike:TextView
 
+fun test1(post:Posts){
 
+
+    postImageView.load(post.postImageUrl)
+
+}/*
 //        override fun onClick(v: View?) {
 //            if(v==itemView) {
 //                val args = Bundle()
@@ -138,6 +161,13 @@ class HomeFragment : Fragment() {
 //                activity?
 //                    dialog.show(this.parentFragmentManager, "Update Post")
 //        }}
+    */
+        init {
+            itemView.setOnClickListener(this)
+        }
+        override fun onClick(v: View?) {
+         findNavController().navigate(R.id.navigation_add)
+        }
     }
 
 }
