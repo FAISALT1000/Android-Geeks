@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tuwaiq.AndroidGeeks.database.BlogRepo
+import com.tuwaiq.AndroidGeeks.database.Users.UsersInfo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -17,11 +18,12 @@ class SignupViewModel : ViewModel() {
         Log.d(TAG,"newUser viewModel")
         viewModelScope.launch(Dispatchers.IO) {
             Log.d(TAG,"newUser viewModelScope")
-            repo.newUser(email, password)
-            val value="33fc"
+            repo.newUser(email, password) }.invokeOnCompletion { viewModelScope.launch {}}}
 
-
-        }.invokeOnCompletion { viewModelScope.launch {} }
+    fun addUserInfo(usersInfo: UsersInfo){
+        viewModelScope.launch(Dispatchers.IO) {
+        repo.addUserInfo(usersInfo)
+        }.invokeOnCompletion { viewModelScope.launch {}}
     }
 
 }

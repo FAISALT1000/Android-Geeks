@@ -13,7 +13,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.net.toUri
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.navArgs
 import com.example.criminalintent.utils.getScaledBitmap
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
@@ -25,15 +27,14 @@ import com.tuwaiq.AndroidGeeks.databinding.NewPostFragmentBinding
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
+
+private const val TAG = "NewPostFragment"
 private const val REQUEST_CONTACT=1
 class NewPostFragment : Fragment() {
-
+ //   private val args by navArgs<NewPostFragmentArgs>()//weee
    /* private lateinit var titleEt:EditText
     private lateinit var postEt:EditText*/
     private lateinit var binding: NewPostFragmentBinding
-   /* private lateinit var postBtn:Button
-    private lateinit var uploadBtn:Button
-    private lateinit var photoImage: ImageView*/
     private lateinit var dataBase: FirebaseFirestore
     private lateinit var photoFile: File
     private var photoUri: Uri? = null
@@ -41,8 +42,8 @@ class NewPostFragment : Fragment() {
     private  val userId = FirebaseAuth.getInstance().currentUser?.uid
     private lateinit var viewModel: NewPostViewModel
     private  var posts = Posts()
-    private val getResult=
-        registerForActivityResult(ActivityResultContracts.TakePicture()){}
+    private val getResult= registerForActivityResult(ActivityResultContracts.GetContent()){ photoUri=it
+        binding.postImageView.setImageURI(it)}
     private val requestPermissions=registerForActivityResult(ActivityResultContracts.RequestPermission()){}
 
 
@@ -58,9 +59,7 @@ class NewPostFragment : Fragment() {
                 Toast.makeText(context, "you must sign in first", Toast.LENGTH_SHORT).show()
 
         }
-   /*     photoFile=fragmentViewModel.getPhotoFile(it)
-        photoUri= FileProvider.getUriForFile(requireActivity(),
-         "com.example.criminalintent",photoFile)*/
+
         dataBase = FirebaseFirestore.getInstance()
         dataBase.collection("Post Image").get()
 
@@ -100,10 +99,6 @@ class NewPostFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode==100 && resultCode== RESULT_OK && data!=null && data.data!=null){
             photoUri = data?.data!!
-            binding.postImageView.setImageURI(photoUri)
-
-
-
 
         }
     }
@@ -111,14 +106,20 @@ class NewPostFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         Toast.makeText(context,"NEW POST",Toast.LENGTH_SHORT).show()
         super.onViewCreated(view, savedInstanceState)
+        /*
+       // val ko=args.dataPost.postImageUrl.toUri()// this will send to author fragment
+      //  Log.d(TAG, "onViewCreated:$ko ")//weee
+      //  binding.titleTv.setText(args.dataPost.title)//weee
+      //  binding.postImageView.setImageURI(args.dataPost.postImageUrl.toUri())//weee
+      //  binding.postEt.setText(args.dataPost.description)//weee
 
+         */
         binding.postBtn.setOnClickListener {
             addPost()
-
-
         }
         binding.uploadPostBtn.setOnClickListener {
-            selectImage()
+        //    selectImage()
+            getResult.launch("image/*")
 
         }
 
@@ -139,16 +140,13 @@ class NewPostFragment : Fragment() {
     val todayDate=Date()
     val fileName=formatter.format(todayDate)
     val  storage=FirebaseStorage.getInstance()
-        val fileName2="image/$title/$fileName"
+        val fileName2="image/$title/$userId/$fileName"
     val storagee=storage.getReference(fileName2)
         val date = Date()
         if (title.isNotEmpty() && description.isNotEmpty()) {
 
 
-            if (photoUri !=null) {
-
-                var post = fragmentViewModel.addPost(userID = userId, title = title, description = description, date = date,photoUri!!)
-            }
+            if (photoUri !=null) {var post = fragmentViewModel.addPost(userID = userId, title = title, description = description, date = date,photoUri!!) }
             Toast.makeText(context, getString(R.string.add_post_successful), Toast.LENGTH_SHORT).show()
         }else{Toast.makeText(context, getString(R.string.fill_the_field), Toast.LENGTH_SHORT).show()}
     }
@@ -204,7 +202,7 @@ class NewPostFragment : Fragment() {
 
 
 
-
+/*
 //    fun hi(){
 //
 //
@@ -226,6 +224,8 @@ class NewPostFragment : Fragment() {
 //
 //
   }*/
+
+    */
 }
 
 

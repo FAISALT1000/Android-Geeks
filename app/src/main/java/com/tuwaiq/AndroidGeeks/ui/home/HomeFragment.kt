@@ -29,7 +29,7 @@ private const val TAG = "home"
 private const val TAG1 = "TAG"
 const val KEY_ID="HomeFragment"
 class HomeFragment : Fragment() {
-    //Log.d(TAG,"HomeFragment : Fragment()")
+
 
     private lateinit var blogRecyclerView: RecyclerView
     private lateinit var database:FirebaseFirestore
@@ -107,8 +107,10 @@ class HomeFragment : Fragment() {
 
         override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
             val post:Posts=posts[position]
+            holder.postId.text=post.id
             holder.postTitle.text=post.title
             holder.test1(post)
+            holder.imagePath = post.postImageUrl
             Log.d(TAG1, "${post.postImageUrl}")
             val dates = SimpleDateFormat("MM/dd/yyyy")
             var todaysDate: Date = Date()
@@ -139,12 +141,13 @@ class HomeFragment : Fragment() {
 
     private inner class PostViewHolder (view:View)
         : RecyclerView.ViewHolder(view),View.OnClickListener{ /*,View.OnClickListener*/
-
-        var postImageView: ImageView=view.findViewById(R.id.post_image_preview)
+        val postId:TextView=view.findViewById(R.id.id_tv)
+        val postImageView: ImageView=view.findViewById(R.id.post_image_preview)
          val postTitle: TextView =view.findViewById(R.id.post_title_tv)
           val postDate:TextView =view.findViewById(R.id.date_tv)
           val postDescription:TextView =view.findViewById(R.id.postdec_tv)
-       // private  var postLike:TextView
+        var imagePath:String = ""
+        // private  var postLike:TextView
 
 fun test1(post:Posts){
 
@@ -165,8 +168,16 @@ fun test1(post:Posts){
         init {
             itemView.setOnClickListener(this)
         }
-        override fun onClick(v: View?) {
-         findNavController().navigate(R.id.navigation_add)
+        override fun onClick(v: View?) {//weee
+            val postss=Posts()//weee
+
+            postss.id=postId.text.toString()
+            postss.title=postTitle.text.toString()//weee
+            postss.description=postDescription.text.toString()//weee
+            postss.postImageUrl=imagePath.toString()//weee
+            Toast.makeText(context, "${imagePath}", Toast.LENGTH_SHORT).show()//weee
+            val viww=HomeFragmentDirections.actionNavigationHomeToPostFragment(postss)//weee
+         findNavController().navigate(viww)//weee
         }
     }
 

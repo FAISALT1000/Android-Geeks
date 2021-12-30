@@ -39,7 +39,10 @@ class BlogRepo {
         Log.d(TAG, "title: $title")
         Log.d(TAG, "postss.id: ${postss.id}")
         Log.d(TAG, "photoUri: $photoUri")
-     }
+//        dataBase.collection("Posts").document(postss.id).delete()
+//        dataBase.collection("Posts").document(postss.id).update("title","dd","age",15)
+//
+}
 
     fun addCommit(){
 
@@ -56,7 +59,7 @@ class BlogRepo {
         val fileName=formatter.format(todayDate)
         val  storage= FirebaseStorage.getInstance()
 
-        val storagee=storage.getReference("image/$title/$fileName")
+        val storagee=storage.getReference("image/$title/$postId/$fileName")
         val uploadtask= storagee.putFile(photoUri!!)
         uploadtask.continueWithTask{task->
             if (!task.isSuccessful){
@@ -69,7 +72,6 @@ class BlogRepo {
 
                 val ref = dataBase.collection("Posts").document(postId)
 
-// Set the "isCapital" field of the city 'DC'
                 ref
                     .update("postImageUrl", task.result.toString())
                     .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully updated!") }
@@ -86,6 +88,7 @@ class BlogRepo {
             if (progressDialog.isShowing)progressDialog.dismiss()
             Toast.makeText(context,"Field",Toast.LENGTH_SHORT).show()
         }*/
+        /**/
 
     }
     fun newUser(email:String,password:String) {

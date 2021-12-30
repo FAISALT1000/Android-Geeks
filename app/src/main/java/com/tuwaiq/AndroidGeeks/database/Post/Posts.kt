@@ -10,7 +10,7 @@ data class Posts(
     var title:String="",
     var description:String="",
     var postDate: Date=Date(),
-    val postImageUrl: String ="",
+    var postImageUrl: String ="",
     var id:String= UUID.randomUUID().toString()
    // val postLike:Int=0,
 ):Parcelable

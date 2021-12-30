@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_navigation_home_to_newPostFragment"
             app:destination="@id/navigation_add" />
+        <action
+            android:id="@+id/action_navigation_home_to_postFragment"
+            app:destination="@id/postFragment" />
     </fragment>
 
     <fragment
@@ -41,5 +44,13 @@
         <action
             android:id="@+id/action_newPostFragment_to_navigation_notifications"
             app:destination="@id/navigation_notifications" />
+    </fragment>
+    <fragment
+        android:id="@+id/postFragment"
+        android:name="com.tuwaiq.AndroidGeeks.PostFragment"
+        android:label="PostFragment" >
+        <argument
+            android:name="dataPost"
+            app:argType="com.tuwaiq.AndroidGeeks.database.Post.Posts" />
     </fragment>
 </navigation>
