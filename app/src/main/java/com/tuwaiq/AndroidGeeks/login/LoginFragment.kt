@@ -25,6 +25,7 @@ class LoginFragment : Fragment() {
     private lateinit var progressBar: ProgressBar
     private  var auth= FirebaseAuth.getInstance()
 
+
     private  val fragmentViewModel by lazy{ ViewModelProvider(this)[LoginViewModel::class.java] }
 
     val userId= auth.currentUser?.uid
@@ -73,6 +74,11 @@ class LoginFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+        val userId= auth.currentUser?.uid
+        if (userId !=null){
+            val intent= Intent(context, MainActivity::class.java)
+            startActivity(intent)
+        }
 
         signUpBtn.setOnClickListener {
 

@@ -4,7 +4,7 @@ import android.os.Parcelable
 import com.google.firebase.storage.StorageReference
 import kotlinx.android.parcel.Parcelize
 import java.util.*
-@Parcelize
+@Parcelize// like zip the file to extract later
 data class Posts(
     var userId:String="",
     var title:String="",
@@ -14,3 +14,4 @@ data class Posts(
     var id:String= UUID.randomUUID().toString()
    // val postLike:Int=0,
 ):Parcelable
+/**0568641121**/

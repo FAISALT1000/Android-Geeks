@@ -4,10 +4,13 @@ import android.app.ProgressDialog
 import android.net.Uri
 import android.util.Log
 import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.tuwaiq.AndroidGeeks.database.Post.Posts
@@ -97,6 +100,13 @@ class BlogRepo {
 
 
     fun loginUser(email:String, password:String, isSuccessful:Boolean){
+        val user = Firebase.auth.currentUser!!
+
+        val credential = EmailAuthProvider
+            .getCredential("$email", "$password")
+
+        user.reauthenticate(credential)
+            .addOnCompleteListener { Log.d(TAG, "User re-authenticated.") }
         var isSuccessful1=isSuccessful
       val auth= auth.signInWithEmailAndPassword(email, password)
         auth.addOnFailureListener {}
@@ -117,7 +127,7 @@ class BlogRepo {
     }
     fun getAllPost(): Task<QuerySnapshot> {
         return dataBase.collection("Posts").orderBy("postDate").get() }
-//get the current user id jtfc vfor
+//get the current user id
     fun getUserInfo(): Task<DocumentSnapshot>? {
        val usersInfo= userId?.let { dataBase.collection("UsersInfo").document(it).get() }
         return usersInfo
