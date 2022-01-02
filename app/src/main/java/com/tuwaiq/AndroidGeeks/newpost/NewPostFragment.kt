@@ -86,14 +86,14 @@ class NewPostFragment : Fragment() {
 
 
 
-    private fun selectImage() {
+    /*private fun selectImage() {
         val intent=Intent()
         intent.type="image/"
         intent.action=Intent.ACTION_GET_CONTENT
 
         startActivityForResult(intent,100)
 
-    }
+    }*/
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

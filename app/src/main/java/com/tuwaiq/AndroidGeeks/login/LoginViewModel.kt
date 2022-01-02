@@ -6,8 +6,6 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.tuwaiq.AndroidGeeks.database.BlogRepo
-import com.tuwaiq.AndroidGeeks.database.Post.Posts
-import com.tuwaiq.AndroidGeeks.database.Users.UsersInfo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
