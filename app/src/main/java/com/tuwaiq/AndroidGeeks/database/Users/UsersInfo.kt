@@ -8,6 +8,7 @@ data class UsersInfo(
     val firstName:String="",
     val lastName:String="",
     val phoneNumber: Number=0,
+    var profileImageUrl: String ="",
     val gender:Boolean=false,
     val updateDate: Date
 )

@@ -102,26 +102,17 @@ class LoginFragment : Fragment() {
             progressBar.visibility=View.VISIBLE
 
             fragmentViewModel.loginUser(email,pass,isSuccessful)
-      //      if (isSuccessful=true){
-//                .addOnCompleteListener{ task->
-//                    if (task.isSuccessful){
+
                         Toast.makeText(context,"logged in", Toast.LENGTH_LONG).show()
 //
                        val intent= Intent(context, MainActivity::class.java)
                         startActivity(intent)
-//                   }
-//                    else{
-//                        Toast.makeText(context,"Try Again", Toast.LENGTH_LONG).show()
-//                    }
-//                }
+//
         }else{
             var dialog=UpdatePostDialog()
             dialog.show(this.parentFragmentManager, "Update Post")
 
-//            val fragment=SignupFragment()
-//            activity?.supportFragmentManager
-//                ?.beginTransaction()?.replace(R.id.fragmentContainerView,fragment)
-//                ?.addToBackStack(null)?.commit()
+
 
 
         }}

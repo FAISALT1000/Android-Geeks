@@ -146,10 +146,12 @@ class NewPostFragment : Fragment() {
         if (title.isNotEmpty() && description.isNotEmpty()) {
 
 
-            if (photoUri !=null) {var post = fragmentViewModel.addPost(userID = userId, title = title, description = description, date = date,photoUri!!) }
+            if (photoUri !=null) {
+                var post
+                = fragmentViewModel.addPost(userID = userId, title = title, description = description, date = date,photoUri!!) }
             Toast.makeText(context, getString(R.string.add_post_successful), Toast.LENGTH_SHORT).show()
         }else{Toast.makeText(context, getString(R.string.fill_the_field), Toast.LENGTH_SHORT).show()}
-    }
+    }//**//
 
 
    /* fun delete() {

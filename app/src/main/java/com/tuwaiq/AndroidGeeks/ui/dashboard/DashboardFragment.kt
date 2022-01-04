@@ -8,14 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.tuwaiq.AndroidGeeks.MainActivityForTesting
 import com.tuwaiq.AndroidGeeks.R
 import com.tuwaiq.AndroidGeeks.database.Post.Posts
-import com.tuwaiq.AndroidGeeks.databinding.PostFragmentBinding
+import com.tuwaiq.AndroidGeeks.databinding.FragmentDashboardBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -26,15 +26,16 @@ private const val TAG = "DashboardFragment"
 class DashboardFragment : Fragment() {
 
     private lateinit var dashboardViewModel: DashboardViewModel
-    private lateinit var emailTv:EditText
-    private lateinit var firstNameEt:EditText
-    private lateinit var lastNameEt:EditText
-    private lateinit var usernameEt:EditText
-    private lateinit var phoneNumberEt:EditText
-    private lateinit var textView: EditText
+    private lateinit var emailTv:TextView
+    private lateinit var firstNameEt:TextView
+    private lateinit var lastNameEt:TextView
+    private lateinit var usernameEt:TextView
+    private lateinit var phoneNumberEt:TextView
+    private lateinit var textView: TextView
     private lateinit var dataBase: FirebaseFirestore
+
     private lateinit var saveBtn:Button
-    private lateinit var binding: PostFragmentBinding
+    private lateinit var binding: FragmentDashboardBinding
     private lateinit var logoutBtn:Button
     private lateinit var updateDate:Date
     private lateinit var auth: FirebaseAuth
@@ -49,13 +50,13 @@ class DashboardFragment : Fragment() {
     ): View? {
         val view= inflater.inflate(R.layout.fragment_dashboard, container, false)
 
-        logoutBtn=view.findViewById(R.id.logoutbtn)
-        saveBtn=view.findViewById(R.id.save_btn)
+        //logoutBtn=view.findViewById(R.id.logoutbtn)
+       // saveBtn=view.findViewById(R.id.save_btn)
         usernameEt=view.findViewById(R.id.username_et)
         emailTv=view.findViewById(R.id.email_tv)
         textView=view.findViewById(R.id.uid_tv)
         firstNameEt=view.findViewById(R.id.firstname_et)
-        lastNameEt=view.findViewById(R.id.lastname_et)
+        //lastNameEt=view.findViewById(R.id.lastname_et)
         phoneNumberEt=view.findViewById(R.id.phonenamber_et)
         updateDate=Date()
 
@@ -99,21 +100,21 @@ class DashboardFragment : Fragment() {
 
        // val userName= userId?.let { dataBase.document(it).get() }
 
-        saveBtn.setOnClickListener {
-            updateUserInfo()
-            if (userID != null) {
-                getUserInfo1(userID)
-            }
-        }
+//        saveBtn.setOnClickListener {
+//            updateUserInfo()
+//            if (userID != null) {
+//                getUserInfo1(userID)
+//            }
+//        }
 
 
 
-        logoutBtn.setOnClickListener {
-            auth.signOut()
-            Log.d(TAG,"Logout")
-            Toast.makeText(context,"Logout successful", Toast.LENGTH_LONG).show()
-            val intent=Intent(context,MainActivityForTesting::class.java)
-            startActivity(intent) }
+//        logoutBtn.setOnClickListener {
+//            auth.signOut()
+//            Log.d(TAG,"Logout")
+//            Toast.makeText(context,"Logout successful", Toast.LENGTH_LONG).show()
+//            val intent=Intent(context,MainActivityForTesting::class.java)
+//            startActivity(intent) }
         return view
     }
 
@@ -138,8 +139,9 @@ class DashboardFragment : Fragment() {
                       //  Log.e("user Info", "userName ${name.toString()} \n ${userEmail.toString()}")
                         usernameEt.setText(userName)
                         firstNameEt.setText(firstName)
-                        lastNameEt.setText(lastName)
+                    //    lastNameEt.setText(lastName)//**//**
                         phoneNumberEt.setText(phoneNumber)
+                        //---------
                         //usernameEt.setText(userName)
 //                            binding.userFollowersXml.text = "${userFollowers?.toString()}"
 //                            binding.userFollowingXml.text = "${userFollowing?.toString()}"

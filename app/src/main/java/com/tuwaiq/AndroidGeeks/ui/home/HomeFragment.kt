@@ -8,14 +8,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.EventListener
@@ -30,7 +28,6 @@ import kotlin.collections.ArrayList
 
 private const val TAG = "home"
 private const val TAG1 = "TAG"
-const val KEY_ID="HomeFragment"
 class HomeFragment : Fragment() {
 
 
@@ -142,23 +139,28 @@ class HomeFragment : Fragment() {
             val db = FirebaseFirestore.getInstance()
             db.collection("users").document(myID.toString()).collection("Favorite")
                 .document(post.id).get()
+
                 .addOnCompleteListener {
-                    if (it.result?.exists()!!) {
-                       // Toast.makeText(holder.itemView.context, "like", Toast.LENGTH_SHORT).show()
+
+                    if (it.result?.exists()!!) {     //Network Problem
+                      //  Toast.makeText(holder.itemView.context, "like", Toast.LENGTH_SHORT).show()
                         holder.hart.setImageResource(R.drawable.ic_baseline_favorite_24)
 
-                    } else {
+                    } else {   //Network Problem
 
-                     //   Toast.makeText(holder.itemView.context, "no like", Toast.LENGTH_SHORT).show()
-
+                       // Toast.makeText(holder.itemView.context, "no like", Toast.LENGTH_SHORT).show()  ///
                         holder.hart.setImageResource(R.drawable.ic_baseline_favorite_border_24)
 
-                    }
+                    }   //Network Problem
+
 
                     holder.hart.setOnClickListener {
-                        holder.upDateFavorite("${(postss.id)}", post)
+                        holder.upDateFavorite("${(postss.id)}", post)    //Network Problem
                     }
                 }
+//                .addOnFailureListener {
+//                    holder.hart.visibility=View.GONE
+//                }
         }
 
         override fun getItemCount(): Int {

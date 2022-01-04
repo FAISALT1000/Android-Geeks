@@ -1,6 +1,6 @@
 package com.tuwaiq.AndroidGeeks.database
 
-import android.app.ProgressDialog
+
 import android.net.Uri
 import android.util.Log
 import com.google.android.gms.tasks.Task
@@ -12,7 +12,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 import com.tuwaiq.AndroidGeeks.database.Post.Posts
 import com.tuwaiq.AndroidGeeks.database.Users.UsersInfo
 import java.text.SimpleDateFormat
@@ -100,20 +99,20 @@ class BlogRepo {
 
 
     fun loginUser(email:String, password:String, isSuccessful:Boolean){
-        val user = Firebase.auth.currentUser!!
+      //  val user = Firebase.auth.currentUser!!
 
-        val credential = EmailAuthProvider
-            .getCredential("$email", "$password")
+       // val credential = EmailAuthProvider
+          //  .getCredential("$email", "$password")
 
-        user.reauthenticate(credential)
-            .addOnCompleteListener { Log.d(TAG, "User re-authenticated.") }
+       // user.reauthenticate(credential)
+          //  .addOnCompleteListener { Log.d(TAG, "User re-authenticated.") }
         var isSuccessful1=isSuccessful
       val auth= auth.signInWithEmailAndPassword(email, password)
         auth.addOnFailureListener {}
               if (auth.isSuccessful) isSuccessful1=true
 
     }
-
+//**//
     // user info
     fun addUserInfo(usersInfo: UsersInfo){
         if (userId != null) {
@@ -131,5 +130,35 @@ class BlogRepo {
     fun getUserInfo(): Task<DocumentSnapshot>? {
        val usersInfo= userId?.let { dataBase.collection("UsersInfo").document(it).get() }
         return usersInfo
+    }
+
+
+
+
+    fun uploadUserProfileImage(userName:String, userID: String,photoUri: Uri){
+        val formatter= SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.getDefault())
+        val todayDate=Date()
+        val fileName=formatter.format(todayDate)+userID
+        val  storage= FirebaseStorage.getInstance()
+//**//
+        val storagee=storage.getReference("image/Profiles/$userName/$fileName")
+        val uploadUser= storagee.putFile(photoUri!!)
+        uploadUser.continueWithTask{pro->
+            if (!pro.isSuccessful){
+                pro.exception?.let { throw it }
+            }
+            storagee.downloadUrl
+        }.addOnCompleteListener { pro->
+            if (pro.isSuccessful){
+                pro.result
+          if(userId!=null) {
+           val ref = dataBase.collection("user").document(userId)
+
+                ref
+                    .update("profileImageUrl", pro.result.toString())
+                    .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully updated!") }
+                    .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }
+            }}
+        }
     }
 }
