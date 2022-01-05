@@ -16,14 +16,14 @@ class LoginViewModel:ViewModel() {
     private lateinit var repo:BlogRepo
 
 
-
    fun loginUser(email:String,password:String,isSesscful:Boolean){
        Log.d(TAG,"loginUser")
        repo=BlogRepo()
        viewModelScope.launch(Dispatchers.IO) {
            Log.d(TAG,"loginUser ViewModelScope")
            repo.loginUser(email, password,isSesscful)
-       }.invokeOnCompletion {viewModelScope.launch{}}}}
+       }.invokeOnCompletion {viewModelScope.launch{}}}
+}
 
 
 

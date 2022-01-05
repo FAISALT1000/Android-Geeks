@@ -2,18 +2,22 @@ package com.tuwaiq.AndroidGeeks.login
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseAuth
-import com.tuwaiq.AndroidGeeks.signup.SignupFragment
 import com.tuwaiq.AndroidGeeks.MainActivity
 import com.tuwaiq.AndroidGeeks.R
-import com.tuwaiq.AndroidGeeks.UpdatePostDialog
+import com.tuwaiq.AndroidGeeks.signup.SignupFragment
+import com.tuwaiq.AndroidGeeks.ui.home.HomeFragment
 
+private const val TAG = "LoginFragment"
 
 class LoginFragment : Fragment() {
 
@@ -39,6 +43,7 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Log.d(TAG, "onCreateView: waaw")
 //        if (userId!=null){
 //
 //            val intent= Intent(context, MainActivity::class.java)
@@ -107,12 +112,12 @@ class LoginFragment : Fragment() {
 //
                        val intent= Intent(context, MainActivity::class.java)
                         startActivity(intent)
-//
+
         }else{
-            var dialog=UpdatePostDialog()
-            dialog.show(this.parentFragmentManager, "Update Post")
-
-
+            val fragment= SignupFragment()
+            activity?.supportFragmentManager
+                ?.beginTransaction()?.replace(R.id.fragmentContainerView,fragment)
+                ?.addToBackStack(null)?.commit()
 
 
         }}

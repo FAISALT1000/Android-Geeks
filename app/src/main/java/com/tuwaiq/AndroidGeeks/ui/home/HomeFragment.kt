@@ -27,7 +27,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 private const val TAG = "home"
-private const val TAG1 = "TAG"
+private const val TAG1 = "home fragment"
 class HomeFragment : Fragment() {
 
 
@@ -35,7 +35,7 @@ class HomeFragment : Fragment() {
     private lateinit var database:FirebaseFirestore
     private lateinit var myAdapter:PostAdapter
     private lateinit var posts:ArrayList<Posts>
-    val firestore = FirebaseFirestore.getInstance()
+   private val databaseV2 = FirebaseFirestore.getInstance()
     val myID = FirebaseAuth.getInstance().currentUser?.uid
 
     private  var postss: Posts=Posts()
@@ -179,9 +179,9 @@ class HomeFragment : Fragment() {
           val postDescription:TextView =view.findViewById(R.id.postdec_tv)
         var imagePath:String = ""
         // private  var postLike:TextView
-//---------upDateFavorite------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         fun upDateFavorite(postID: String, post: Posts) {
-            Toast.makeText(itemView.context, "article.articleID ${post.id}", Toast.LENGTH_SHORT).show()
+
             val db = FirebaseFirestore.getInstance()
             db.collection("users").document(myID.toString()).collection("Favorite")
                 .document(post.id).get()
@@ -190,11 +190,14 @@ class HomeFragment : Fragment() {
 
                         deleteFavorite("${post.id}",post)
                         hart.setImageResource(R.drawable.ic_baseline_favorite_border_24)
+                        Toast.makeText(context, "no Like", Toast.LENGTH_SHORT).show()
 
                     } else {
 
                         hart.setImageResource(R.drawable.ic_baseline_favorite_24)
                         addFavorite("${post.id}", post)
+                        Toast.makeText(context, "Like", Toast.LENGTH_SHORT).show()
+
 
                     }
                 }
@@ -208,18 +211,18 @@ class HomeFragment : Fragment() {
                 .addOnCompleteListener {
                     when {
                         it.isSuccessful -> {
-                            Log.e("Delete Article ", "Delete From Articles Favorite")
+                            Log.e(TAG, "Delete From Articles Favorite")
                         }
                     }
                 }
-            //-------------deleteFavoriteArticleUser----------------------------------------------------------
+
             val deleteFavoriteArticleUser = FirebaseFirestore.getInstance()
             deleteFavoriteArticleUser.collection("users").document(myID.toString())
                 .collection("Favorite").document("${post.id}").delete()
                 .addOnCompleteListener {
                     when {
                         it.isSuccessful -> {
-                            Log.e("Delete Article ", "Delete From User Favorite")
+                            Log.e(TAG, "Delete From User Favorite")
                         }
                     }
                 }
@@ -242,10 +245,10 @@ class HomeFragment : Fragment() {
                     it
                     when {
                         it.isSuccessful -> {
-                            Log.d("Add Article", "Done to add User Favorite")
+                            Log.d(TAG, "Done")
                         }
                         else -> {
-                            Log.d("Error", "is not Successful fire store")
+                            Log.d(TAG, " not Successful ")
                         }
                     }
 
@@ -253,19 +256,19 @@ class HomeFragment : Fragment() {
                     val addToArticle = Firebase.firestore.collection("Posts")
                     addToArticle.document(postID.toString()).collection("Favorite")
                         .document("${userId.toString()}").set(addFavorite)
-                    //---------------------------------------------------------------------------------
-                //    numberOfFavorite(postID)
+
+
 
                 }
         }
 
-        fun numberOfFavorite(articleID: String) {
-            firestore.collection("Articles").document(articleID)
+        fun numberOfFavorite(postId: String) {
+            databaseV2.collection("Posts").document(postId)
                 .collection("Favorite").get()
                 .addOnSuccessListener {
                     var numberOfFavorite = it.size()
-                    val userRef = Firebase.firestore.collection("Articles")
-                    userRef.document("$articleID").update("like", numberOfFavorite)
+                    val userRef = Firebase.firestore.collection("Posts")
+                    userRef.document("$postId").update("like", numberOfFavorite)
                    // numberLikes.setText(numberOfFavorite.toString())
                 }
         }
@@ -274,17 +277,8 @@ fun test1(post:Posts){
 
     postImageView.load(post.postImageUrl)
 
-}/*
-//        override fun onClick(v: View?) {
-//            if(v==itemView) {
-//                val args = Bundle()
-//                args.putSerializable(KEY_ID, postss.title)
-//            var dialog=UpdatePostDialog()
-//                dialog.arguments=args
-//                activity?
-//                    dialog.show(this.parentFragmentManager, "Update Post")
-//        }}
-    */
+}
+
         init {
             itemView.setOnClickListener(this)
         }

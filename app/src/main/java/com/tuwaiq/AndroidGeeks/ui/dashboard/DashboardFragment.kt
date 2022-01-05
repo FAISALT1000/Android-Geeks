@@ -32,7 +32,8 @@ class DashboardFragment : Fragment() {
     private lateinit var usernameEt:TextView
     private lateinit var phoneNumberEt:TextView
     private lateinit var textView: TextView
-    private lateinit var dataBase: FirebaseFirestore
+    private lateinit var postNum:TextView
+    private  var dataBase=FirebaseFirestore.getInstance()
 
     private lateinit var saveBtn:Button
     private lateinit var binding: FragmentDashboardBinding
@@ -41,7 +42,7 @@ class DashboardFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     private var post=Posts()
     private val userID= FirebaseAuth.getInstance().currentUser?.uid
-
+    //*//
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,14 +54,23 @@ class DashboardFragment : Fragment() {
         //logoutBtn=view.findViewById(R.id.logoutbtn)
        // saveBtn=view.findViewById(R.id.save_btn)
         usernameEt=view.findViewById(R.id.username_et)
-        emailTv=view.findViewById(R.id.email_tv)
-        textView=view.findViewById(R.id.uid_tv)
-        firstNameEt=view.findViewById(R.id.firstname_et)
-        //lastNameEt=view.findViewById(R.id.lastname_et)
-        phoneNumberEt=view.findViewById(R.id.phonenamber_et)
+        postNum=view.findViewById(R.id.post_num_et)
+//        emailTv=view.findViewById(R.id.email_tv)
+//        textView=view.findViewById(R.id.uid_tv)
+//        firstNameEt=view.findViewById(R.id.firstname_et)
+//        //lastNameEt=view.findViewById(R.id.lastname_et)
+//        phoneNumberEt=view.findViewById(R.id.phonenamber_et)
         updateDate=Date()
 
         if (userID != null) {
+
+                dataBase.collection("Posts").whereEqualTo("userId",userID).get().addOnSuccessListener {
+                    postNum.text=it.documents.size.toString()
+                }
+//               postNum.text=h.size.toString()
+
+               // val postCount= dataBase.collection("Posts").document()
+
             getUserInfo1(userID)
         }
 
@@ -92,11 +102,11 @@ class DashboardFragment : Fragment() {
 
         val userEmail= FirebaseAuth.getInstance().currentUser?.email
         userEmail.toString()
-        emailTv.setText(userEmail)
+        //emailTv.setText(userEmail)
 
         val userId= FirebaseAuth.getInstance().currentUser?.uid
         userId.toString()
-        textView.setText(userId)
+       // textView.setText(userId)
 
        // val userName= userId?.let { dataBase.document(it).get() }
 
@@ -138,9 +148,9 @@ class DashboardFragment : Fragment() {
 //                        var userInfo = it.result!!.getString("moreInfo")//moreInfo
                       //  Log.e("user Info", "userName ${name.toString()} \n ${userEmail.toString()}")
                         usernameEt.setText(userName)
-                        firstNameEt.setText(firstName)
+                     //   firstNameEt.setText(firstName)
                     //    lastNameEt.setText(lastName)//**//**
-                        phoneNumberEt.setText(phoneNumber)
+                       // phoneNumberEt.setText(phoneNumber)
                         //---------
                         //usernameEt.setText(userName)
 //                            binding.userFollowersXml.text = "${userFollowers?.toString()}"
@@ -176,7 +186,7 @@ class DashboardFragment : Fragment() {
                 .addOnSuccessListener { document ->
 //                    print(document.data)
                     if (document != null) {
-                        Log.d(TAG, "DocumentSnapshot data: ${document.data}")
+//                        Log.d(TAG, "DocumentSnapshot data: ${document.data}")
                     } else {
                         Log.d(TAG, "No such document")
                     }
@@ -197,7 +207,7 @@ class DashboardFragment : Fragment() {
         //  val userId= auth.currentUser?.let { it.email }
         val userId= FirebaseAuth.getInstance().currentUser?.uid
         userId.toString()
-
+/****/
         var userInfo= userId?.let { DashboardViewModel(userId,userName,firstName,lastName,phoneNumber,updateDate) }
         if (userInfo != null) {
             if (userId != null) {

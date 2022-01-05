@@ -132,6 +132,7 @@ class NewPostFragment : Fragment() {
         } else {
             binding.postImageView.setImageDrawable(null)
         }}
+
     private fun addPost() {
     val title =  binding.titleTv.text.toString()
     val description =  binding.postEt.text.toString()
@@ -151,13 +152,11 @@ class NewPostFragment : Fragment() {
                 = fragmentViewModel.addPost(userID = userId, title = title, description = description, date = date,photoUri!!) }
             Toast.makeText(context, getString(R.string.add_post_successful), Toast.LENGTH_SHORT).show()
         }else{Toast.makeText(context, getString(R.string.fill_the_field), Toast.LENGTH_SHORT).show()}
-    }//**//
+    }
+   /*
+   val k=4mn
 
-
-   /* fun delete() {
         val title = titleEt.text.toString()
-        val description = postEt.text.toString()
-        val date = Date()
         val userId = FirebaseAuth.getInstance().currentUser?.uid.toString()
         val postss=Posts(userId, title,description,date)
 /*this fun must be in the blogrepo not here */
