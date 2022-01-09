@@ -132,9 +132,6 @@ class BlogRepo {
         return usersInfo
     }
 
-
-
-
     fun uploadUserProfileImage(userName:String, userID: String,photoUri: Uri){
         val formatter= SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.getDefault())
         val todayDate=Date()

@@ -1,25 +1,33 @@
 package com.tuwaiq.AndroidGeeks.ui.dashboard
 
+import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import com.tuwaiq.AndroidGeeks.MainActivity
+import com.tuwaiq.AndroidGeeks.MainActivityForTesting
 import com.tuwaiq.AndroidGeeks.R
 import com.tuwaiq.AndroidGeeks.database.Post.Posts
 import com.tuwaiq.AndroidGeeks.databinding.FragmentDashboardBinding
+import com.tuwaiq.AndroidGeeks.databinding.SignupFragmentBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
 import java.util.*
 
 private const val TAG = "DashboardFragment"
@@ -30,18 +38,21 @@ class DashboardFragment : Fragment() {
     private lateinit var firstNameEt:TextView
     private lateinit var lastNameEt:TextView
     private lateinit var usernameEt:TextView
-    private lateinit var phoneNumberEt:TextView
-    private lateinit var textView: TextView
+    private lateinit var phoneNumberEt:Button
+    private lateinit var profileImageView: ImageView
     private lateinit var postNum:TextView
     private  var dataBase=FirebaseFirestore.getInstance()
-
-    private lateinit var saveBtn:Button
+    private lateinit var signOutBtn:Button
     private lateinit var binding: FragmentDashboardBinding
-    private lateinit var logoutBtn:Button
+    private lateinit var no_btn:Button
     private lateinit var updateDate:Date
+    private var profilePhotoUri: Uri? = null
     private lateinit var auth: FirebaseAuth
     private var post=Posts()
     private val userID= FirebaseAuth.getInstance().currentUser?.uid
+    val getResult= registerForActivityResult(ActivityResultContracts.GetContent()){ profilePhotoUri=it
+        profileImageView.setImageURI(it)}
+
     //*//
 
     override fun onCreateView(
@@ -49,17 +60,21 @@ class DashboardFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        binding= FragmentDashboardBinding.inflate(layoutInflater)
         val view= inflater.inflate(R.layout.fragment_dashboard, container, false)
 
         //logoutBtn=view.findViewById(R.id.logoutbtn)
        // saveBtn=view.findViewById(R.id.save_btn)
-        usernameEt=view.findViewById(R.id.username_et)
+        usernameEt=view.findViewById(R.id.firstname_et)
         postNum=view.findViewById(R.id.post_num_et)
+        signOutBtn=view.findViewById(R.id.signout_btn)
+        profileImageView=view.findViewById(R.id.profile_image_view)
+        no_btn=view.findViewById(R.id.no_btn)
 //        emailTv=view.findViewById(R.id.email_tv)
 //        textView=view.findViewById(R.id.uid_tv)
 //        firstNameEt=view.findViewById(R.id.firstname_et)
 //        //lastNameEt=view.findViewById(R.id.lastname_et)
-//        phoneNumberEt=view.findViewById(R.id.phonenamber_et)
+        phoneNumberEt=view.findViewById(R.id.phonenumberr_et)
         updateDate=Date()
 
         if (userID != null) {
@@ -99,7 +114,7 @@ class DashboardFragment : Fragment() {
 
         getUserInfo()
         getUserInfo()
-
+        //
         val userEmail= FirebaseAuth.getInstance().currentUser?.email
         userEmail.toString()
         //emailTv.setText(userEmail)
@@ -115,7 +130,7 @@ class DashboardFragment : Fragment() {
 //            if (userID != null) {
 //                getUserInfo1(userID)
 //            }
-//        }
+
 
 
 
@@ -126,6 +141,49 @@ class DashboardFragment : Fragment() {
 //            val intent=Intent(context,MainActivityForTesting::class.java)
 //            startActivity(intent) }
         return view
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode==100 && resultCode== Activity.RESULT_OK && data!=null && data.data!=null){
+            profilePhotoUri = data?.data!!
+
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        signOutBtn.setOnClickListener {
+            FirebaseAuth.getInstance().signOut()
+            Log.d(TAG, "onStart: sign out")
+            Toast.makeText(context, "sign Out", Toast.LENGTH_SHORT).show()
+
+            val intent = Intent(context, MainActivityForTesting::class.java)
+            startActivity(intent)
+            Toast.makeText(context, "you must sign in first", Toast.LENGTH_SHORT).show()
+        }
+        profileImageView.setOnClickListener {
+
+            getResult.launch("image/*")
+            dataBase.collection("users")
+                .document("${userID}")
+                .get().addOnCompleteListener { it
+                    if (it.result?.exists()!!){
+                        var userName = it.result!!.getString("userName")
+                        if (userName!=null ){
+                        uploadImage(userName, profilePhotoUri!!)}
+
+                    }}
+
+        }
+        phoneNumberEt.setOnClickListener {
+            val db = FirebaseFirestore.getInstance()
+            db.collection("users")
+                .document("${userID}").update("phoneNumber","056054125")
+    }
+    no_btn.setOnClickListener {
+
+    }
     }
 
 
@@ -148,6 +206,7 @@ class DashboardFragment : Fragment() {
 //                        var userInfo = it.result!!.getString("moreInfo")//moreInfo
                       //  Log.e("user Info", "userName ${name.toString()} \n ${userEmail.toString()}")
                         usernameEt.setText(userName)
+                        phoneNumberEt.setText(phoneNumber)
                      //   firstNameEt.setText(firstName)
                     //    lastNameEt.setText(lastName)//**//**
                        // phoneNumberEt.setText(phoneNumber)
@@ -207,7 +266,7 @@ class DashboardFragment : Fragment() {
         //  val userId= auth.currentUser?.let { it.email }
         val userId= FirebaseAuth.getInstance().currentUser?.uid
         userId.toString()
-/****/
+
         var userInfo= userId?.let { DashboardViewModel(userId,userName,firstName,lastName,phoneNumber,updateDate) }
         if (userInfo != null) {
             if (userId != null) {
@@ -217,6 +276,50 @@ class DashboardFragment : Fragment() {
                     //                .add(userInfo)
                     .addOnSuccessListener {Toast.makeText(context,getString(R.string.success_toast),Toast.LENGTH_SHORT).show()}
                     .addOnFailureListener {Toast.makeText(context,getString(R.string.failure_toast),Toast.LENGTH_SHORT).show() }}}}
+
+    private fun uploadImage(userName:String,photoUri: Uri) {
+//        val progressDialog= ProgressDialog(context)
+//        progressDialog.setMessage("Uploading File.....")
+//        progressDialog.setCancelable(false)
+//        progressDialog.show()
+
+        val formatter= SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.getDefault())
+        val todayDate=Date()
+        val fileName=formatter.format(todayDate)
+        val  storage= FirebaseStorage.getInstance()
+
+        val storagee=storage.getReference("profiles/image/$userName/$fileName")
+        val uploadtask= storagee.putFile(photoUri!!)
+        uploadtask.continueWithTask{task->
+            if (!task.isSuccessful){
+                task.exception?.let { throw it }
+            }
+            storagee.downloadUrl
+        }.addOnCompleteListener { task->
+            if (task.isSuccessful){
+                task.result
+                if (userID!=null){
+                val ref = dataBase.collection("users").document(userID)
+
+                ref
+                    .update("profileImageUrl", task.result.toString())
+                    .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully updated!") }
+                    .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }
+            }}
+        }
+        /*.addOnSuccessListener{ binding.postImageView.setImageURI(null)
+
+        Toast.makeText(context,"Successfully Upload The Image",Toast.LENGTH_SHORT).show()
+
+            if (progressDialog.isShowing) progressDialog.dismiss()
+        }
+        .addOnFailureListener{
+            if (progressDialog.isShowing)progressDialog.dismiss()
+            Toast.makeText(context,"Field",Toast.LENGTH_SHORT).show()
+        }*/
+        /**/
+
+    }
 
 
 }

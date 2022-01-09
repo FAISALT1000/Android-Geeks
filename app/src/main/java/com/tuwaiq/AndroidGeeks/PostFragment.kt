@@ -14,6 +14,7 @@ import androidx.core.net.toUri
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -21,6 +22,7 @@ import com.google.firebase.storage.StorageReference
 import com.tuwaiq.AndroidGeeks.database.Post.Posts
 import com.tuwaiq.AndroidGeeks.databinding.NewPostFragmentBinding
 import com.tuwaiq.AndroidGeeks.databinding.PostFragmentBinding
+import java.util.*
 
 private const val TAG = "PostFragment"
 class PostFragment : BottomSheetDialogFragment() {
@@ -32,11 +34,13 @@ class PostFragment : BottomSheetDialogFragment() {
     private lateinit var storage:StorageReference
     private lateinit var deleteBtn:Button
     private lateinit var viewModel: PostViewModel
+    private val userId= FirebaseAuth.getInstance().currentUser?.uid
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+       // addCommit()
         dp= FirebaseStorage.getInstance()
         database= FirebaseFirestore.getInstance()
         storage=dp.getReference()
@@ -49,6 +53,7 @@ class PostFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         val id=args.dataPost.id
         val title=args.dataPost.title
+
 
         binding.deleteBtn.setOnClickListener {
             de(title, id)
@@ -68,6 +73,29 @@ class PostFragment : BottomSheetDialogFragment() {
         setImageURI(args.dataPost.postImageUrl.toUri())//weee
         binding.updateDestv.
         setText(args.dataPost.description)//weee
+        Log.d(TAG, "onViewCreated: ${args.dataPost.userId}")
+        Log.d(TAG, "onViewCreated: ${args.dataPost.id}")
+        if (userId.toString()!=args.dataPost.userId){
+            Toast.makeText(context, "this is your post ", Toast.LENGTH_SHORT).show()
+            binding.updateBtn.visibility=View.GONE
+            binding.deleteBtn.visibility=View.GONE
+        }
+
+        binding.updateBtn.setOnClickListener {
+            updateThePost()
+        }
+    }
+//-789456123098745
+    //;ll
+    private fun updateThePost() {
+        database.collection("Posts").document(args.dataPost.id)
+            .update("title", "${binding.titleBottomTv.text}").addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Toast.makeText(context, "Update The Post Successfully ", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(context, "there is error some where", Toast.LENGTH_SHORT).show()
+                }
+            }
     }
 
     private fun de(title: String, id: String) {
@@ -78,7 +106,15 @@ class PostFragment : BottomSheetDialogFragment() {
             Log.d(TAG, "onViewCreated: ${args.dataPost.postImageUrl} FailureListener ")
 
         }
+
     }
-    val b="k".length
-    val o=0
+    fun addCommit(){
+        val id=args.dataPost.id
+        if (userId != null) {
+            val iu="he"
+//            database= FirebaseFirestore.getInstance()
+//            database.collection("Posts").document(id).collection("comments").document(userId).set(iu)
+         //   database.collection("Posts").document(id).collection("Commit").document(userId).set()
+        }
+    }
 }

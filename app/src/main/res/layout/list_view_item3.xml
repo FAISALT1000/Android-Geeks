@@ -25,16 +25,16 @@
                 android:layout_marginTop="45dp"
                 android:src="@drawable/common_google_signin_btn_icon_dark" />
 
-            <TextView
-                android:id="@+id/username_et"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
-                android:text="User"
-                android:textColor="#fff"
-                android:textSize="21sp"
-                android:textStyle="bold" />
+<!--            <TextView-->
+<!--                android:id="@+id/firstname_et"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center_horizontal"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:text="User"-->
+<!--                android:textColor="#fff"-->
+<!--                android:textSize="21sp"-->
+<!--                android:textStyle="bold" />-->
         </LinearLayout>
 
         <androidx.cardview.widget.CardView

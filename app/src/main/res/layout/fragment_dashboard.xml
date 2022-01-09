@@ -12,7 +12,7 @@
         android:id="@+id/relativeLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@+id/signout_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -120,10 +120,10 @@
                 android:layout_height="150dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="45dp"
-                android:src="@drawable/common_google_signin_btn_icon_dark" />
+                />
 
             <TextView
-                android:id="@+id/username_et"
+                android:id="@+id/firstname_et"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -138,7 +138,7 @@
     </RelativeLayout>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/signout_btn"
         android:layout_width="292dp"
         android:layout_height="50dp"
         android:layout_marginBottom="80dp"
@@ -148,6 +148,33 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/phonenumberr_et"
+        android:layout_width="292dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/buttonstyle"
+        android:text="Follow Me"
+        android:textColor="#fff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/no_btn"
+        android:layout_width="58dp"
+        android:layout_height="58dp"
+        android:layout_marginBottom="48dp"
+        android:backgroundTint="#E41B1B"
+        android:drawableTint="#E41B1B"
+        android:text="Follow Me"
+        android:textColor="#fff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

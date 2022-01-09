@@ -1,5 +1,6 @@
 package com.tuwaiq.AndroidGeeks.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -20,6 +21,8 @@ import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
+import com.tuwaiq.AndroidGeeks.MainActivity
+import com.tuwaiq.AndroidGeeks.MainActivityForTesting
 import com.tuwaiq.AndroidGeeks.R
 import com.tuwaiq.AndroidGeeks.database.Post.Posts
 import java.text.SimpleDateFormat
@@ -30,7 +33,7 @@ private const val TAG = "home"
 private const val TAG1 = "home fragment"
 class HomeFragment : Fragment() {
 
-
+    private  var userID=FirebaseAuth.getInstance().currentUser?.uid
     private lateinit var blogRecyclerView: RecyclerView
     private lateinit var database:FirebaseFirestore
     private lateinit var myAdapter:PostAdapter
@@ -49,6 +52,12 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        if (userID==null){
+            val intent = Intent(context, MainActivity::class.java)
+            startActivity(intent)
+            Toast.makeText(context, "you must sign in first", Toast.LENGTH_SHORT).show()
+
+        }
 
         // Log.d(TAG,"${homeViewModel.getAllPost()}")
 
@@ -113,6 +122,7 @@ class HomeFragment : Fragment() {
         override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
             val post:Posts=posts[position]
             holder.postId.text=post.id
+            holder.userIId.text=post.userId
             holder.postTitle.text=post.title
             holder.test1(post)
             holder.imagePath = post.postImageUrl
@@ -173,6 +183,7 @@ class HomeFragment : Fragment() {
         : RecyclerView.ViewHolder(view),View.OnClickListener{ /*,View.OnClickListener*/
         val hart:ImageView=view.findViewById(R.id.imageView2)
         val postId:TextView=view.findViewById(R.id.id_tv)
+        val userIId:TextView=view.findViewById(R.id.userid_tv2)
         val postImageView: ImageView=view.findViewById(R.id.post_image_preview)
          val postTitle: TextView =view.findViewById(R.id.post_title_tv)
           val postDate:TextView =view.findViewById(R.id.date_tv)
@@ -286,10 +297,11 @@ fun test1(post:Posts){
             val postss=Posts()//weee
 
             postss.id=postId.text.toString()
+            postss.userId=userIId.text.toString()
             postss.title=postTitle.text.toString()//weee
             postss.description=postDescription.text.toString()//weee
             postss.postImageUrl=imagePath.toString()//weee
-            Toast.makeText(context, "${imagePath}", Toast.LENGTH_SHORT).show()//weee
+            Toast.makeText(context, "${userIId.text}", Toast.LENGTH_SHORT).show()//weee
             val viww=HomeFragmentDirections.actionNavigationHomeToPostFragment(postss)//weee
          findNavController().navigate(viww)//weee
         }

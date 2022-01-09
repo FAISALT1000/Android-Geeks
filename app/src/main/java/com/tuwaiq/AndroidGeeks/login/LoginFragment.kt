@@ -109,9 +109,14 @@ class LoginFragment : Fragment() {
             fragmentViewModel.loginUser(email,pass,isSuccessful)
 
                         Toast.makeText(context,"logged in", Toast.LENGTH_LONG).show()
-//
+
                        val intent= Intent(context, MainActivity::class.java)
                         startActivity(intent)
+
+
+
+
+
 
         }else{
             val fragment= SignupFragment()

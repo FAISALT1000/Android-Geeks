@@ -1,14 +1,15 @@
 package com.tuwaiq.AndroidGeeks.database.Users
 
-import com.google.type.Date
+import java.util.*
+
 
 data class UsersInfo(
     val id:String="",
     val userName:String="",
     val firstName:String="",
     val lastName:String="",
-    val phoneNumber: Number=0,
+    val phoneNumber: String="",
     var profileImageUrl: String ="",
-    val gender:Boolean=false,
-    val updateDate: Date
+    val gender:String="",
+    val updateDate:Date= Date()
 )

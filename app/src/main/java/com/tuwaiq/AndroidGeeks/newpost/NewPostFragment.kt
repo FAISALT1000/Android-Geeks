@@ -163,68 +163,7 @@ class NewPostFragment : Fragment() {
         if (title.isNotEmpty() && description.isNotEmpty()) {
             dataBase= FirebaseFirestore.getInstance()
             dataBase.collection("Posts").document("${postss.title.trim()}_from_${postss.userId}").set(postss)
-  /*         posts.userId = userId.
-//            posts.title = titlegh
-//            posts.description = description
-//            posts.postDate = date posts.description = description
-            */
-            Toast.makeText(context, getString(R.string.add_post_successful), Toast.LENGTH_SHORT).show()
-        }
 
-
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-//    fun hi(){
-//
-//
-//
-//        database.collection("Posts").addSnapshotListener(object : EventListener<QuerySnapshot> {
-//            override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
-//                if (error !=null){
-//                    Log.e(TAG,error.message.toString())// if there are error
-//                }else{
-//                    for (dc: DocumentChange in value?.documentChanges!!){
-//                        if (dc.type == DocumentChange.Type.ADDED){
-//                            posts.add(dc.document.toObject(Posts::class.java))
-//                        }
-//                        myAdapter.notifyDataSetChanged()
-//                    }
-//
-//                }}})
-//
-//
-//
-  }*/
 
     */
 }

@@ -72,6 +72,16 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="gone" />
 
+    <TextView
+        android:id="@+id/userid_tv2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone" />
+
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="39dp"
