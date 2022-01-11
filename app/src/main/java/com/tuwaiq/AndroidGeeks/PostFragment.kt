@@ -12,6 +12,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.navigation.fragment.navArgs
+import coil.load
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.auth.FirebaseAuth
@@ -48,7 +49,7 @@ class PostFragment : BottomSheetDialogFragment() {
 
         return binding.root
     }
-
+    /****//****/
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val id=args.dataPost.id
@@ -68,9 +69,12 @@ class PostFragment : BottomSheetDialogFragment() {
                 }
         }
         binding.titleBottomTv.
-        setText(args.dataPost.title)//weee
-        binding.updatePostiv.
-        setImageURI(args.dataPost.postImageUrl.toUri())//weee
+        setText(args.dataPost.title)
+
+        binding.updatePostiv.load(args.dataPost.postImageUrl)
+
+        Log.d(TAG, "onViewCreated:${args.dataPost.postImageUrl} ")
+
         binding.updateDestv.
         setText(args.dataPost.description)//weee
         Log.d(TAG, "onViewCreated: ${args.dataPost.userId}")
@@ -79,14 +83,13 @@ class PostFragment : BottomSheetDialogFragment() {
             Toast.makeText(context, "this is your post ", Toast.LENGTH_SHORT).show()
             binding.updateBtn.visibility=View.GONE
             binding.deleteBtn.visibility=View.GONE
+            binding.titleBottomTv.isEnabled=false
+            binding.updateDestv.isEnabled=false
         }
-
         binding.updateBtn.setOnClickListener {
             updateThePost()
         }
     }
-//-789456123098745
-    //;ll
     private fun updateThePost() {
         database.collection("Posts").document(args.dataPost.id)
             .update("title", "${binding.titleBottomTv.text}").addOnCompleteListener {

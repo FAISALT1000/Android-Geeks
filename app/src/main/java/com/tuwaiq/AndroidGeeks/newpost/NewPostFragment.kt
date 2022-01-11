@@ -56,7 +56,7 @@ class NewPostFragment : Fragment() {
         if (userId==null){
                 val intent = Intent(context, MainActivityForTesting::class.java)
                 startActivity(intent)
-                Toast.makeText(context, "you must sign in first", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, getString(R.string.you_must_sign_toast), Toast.LENGTH_SHORT).show()
 
         }
 
@@ -154,7 +154,7 @@ class NewPostFragment : Fragment() {
         }else{Toast.makeText(context, getString(R.string.fill_the_field), Toast.LENGTH_SHORT).show()}
     }
    /*
-   val k=4mn
+   val k=4mn hn gyh gn ujuk uku vvv bv
 
         val title = titleEt.text.toString()
         val userId = FirebaseAuth.getInstance().currentUser?.uid.toString()

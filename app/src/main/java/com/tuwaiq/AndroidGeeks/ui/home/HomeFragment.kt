@@ -1,6 +1,5 @@
 package com.tuwaiq.AndroidGeeks.ui.home
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -21,8 +20,6 @@ import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
-import com.tuwaiq.AndroidGeeks.MainActivity
-import com.tuwaiq.AndroidGeeks.MainActivityForTesting
 import com.tuwaiq.AndroidGeeks.R
 import com.tuwaiq.AndroidGeeks.database.Post.Posts
 import java.text.SimpleDateFormat
@@ -52,12 +49,12 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        if (userID==null){
-            val intent = Intent(context, MainActivity::class.java)
-            startActivity(intent)
-            Toast.makeText(context, "you must sign in first", Toast.LENGTH_SHORT).show()
-
-        }
+//        if (userID==null){
+//            val intent = Intent(context, MainActivity::class.java)
+//            startActivity(intent)
+//            Toast.makeText(context, "you must sign in first", Toast.LENGTH_SHORT).show()
+//
+//        }
 
         // Log.d(TAG,"${homeViewModel.getAllPost()}")
 
@@ -216,19 +213,19 @@ class HomeFragment : Fragment() {
 
         //---------deleteFavorite------------------------------------------------------------------------------------------
         fun deleteFavorite(postID: String,post: Posts) {
-            val deleteFavoriteArticle = FirebaseFirestore.getInstance()
-            deleteFavoriteArticle.collection("Posts").document(post.id)
+            val deleteFavoriteFromThePost = FirebaseFirestore.getInstance()
+            deleteFavoriteFromThePost.collection("Posts").document(post.id)
                 .collection("Favorite").document(myID.toString()).delete()
                 .addOnCompleteListener {
                     when {
                         it.isSuccessful -> {
-                            Log.e(TAG, "Delete From Articles Favorite")
+                            Log.e(TAG, "Delete From Post Favorite")
                         }
                     }
                 }
 
-            val deleteFavoriteArticleUser = FirebaseFirestore.getInstance()
-            deleteFavoriteArticleUser.collection("users").document(myID.toString())
+            val deleteFavoriteFromTheUsersInfo = FirebaseFirestore.getInstance()
+            deleteFavoriteFromTheUsersInfo.collection("users").document(myID.toString())
                 .collection("Favorite").document("${post.id}").delete()
                 .addOnCompleteListener {
                     when {
@@ -249,8 +246,8 @@ class HomeFragment : Fragment() {
             )
             //---------------------------------------------------------------------------------
             val userId = FirebaseAuth.getInstance().currentUser?.uid
-            val articleRef = Firebase.firestore.collection("users")
-            articleRef.document(userId.toString()).collection("Favorite")
+            val postFavorite = Firebase.firestore.collection("users")
+            postFavorite.document(userId.toString()).collection("Favorite")
                 .document("${postID}")
                 .set(addFavorite).addOnCompleteListener {
                     it
@@ -264,15 +261,14 @@ class HomeFragment : Fragment() {
                     }
 
                     //---------------------------------------------------------------------------------
-                    val addToArticle = Firebase.firestore.collection("Posts")
-                    addToArticle.document(postID.toString()).collection("Favorite")
+                    val addFavoriteToThePosts = Firebase.firestore.collection("Posts")
+                    addFavoriteToThePosts.document(postID.toString()).collection("Favorite")
                         .document("${userId.toString()}").set(addFavorite)
 
 
 
                 }
         }
-
         fun numberOfFavorite(postId: String) {
             databaseV2.collection("Posts").document(postId)
                 .collection("Favorite").get()

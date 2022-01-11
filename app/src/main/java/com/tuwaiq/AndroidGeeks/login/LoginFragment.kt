@@ -11,8 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.tuwaiq.AndroidGeeks.MainActivity
+import com.tuwaiq.AndroidGeeks.MainActivityForTesting
 import com.tuwaiq.AndroidGeeks.R
 import com.tuwaiq.AndroidGeeks.signup.SignupFragment
 import com.tuwaiq.AndroidGeeks.ui.home.HomeFragment
@@ -69,11 +71,8 @@ class LoginFragment : Fragment() {
                             ?.beginTransaction()?.replace(R.id.nav_host_fragment_activity_main,fragment)
                             ?.addToBackStack(null)?.commit() }
 
-       loginBtn.setOnClickListener {
-           progressBar.visibility=View.VISIBLE
-               loginUser() }
-        googleBtn.setOnClickListener {
-            Toast.makeText(context,"R.string.soon",Toast.LENGTH_LONG).show() }
+
+
         return view
     }
 
@@ -93,29 +92,36 @@ class LoginFragment : Fragment() {
                 ?.addToBackStack(null)?.commit() }
 
         loginBtn.setOnClickListener {
+            progressBar.visibility=View.VISIBLE
             loginUser() }
+        progressBar.visibility=View.GONE
         googleBtn.setOnClickListener {
             Toast.makeText(context,R.string.soon,Toast.LENGTH_LONG).show() }
 
 
     }
     private fun loginUser(){
+//*;.
         val email= emailEt.text.toString()
         val pass=passwordEt.text.toString()
         var isSuccessful=true//:Boolean=fragmentViewModel.loginUser(null,null,false)
         if (email.isNotEmpty()&& pass.isNotEmpty()){
             progressBar.visibility=View.VISIBLE
 
-            fragmentViewModel.loginUser(email,pass,isSuccessful)
+            fragmentViewModel.loginUser(email,pass).observe(this){
+                if (it){
+                    Snackbar.make(requireView(), getString(R.string.login_successfully_toast), Snackbar.LENGTH_LONG).show()
+                    val intent = Intent(context, MainActivity::class.java)
+                    startActivity(intent)
+                }else{
+                    Snackbar.make(requireView(), getString(R.string.login_not_successfully_toast), Snackbar.LENGTH_LONG).show()
+                progressBar.visibility=View.GONE
+                }
+//                Snackbar.make(requireView(), "This is main activity $it", Snackbar.LENGTH_LONG).show()
+              //  Snackbar.make(view, "Replace with your own action",Snackbar.LENGTH_LONG).setAction("Action", null)
+             //   Toast.makeText(requireContext(), "the result is $it",Toast.LENGTH_LONG).show()
 
-                        Toast.makeText(context,"logged in", Toast.LENGTH_LONG).show()
-
-                       val intent= Intent(context, MainActivity::class.java)
-                        startActivity(intent)
-
-
-
-
+            }
 
 
         }else{

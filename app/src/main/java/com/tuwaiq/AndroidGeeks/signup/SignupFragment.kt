@@ -115,6 +115,8 @@ class SignupFragment : Fragment() {
 
  */
             if (userId != null) {
+                //there a problem here, we need to click sign up button two time to add user info
+                    //maybe we need a del this fun for second
                 updateUserInfo(userId)
             }
         }else{

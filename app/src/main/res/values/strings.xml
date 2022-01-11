@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">blogger test</string>
+    <string name="app_name">Android Geeks</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_home">Home</string>
     <string name="title_profile">Profile</string>
@@ -23,8 +23,12 @@
     <string name="failure_toast">Failure</string>
     <string name="add_post_successful">add the post Successful</string>
     <string name="fill_the_field">Must fill all the field</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+<!--  445-->
+    <string name="logged_in">logged in</string>
+    <string name="soon_toast">soon</string>
+    <string name="you_must_sign_toast">you must sign in first</string>
+    <string name="login_successfully_toast">Login Successfully</string>
+    <string name="login_not_successfully_toast">the password or the email are wrong</string>
 
 
 </resources>

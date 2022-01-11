@@ -8,18 +8,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.tuwaiq.AndroidGeeks.MainActivity
 import com.tuwaiq.AndroidGeeks.MainActivityForTesting
 import com.tuwaiq.AndroidGeeks.R
+import com.tuwaiq.AndroidGeeks.UserPreference
 import com.tuwaiq.AndroidGeeks.database.Post.Posts
 import com.tuwaiq.AndroidGeeks.databinding.FragmentDashboardBinding
 import com.tuwaiq.AndroidGeeks.databinding.SignupFragmentBinding
@@ -32,9 +31,6 @@ import java.util.*
 
 private const val TAG = "DashboardFragment"
 class DashboardFragment : Fragment() {
-
-    private lateinit var dashboardViewModel: DashboardViewModel
-    private lateinit var emailTv:TextView
     private lateinit var firstNameEt:TextView
     private lateinit var lastNameEt:TextView
     private lateinit var usernameEt:TextView
@@ -49,6 +45,7 @@ class DashboardFragment : Fragment() {
     private var profilePhotoUri: Uri? = null
     private lateinit var auth: FirebaseAuth
     private var post=Posts()
+
     private val userID= FirebaseAuth.getInstance().currentUser?.uid
     val getResult= registerForActivityResult(ActivityResultContracts.GetContent()){ profilePhotoUri=it
         profileImageView.setImageURI(it)}
@@ -61,10 +58,12 @@ class DashboardFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding= FragmentDashboardBinding.inflate(layoutInflater)
+       // userSettings=UserPreference().getSharedPreferences()
         val view= inflater.inflate(R.layout.fragment_dashboard, container, false)
 
         //logoutBtn=view.findViewById(R.id.logoutbtn)
        // saveBtn=view.findViewById(R.id.save_btn)
+        binding.switch21
         usernameEt=view.findViewById(R.id.firstname_et)
         postNum=view.findViewById(R.id.post_num_et)
         signOutBtn=view.findViewById(R.id.signout_btn)
@@ -179,10 +178,14 @@ class DashboardFragment : Fragment() {
         phoneNumberEt.setOnClickListener {
             val db = FirebaseFirestore.getInstance()
             db.collection("users")
-                .document("${userID}").update("phoneNumber","056054125")
-    }
-    no_btn.setOnClickListener {
+                .document("${userID}").update("phoneNumber","051154125")
+            Snackbar.make(requireView(), "This is main activity $it", Snackbar.LENGTH_LONG).show()
 
+        }
+    no_btn.setOnClickListener {
+        onDestroy()
+        onStop()
+        onPause()
     }
     }
 
@@ -199,13 +202,16 @@ class DashboardFragment : Fragment() {
                         var firstName = it.result!!.getString("firstName")
                         var lastName = it.result!!.getString("lastName")
                         var phoneNumber = it.result!!.getString("phoneNumber")
+                        /*
 //                        var userEmail = it.result!!.getString("userEmail")
 //                        var userFollowing = it.result!!.get("following")
 //                        var userFollowers = it.result!!.get("followers")
 //                        var userPhone = it.result!!.getString("userPhone")//moreInfo
 //                        var userInfo = it.result!!.getString("moreInfo")//moreInfo
                       //  Log.e("user Info", "userName ${name.toString()} \n ${userEmail.toString()}")
-                        usernameEt.setText(userName)
+
+                         */
+                        usernameEt.text = userName
                         phoneNumberEt.setText(phoneNumber)
                      //   firstNameEt.setText(firstName)
                     //    lastNameEt.setText(lastName)//**//**
@@ -317,7 +323,14 @@ class DashboardFragment : Fragment() {
             if (progressDialog.isShowing)progressDialog.dismiss()
             Toast.makeText(context,"Field",Toast.LENGTH_SHORT).show()
         }*/
-        /**/
+        /*
+
+
+
+
+
+
+        */
 
     }
 

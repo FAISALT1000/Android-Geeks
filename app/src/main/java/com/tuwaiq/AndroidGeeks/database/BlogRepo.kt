@@ -1,16 +1,15 @@
 package com.tuwaiq.AndroidGeeks.database
 
 
+import android.content.Context
 import android.net.Uri
 import android.util.Log
 import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.EmailAuthProvider
+import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.tuwaiq.AndroidGeeks.database.Post.Posts
 import com.tuwaiq.AndroidGeeks.database.Users.UsersInfo
@@ -40,7 +39,7 @@ class BlogRepo {
         uploadImage(title, postss.id,photoUri)
         Log.d(TAG, "title: $title")
         Log.d(TAG, "postss.id: ${postss.id}")
-        Log.d(TAG, "photoUri: $photoUri")
+        Log.d(TAG, "photoUri: $photoUri")//= -0-
 //        dataBase.collection("Posts").document(postss.id).delete()
 //        dataBase.collection("Posts").document(postss.id).update("title","dd","age",15)
 //
@@ -51,16 +50,12 @@ class BlogRepo {
     }
 
     private fun uploadImage(title:String, postId: String,photoUri: Uri) {
-//        val progressDialog= ProgressDialog(context)
-//        progressDialog.setMessage("Uploading File.....")
-//        progressDialog.setCancelable(false)
-//        progressDialog.show()
 
         val formatter= SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.getDefault())
         val todayDate=Date()
         val fileName=formatter.format(todayDate)
         val  storage= FirebaseStorage.getInstance()
-
+//*bbfrrrvr
         val storagee=storage.getReference("image/$title/$postId/$fileName")
         val uploadtask= storagee.putFile(photoUri!!)
         uploadtask.continueWithTask{task->
@@ -98,19 +93,14 @@ class BlogRepo {
          .addOnFailureListener { Log.d(TAG,"newUserRepoFailure")}}
 
 
-    fun loginUser(email:String, password:String, isSuccessful:Boolean){
-      //  val user = Firebase.auth.currentUser!!
+    fun loginUser(
+        email: String,
+        password: String,
 
-       // val credential = EmailAuthProvider
-          //  .getCredential("$email", "$password")
+    ): Task<AuthResult> {
 
-       // user.reauthenticate(credential)
-          //  .addOnCompleteListener { Log.d(TAG, "User re-authenticated.") }
-        var isSuccessful1=isSuccessful
-      val auth= auth.signInWithEmailAndPassword(email, password)
-        auth.addOnFailureListener {}
-              if (auth.isSuccessful) isSuccessful1=true
 
+        return this.auth.signInWithEmailAndPassword(email, password)
     }
 //**//
     // user info

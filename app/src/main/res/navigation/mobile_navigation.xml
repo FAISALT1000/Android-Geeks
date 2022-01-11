@@ -52,6 +52,9 @@
         <argument
             android:name="dataPost"
             app:argType="com.tuwaiq.AndroidGeeks.database.Post.Posts" />
+        <action
+            android:id="@+id/action_postFragment_to_commentFragment"
+            app:destination="@id/commentFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -68,5 +71,14 @@
         <action
             android:id="@+id/action_signupFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/commentFragment"
+        android:name="com.tuwaiq.AndroidGeeks.comment.CommentFragment"
+        android:label="comment_fragment"
+        tools:layout="@layout/comment_fragment" >
+        <argument
+            android:name="dataComment"
+            app:argType="com.tuwaiq.AndroidGeeks.database.comments.Comments" />
     </fragment>
 </navigation>
