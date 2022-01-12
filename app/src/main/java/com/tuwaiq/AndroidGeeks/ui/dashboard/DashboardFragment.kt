@@ -10,18 +10,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
+import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
-import com.tuwaiq.AndroidGeeks.MainActivity
 import com.tuwaiq.AndroidGeeks.MainActivityForTesting
 import com.tuwaiq.AndroidGeeks.R
 import com.tuwaiq.AndroidGeeks.UserPreference
 import com.tuwaiq.AndroidGeeks.database.Post.Posts
 import com.tuwaiq.AndroidGeeks.databinding.FragmentDashboardBinding
-import com.tuwaiq.AndroidGeeks.databinding.SignupFragmentBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -29,7 +32,10 @@ import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.*
 
+
+private const val TAG2 = "DF"
 private const val TAG = "DashboardFragment"
+private const val TAG34 = "DashboardFragment111"
 class DashboardFragment : Fragment() {
     private lateinit var firstNameEt:TextView
     private lateinit var lastNameEt:TextView
@@ -45,10 +51,12 @@ class DashboardFragment : Fragment() {
     private var profilePhotoUri: Uri? = null
     private lateinit var auth: FirebaseAuth
     private var post=Posts()
+    private val darkModeSwitch get() = context?.let { UserPreference.loadNightModeState(it) }
 
     private val userID= FirebaseAuth.getInstance().currentUser?.uid
     val getResult= registerForActivityResult(ActivityResultContracts.GetContent()){ profilePhotoUri=it
         profileImageView.setImageURI(it)}
+
 
     //*//
 
@@ -58,59 +66,45 @@ class DashboardFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding= FragmentDashboardBinding.inflate(layoutInflater)
-       // userSettings=UserPreference().getSharedPreferences()
+        // userSettings=UserPreference().getSharedPreferences()
         val view= inflater.inflate(R.layout.fragment_dashboard, container, false)
 
-        //logoutBtn=view.findViewById(R.id.logoutbtn)
-       // saveBtn=view.findViewById(R.id.save_btn)
-        binding.switch21
-        usernameEt=view.findViewById(R.id.firstname_et)
-        postNum=view.findViewById(R.id.post_num_et)
-        signOutBtn=view.findViewById(R.id.signout_btn)
+
         profileImageView=view.findViewById(R.id.profile_image_view)
-        no_btn=view.findViewById(R.id.no_btn)
-//        emailTv=view.findViewById(R.id.email_tv)
-//        textView=view.findViewById(R.id.uid_tv)
-//        firstNameEt=view.findViewById(R.id.firstname_et)
-//        //lastNameEt=view.findViewById(R.id.lastname_et)
-        phoneNumberEt=view.findViewById(R.id.phonenumberr_et)
+
         updateDate=Date()
 
+
         if (userID != null) {
-
-                dataBase.collection("Posts").whereEqualTo("userId",userID).get().addOnSuccessListener {
-                    postNum.text=it.documents.size.toString()
-                }
-//               postNum.text=h.size.toString()
-
-               // val postCount= dataBase.collection("Posts").document()
-
+            dataBase.collection("Posts").whereEqualTo("userId",userID).get().addOnSuccessListener {
+                binding.postNumEt.text=it.documents.size.toString()
+            }
             getUserInfo1(userID)
         }
+        if (darkModeSwitch ==true){
+            binding.switch1.isChecked = true
+            UserPreference.setNightModeState(requireContext(),true)
+            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
+
+        }else{
+            binding.switch1.isChecked = false
+            UserPreference.setNightModeState(requireContext(),false)
+            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
+
+        }
+        binding.switch1.setOnClickListener {
+
+            if (binding.switch1.isChecked){
+                Log.d("switch1", "onCreateView:isChecked ")
+                UserPreference.setNightModeState(requireContext(),true)
+                AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
+            }else{
+                Log.d("switch1", "onCreateView:isUnChecked ")
+
+                UserPreference.setNightModeState(requireContext(),false)}
 
 
-
-
-
-
-
-
-        /*
-
-//        dashboardViewModel =
-//            ViewModelProvider(this).get(DashboardViewModel::class.java)
-
-//        _binding = FragmentDashboardBinding.inflate(inflater, container, false)
-//        val root: View = binding.root
-//
-//         textView= binding.textDashboard
-//        dashboardViewModel.text.observe(viewLifecycleOwner, Observer {
-//            textView.text = it
-//        })
-         */
-
-
-
+        }
         getUserInfo()
         getUserInfo()
         //
@@ -120,26 +114,8 @@ class DashboardFragment : Fragment() {
 
         val userId= FirebaseAuth.getInstance().currentUser?.uid
         userId.toString()
-       // textView.setText(userId)
 
-       // val userName= userId?.let { dataBase.document(it).get() }
-
-//        saveBtn.setOnClickListener {
-//            updateUserInfo()
-//            if (userID != null) {
-//                getUserInfo1(userID)
-//            }
-
-
-
-
-//        logoutBtn.setOnClickListener {
-//            auth.signOut()
-//            Log.d(TAG,"Logout")
-//            Toast.makeText(context,"Logout successful", Toast.LENGTH_LONG).show()
-//            val intent=Intent(context,MainActivityForTesting::class.java)
-//            startActivity(intent) }
-        return view
+        return binding.root
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -152,14 +128,25 @@ class DashboardFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        signOutBtn.setOnClickListener {
+binding.noBtn.setOnClickListener {
+    Firebase.auth.currentUser?.delete()?.addOnCompleteListener {
+        if (it.isSuccessful){
+            Toast.makeText(context, "Fuck off", Toast.LENGTH_SHORT).show()
+        }else{
+            Toast.makeText(context, "Fuck off 2 time", Toast.LENGTH_SHORT).show()
+
+        }
+    }
+}
+
+        binding.signoutBtn.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
             Log.d(TAG, "onStart: sign out")
-            Toast.makeText(context, "sign Out", Toast.LENGTH_SHORT).show()
+
 
             val intent = Intent(context, MainActivityForTesting::class.java)
             startActivity(intent)
-            Toast.makeText(context, "you must sign in first", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "sign Out", Toast.LENGTH_SHORT).show()
         }
         profileImageView.setOnClickListener {
 
@@ -170,23 +157,19 @@ class DashboardFragment : Fragment() {
                     if (it.result?.exists()!!){
                         var userName = it.result!!.getString("userName")
                         if (userName!=null ){
-                        uploadImage(userName, profilePhotoUri!!)}
+                            uploadImage(userName, profilePhotoUri!!)}
 
                     }}
 
         }
-        phoneNumberEt.setOnClickListener {
+        binding.postNumEt.setOnClickListener {
             val db = FirebaseFirestore.getInstance()
             db.collection("users")
                 .document("${userID}").update("phoneNumber","051154125")
             Snackbar.make(requireView(), "This is main activity $it", Snackbar.LENGTH_LONG).show()
 
         }
-    no_btn.setOnClickListener {
-        onDestroy()
-        onStop()
-        onPause()
-    }
+
     }
 
 
@@ -211,11 +194,11 @@ class DashboardFragment : Fragment() {
                       //  Log.e("user Info", "userName ${name.toString()} \n ${userEmail.toString()}")
 
                          */
-                        usernameEt.text = userName
-                        phoneNumberEt.setText(phoneNumber)
-                     //   firstNameEt.setText(firstName)
-                    //    lastNameEt.setText(lastName)//**//**
-                       // phoneNumberEt.setText(phoneNumber)
+                        binding.firstnameEt.text = userName
+                        binding.phonenumberrEt.setText(phoneNumber)
+                        //   firstNameEt.setText(firstName)
+                        //    lastNameEt.setText(lastName)//**//**
+                        // phoneNumberEt.setText(phoneNumber)
                         //---------
                         //usernameEt.setText(userName)
 //                            binding.userFollowersXml.text = "${userFollowers?.toString()}"
@@ -305,13 +288,13 @@ class DashboardFragment : Fragment() {
             if (task.isSuccessful){
                 task.result
                 if (userID!=null){
-                val ref = dataBase.collection("users").document(userID)
+                    val ref = dataBase.collection("users").document(userID)
 
-                ref
-                    .update("profileImageUrl", task.result.toString())
-                    .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully updated!") }
-                    .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }
-            }}
+                    ref
+                        .update("profileImageUrl", task.result.toString())
+                        .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully updated!") }
+                        .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }
+                }}
         }
         /*.addOnSuccessListener{ binding.postImageView.setImageURI(null)
 

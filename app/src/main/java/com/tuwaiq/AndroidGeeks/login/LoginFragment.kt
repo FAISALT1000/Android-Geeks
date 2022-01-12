@@ -109,7 +109,7 @@ class LoginFragment : Fragment() {
             progressBar.visibility=View.VISIBLE
 
             fragmentViewModel.loginUser(email,pass).observe(this){
-                if (it){
+                if (it){ //
                     Snackbar.make(requireView(), getString(R.string.login_successfully_toast), Snackbar.LENGTH_LONG).show()
                     val intent = Intent(context, MainActivity::class.java)
                     startActivity(intent)

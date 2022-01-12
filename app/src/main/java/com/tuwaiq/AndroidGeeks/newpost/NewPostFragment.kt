@@ -57,43 +57,12 @@ class NewPostFragment : Fragment() {
                 val intent = Intent(context, MainActivityForTesting::class.java)
                 startActivity(intent)
                 Toast.makeText(context, getString(R.string.you_must_sign_toast), Toast.LENGTH_SHORT).show()
-
         }
-
         dataBase = FirebaseFirestore.getInstance()
         dataBase.collection("Post Image").get()
-
         binding= NewPostFragmentBinding.inflate(layoutInflater)
 
-
-
-         /**  requestPermissions.launch(Manifest.permission.CAMERA)
-
-               when(PackageManager.PERMISSION_GRANTED){
-                   context?.let {
-                       ContextCompat.checkSelfPermission(
-                           it, Manifest.permission.CAMERA
-                       )
-                   }->{
-                       getResult.launch(photoUri)
-                   }else->{
-                   requestPermissions.launch(Manifest.permission.CAMERA)
-               }
-
-               }**/
-
         return binding.root}
-
-
-
-    /*private fun selectImage() {
-        val intent=Intent()
-        intent.type="image/"
-        intent.action=Intent.ACTION_GET_CONTENT
-
-        startActivityForResult(intent,100)
-
-    }*/
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

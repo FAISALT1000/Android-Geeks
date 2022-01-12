@@ -23,4 +23,6 @@ class HomeViewModel : ViewModel() {
             repo.getAllPost()
         }.invokeOnCompletion {viewModelScope.launch{}}
     }
+
+
 }

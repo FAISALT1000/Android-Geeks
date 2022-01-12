@@ -27,6 +27,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 private const val TAG = "home"
+private const val TAG0 = "home0"
 private const val TAG1 = "home fragment"
 class HomeFragment : Fragment() {
 
@@ -49,6 +50,19 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val dates = SimpleDateFormat("MM/dd/yyyy")
+        var todaysDate: Date = Date()
+        val currentDate = todaysDate
+        val finalDate = todaysDate
+        val date1_temp=dates.format(currentDate)
+        val  date2_temp=dates.format(finalDate)
+        val date1=dates.parse(date1_temp)
+        val  date2=dates.parse(date2_temp)
+        val difference: Long = (date1.time - date2.time)
+        // val difference: Long = (finalDate.time - currentDate.time)
+        val differenceDates = difference / (24 * 60 * 60 * 1000)
+        val dayDifference = differenceDates.toInt()
+        Log.d(TAG0, "onCreateV11iew: $difference")
 //        if (userID==null){
 //            val intent = Intent(context, MainActivity::class.java)
 //            startActivity(intent)
@@ -124,19 +138,8 @@ class HomeFragment : Fragment() {
             holder.test1(post)
             holder.imagePath = post.postImageUrl
             Log.d(TAG1, "${post.postImageUrl}")
-            val dates = SimpleDateFormat("MM/dd/yyyy")
-            var todaysDate: Date = Date()
-            val currentDate = todaysDate
-            val finalDate = post.postDate
-            val date1_temp=dates.format(currentDate)
-            val  date2_temp=dates.format(finalDate)
-            val date1=dates.parse(date1_temp)
-            val  date2=dates.parse(date2_temp)
-            val difference: Long = (date1.time - date2.time)
-            // val difference: Long = (finalDate.time - currentDate.time)
-            val differenceDates = difference / (24 * 60 * 60 * 1000)
-            val dayDifference = differenceDates.toInt()
-            holder.postDate.text= dayDifference.toString()
+            dateFormat(post.postDate)
+            holder.postDate.text=dateFormat(post.postDate).toString()
             holder.postDescription.text=post.description
 //            holder.itemView.setOnClickListener {
 //                Toast.makeText(context, "${holder.postTitle}", Toast.LENGTH_SHORT).show()
@@ -301,6 +304,21 @@ fun test1(post:Posts){
             val viww=HomeFragmentDirections.actionNavigationHomeToPostFragment(postss)//weee
          findNavController().navigate(viww)//weee
         }
+    }
+    private fun dateFormat(date: Date):Int{
+        val dates = SimpleDateFormat("MM/dd/yyyy")
+        var todaysDate: Date = Date()
+        val currentDate = todaysDate
+        val finalDate = date
+        val date1_temp=dates.format(currentDate)
+        val  date2_temp=dates.format(finalDate)
+        val date1=dates.parse(date1_temp)
+        val  date2=dates.parse(date2_temp)
+        val difference: Long = (date1.time - date2.time)
+        // val difference: Long = (finalDate.time - currentDate.time)
+        val differenceDates = difference / (24 * 60 * 60 * 1000)
+        val dayDifference = differenceDates.toInt()
+        return dayDifference
     }
 
 }

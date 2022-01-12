@@ -49,13 +49,13 @@ class BlogRepo {
 
     }
 
-    private fun uploadImage(title:String, postId: String,photoUri: Uri) {
+    private fun uploadImage(title:String, postId: String, photoUri: Uri) {
 
         val formatter= SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.getDefault())
         val todayDate=Date()
         val fileName=formatter.format(todayDate)
         val  storage= FirebaseStorage.getInstance()
-//*bbfrrrvr
+
         val storagee=storage.getReference("image/$title/$postId/$fileName")
         val uploadtask= storagee.putFile(photoUri!!)
         uploadtask.continueWithTask{task->
@@ -74,20 +74,7 @@ class BlogRepo {
                     .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully updated!") }
                     .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }
             }
-        }
-        /*.addOnSuccessListener{ binding.postImageView.setImageURI(null)
-
-        Toast.makeText(context,"Successfully Upload The Image",Toast.LENGTH_SHORT).show()
-
-            if (progressDialog.isShowing) progressDialog.dismiss()
-        }
-        .addOnFailureListener{
-            if (progressDialog.isShowing)progressDialog.dismiss()
-            Toast.makeText(context,"Field",Toast.LENGTH_SHORT).show()
-        }*/
-        /**/
-
-    }
+        } }
     fun newUser(email:String,password:String) {
      auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { Log.d(TAG,"newUserRepoComplete")  }
          .addOnFailureListener { Log.d(TAG,"newUserRepoFailure")}}
