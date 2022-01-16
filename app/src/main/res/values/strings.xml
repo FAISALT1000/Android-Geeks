@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Android Geeks</string>
     <string name="title_activity_main">MainActivity</string>
-    <string name="title_home">Home</string>
+    <string name="title_home" translatable="false">Home</string>
     <string name="title_profile">Profile</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_API">API</string>
@@ -29,6 +29,10 @@
     <string name="you_must_sign_toast">you must sign in first</string>
     <string name="login_successfully_toast">Login Successfully</string>
     <string name="login_not_successfully_toast">the password or the email are wrong</string>
+    <string name="your_blog">Your blog</string>
+    <string name="delete_user_toast_successful">Delete User Successfully</string>
+    <string name="delete_user_toast_un_successful">There is problem</string>
+    <string name="sign_out_toast">sign Out</string>
 
 
 </resources>

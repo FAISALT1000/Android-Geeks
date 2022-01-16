@@ -83,7 +83,7 @@ class LoginFragment : Fragment() {
             val intent= Intent(context, MainActivity::class.java)
             startActivity(intent)
         }
-
+//*+-kpl,;
         signUpBtn.setOnClickListener {
 
             val fragment= SignupFragment()

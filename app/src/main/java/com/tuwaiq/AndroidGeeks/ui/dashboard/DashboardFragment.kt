@@ -57,9 +57,6 @@ class DashboardFragment : Fragment() {
     val getResult= registerForActivityResult(ActivityResultContracts.GetContent()){ profilePhotoUri=it
         profileImageView.setImageURI(it)}
 
-
-    //*//
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -127,13 +124,12 @@ class DashboardFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-
 binding.noBtn.setOnClickListener {
     Firebase.auth.currentUser?.delete()?.addOnCompleteListener {
         if (it.isSuccessful){
-            Toast.makeText(context, "Fuck off", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, getString(R.string.delete_user_toast_successful), Toast.LENGTH_SHORT).show()
         }else{
-            Toast.makeText(context, "Fuck off 2 time", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, getString(R.string.delete_user_toast_un_successful), Toast.LENGTH_SHORT).show()
 
         }
     }
@@ -142,11 +138,10 @@ binding.noBtn.setOnClickListener {
         binding.signoutBtn.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
             Log.d(TAG, "onStart: sign out")
-
-
+            //-+k
             val intent = Intent(context, MainActivityForTesting::class.java)
             startActivity(intent)
-            Toast.makeText(context, "sign Out", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, getString(R.string.sign_out_toast), Toast.LENGTH_SHORT).show()
         }
         profileImageView.setOnClickListener {
 
@@ -166,7 +161,7 @@ binding.noBtn.setOnClickListener {
             val db = FirebaseFirestore.getInstance()
             db.collection("users")
                 .document("${userID}").update("phoneNumber","051154125")
-            Snackbar.make(requireView(), "This is main activity $it", Snackbar.LENGTH_LONG).show()
+            Snackbar.make(requireView(), "This is main activity "+"$it", Snackbar.LENGTH_LONG).show()
 
         }
 
