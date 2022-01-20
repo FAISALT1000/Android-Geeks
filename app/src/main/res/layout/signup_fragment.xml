@@ -3,6 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
+    android:background="@drawable/gradientbackground2"
     android:padding="20dp" >
 
     <TextView
@@ -12,33 +13,9 @@
         android:padding="10dp"
         android:text="signUp" />
 
-    <EditText
-        android:id="@+id/firstname_et"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@android:color/transparent"
-
-        android:drawablePadding="8dp"
-        android:gravity="center_vertical"
-        android:hint="First Nane" />
-
     <View
         android:layout_width="fill_parent"
         android:layout_height="1px" />
-
-    <EditText
-        android:id="@+id/lastname_et"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:background="@android:color/transparent"
-        android:drawablePadding="8dp"
-        android:gravity="center_vertical"
-        android:hint="Last name"
-        android:inputType="textPersonName"
-        android:padding="10dp"
-        android:singleLine="true" />
 
     <View
         android:layout_width="fill_parent"
@@ -101,37 +78,9 @@
         android:layout_width="match_parent"
         android:layout_height="1px" />
 
-    <EditText
-        android:id="@+id/phonenumber_et"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:background="@android:color/transparent"
-        android:drawablePadding="8dp"
-        android:gravity="center_vertical"
-        android:hint="Phone Number"
-        android:inputType="phone"
-        android:padding="10dp"
-        android:singleLine="true"
-        android:textSize="16sp" />
-
     <View
         android:layout_width="fill_parent"
         android:layout_height="1px"/>
-
-    <EditText
-        android:id="@+id/gendr_et"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:background="@android:color/transparent"
-        android:drawablePadding="8dp"
-        android:gravity="center_vertical"
-        android:hint="Gender"
-        android:inputType="textCapWords"
-        android:padding="10dp"
-        android:singleLine="true"
-        android:textSize="16sp" />
 
     <View
         android:layout_width="fill_parent"
@@ -195,23 +144,25 @@
         android:layout_marginTop="5dp"
         android:gravity="center"
         android:padding="10dp"
-        android:text="already_user"
+        android:text="already user? Login"
         android:textSize="15sp" />
 
-        <Button
-            android:id="@+id/signin_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="136dp"
-            android:text="Sign up"/>
+    <Button
+        android:id="@+id/signin_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="136dp"
+        android:text="Sign up"
+        android:visibility="gone" />
 
-        <TextView
-            android:id="@+id/login_tv"
-            android:layout_width="186dp"
-            android:layout_height="29dp"
-            android:layout_marginBottom="220dp"
-            android:text="already have user? Login"
-            android:clickable="true" />
+    <TextView
+        android:id="@+id/login_tv"
+        android:layout_width="186dp"
+        android:layout_height="29dp"
+        android:layout_marginBottom="220dp"
+        android:clickable="true"
+        android:text="already have user? Login"
+        android:visibility="gone" />
 
 </LinearLayout>
 

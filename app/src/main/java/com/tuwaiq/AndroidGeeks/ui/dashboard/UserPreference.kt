@@ -1,4 +1,4 @@
-package com.tuwaiq.AndroidGeeks
+package com.tuwaiq.AndroidGeeks.ui.dashboard
 
 import android.content.Context
 

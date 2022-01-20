@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Android Geeks</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">Android Geeks</string>
     <string name="title_home" translatable="false">Home</string>
     <string name="title_profile">Profile</string>
     <string name="title_notifications">Notifications</string>
@@ -23,7 +23,7 @@
     <string name="failure_toast">Failure</string>
     <string name="add_post_successful">add the post Successful</string>
     <string name="fill_the_field">Must fill all the field</string>
-<!--  445-->
+    <!--  445-->
     <string name="logged_in">logged in</string>
     <string name="soon_toast">soon</string>
     <string name="you_must_sign_toast">you must sign in first</string>
@@ -33,6 +33,20 @@
     <string name="delete_user_toast_successful">Delete User Successfully</string>
     <string name="delete_user_toast_un_successful">There is problem</string>
     <string name="sign_out_toast">sign Out</string>
+    <string name="comment_comment_fragment">comment</string>
+    <string name="posts_profile">Posts</string>
+    <string name="user_name_profile">User</string>
+    <string name="profile_switch">Switch</string>
+    <string name="like_profile">Like</string>
+    <string name="sign_out_button_profile">Sign out</string>
+    <string name="i_don_t_have_an_account_login">I don\'t have an account</string>
+    <string name="finger_print_button">finger Print</string>
+    <string name="authentication_is_required_finger">Authentication is required</string>
+    <string name="uses_fingerprint_finger">this app uses fingerprint protection to help you</string>
+    <string name="cancel_finger">Cancel</string>
+    <string name="authentication_cancelled_finger">Authentication cancelled</string>
+    <string name="authentication_has_not_been_enabled">Fingerprint Authentication has not been enabled in settings</string>
+    <string name="finger_printy">Fingerprint Authentication permission in not enable</string>
 
 
 </resources>

@@ -4,14 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_green_light"
+    android:background="@drawable/gradientbackground"
     tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/signin_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="50dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="50dp"
         android:gravity="center"
         android:text="@string/sign_in"
         android:textColor="@color/white"
@@ -69,12 +72,15 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/passwordet_login"
         android:layout_centerHorizontal="true"
-        android:layout_margin="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
         android:backgroundTint="@color/design_default_color_secondary"
         android:text="@string/login" />
 
     <TextView
-        android:id="@+id/forgotpass"
+        android:id="@+id/sign_up_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/login_btn"
@@ -83,32 +89,20 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
-        android:text="@string/forgot_password"
+        android:text="@string/i_don_t_have_an_account_login"
         android:textColor="@color/white" />
 
-    <TextView
-        android:id="@+id/singup_tv_loginpage"
-
-        android:layout_width="wrap_content"
-        android:layout_height="21dp"
-        android:layout_above="@+id/others"
-        android:layout_below="@+id/forgotpass"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="95dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="88dp"
-        android:layout_marginBottom="164dp"
-        android:clickable="true"
-        android:text="@string/sign_up" />
-
-    <TextView
-        android:id="@+id/others"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/social_icons"
+    <ImageView
+        android:id="@+id/finger_print"
+        android:layout_width="159dp"
+        android:layout_height="75dp"
+        android:layout_below="@+id/sign_up_tv"
         android:layout_centerHorizontal="true"
-        android:text="@string/or_sign_in_with" />
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="71dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="25dp"
+        android:src="@drawable/ic_finger_print_png" />
 
 
     <LinearLayout
@@ -116,16 +110,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:gravity="center">
-
-        <ImageView
-            android:id="@+id/google_btn"
-            android:layout_width="61dp"
-            android:layout_height="57dp"
-            android:layout_margin="20dp"
-            android:clickable="true"
-            app:srcCompat="@drawable/gg" />
-    </LinearLayout>
+        android:gravity="center"/>
 
 
 </RelativeLayout>

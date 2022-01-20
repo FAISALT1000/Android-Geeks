@@ -1,4 +1,4 @@
-package com.tuwaiq.AndroidGeeks
+package com.tuwaiq.AndroidGeeks.Post
 
 import androidx.lifecycle.ViewModel
 

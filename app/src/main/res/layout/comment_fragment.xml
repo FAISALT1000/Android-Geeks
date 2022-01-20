@@ -4,12 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradientbackground2"
     tools:context=".comment.CommentFragment">
+
+    <TextView
+        android:id="@+id/post_dec_tv"
+        android:layout_width="match_parent"
+        android:layout_height="91dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/comment_recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="663dp" />
+        android:layout_height="537dp"
+        android:layout_marginTop="135dp" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="342dp"
@@ -17,10 +24,11 @@
         android:layout_gravity="bottom">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:hint="hint" />
+            android:hint="@string/comment_comment_fragment" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -30,6 +38,13 @@
         android:layout_height="59dp"
         android:layout_gravity="bottom|right"
         android:layout_weight="1"
-        android:src="@drawable/ic_add_black_24dp" />
+        android:src="@drawable/ic_add_black_24dp"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:text="TextView" />
 
 </FrameLayout>

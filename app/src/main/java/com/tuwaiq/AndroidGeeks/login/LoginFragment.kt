@@ -2,6 +2,7 @@ package com.tuwaiq.AndroidGeeks.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,7 @@ import com.tuwaiq.AndroidGeeks.MainActivityForTesting
 import com.tuwaiq.AndroidGeeks.R
 import com.tuwaiq.AndroidGeeks.signup.SignupFragment
 import com.tuwaiq.AndroidGeeks.ui.home.HomeFragment
+import kotlinx.android.synthetic.main.fragment_login.*
 
 private const val TAG = "LoginFragment"
 
@@ -26,9 +28,8 @@ class LoginFragment : Fragment() {
     private lateinit var emailEt:EditText
     private lateinit var passwordEt:EditText
     private lateinit var loginBtn:Button
-    private lateinit var googleBtn:ImageView
-    private lateinit var signUpBtn:TextView
     private lateinit var progressBar: ProgressBar
+    private lateinit var signup:TextView
     private  var auth= FirebaseAuth.getInstance()
 
 
@@ -60,16 +61,10 @@ class LoginFragment : Fragment() {
         emailEt=view.findViewById(R.id.emailet_login)
          passwordEt=view.findViewById(R.id.passwordet_login)
          loginBtn  =view.findViewById(R.id.login_btn)
-        googleBtn  =view.findViewById(R.id.google_btn)
-        signUpBtn  =view.findViewById(R.id.singup_tv_loginpage)
+        signup=view.findViewById(R.id.sign_up_tv)
         progressBar.visibility=View.GONE
+        val fingerPrint:ImageView=view.findViewById(R.id.finger_print)
 
-        signUpBtn.setOnClickListener {
-
-            val fragment= SignupFragment()
-                        activity?.supportFragmentManager
-                            ?.beginTransaction()?.replace(R.id.nav_host_fragment_activity_main,fragment)
-                            ?.addToBackStack(null)?.commit() }
 
 
 
@@ -79,32 +74,34 @@ class LoginFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         val userId= auth.currentUser?.uid
-        if (userId !=null){
-            val intent= Intent(context, MainActivity::class.java)
+        if (userId==null){ finger_print.visibility=View.GONE}
+
+        finger_print.setOnClickListener {
+        val intent=Intent(context,MainActivityForTesting::class.java)
             startActivity(intent)
         }
-//*+-kpl,;
-        signUpBtn.setOnClickListener {
+
+
+        signup.setOnClickListener {
 
             val fragment= SignupFragment()
             activity?.supportFragmentManager
-                ?.beginTransaction()?.replace(R.id.nav_host_fragment_activity_main,fragment)
-                ?.addToBackStack(null)?.commit() }
+                ?.beginTransaction()?.replace(R.id.fragmentContainerView,fragment)
+                ?.addToBackStack(null)?.commit()
 
+        }
         loginBtn.setOnClickListener {
             progressBar.visibility=View.VISIBLE
             loginUser() }
         progressBar.visibility=View.GONE
-        googleBtn.setOnClickListener {
-            Toast.makeText(context,R.string.soon,Toast.LENGTH_LONG).show() }
+
 
 
     }
     private fun loginUser(){
-//*;.
+
         val email= emailEt.text.toString()
         val pass=passwordEt.text.toString()
-        var isSuccessful=true//:Boolean=fragmentViewModel.loginUser(null,null,false)
         if (email.isNotEmpty()&& pass.isNotEmpty()){
             progressBar.visibility=View.VISIBLE
 
@@ -115,23 +112,14 @@ class LoginFragment : Fragment() {
                     startActivity(intent)
                 }else{
                     Snackbar.make(requireView(), getString(R.string.login_not_successfully_toast), Snackbar.LENGTH_LONG).show()
-                progressBar.visibility=View.GONE
-                }
-//                Snackbar.make(requireView(), "This is main activity $it", Snackbar.LENGTH_LONG).show()
-              //  Snackbar.make(view, "Replace with your own action",Snackbar.LENGTH_LONG).setAction("Action", null)
-             //   Toast.makeText(requireContext(), "the result is $it",Toast.LENGTH_LONG).show()
-
-            }
-
-
-        }else{
-            val fragment= SignupFragment()
-            activity?.supportFragmentManager
-                ?.beginTransaction()?.replace(R.id.fragmentContainerView,fragment)
-                ?.addToBackStack(null)?.commit()
-
-
+                progressBar.visibility=View.GONE}}
         }}
-    }
+
+
+
+
+
+
+}
 
 

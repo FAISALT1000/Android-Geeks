@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -21,10 +22,14 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.tuwaiq.AndroidGeeks.MainActivityForTesting
+import com.tuwaiq.AndroidGeeks.Post.POST_ID
 import com.tuwaiq.AndroidGeeks.R
-import com.tuwaiq.AndroidGeeks.UserPreference
 import com.tuwaiq.AndroidGeeks.database.Post.Posts
+import com.tuwaiq.AndroidGeeks.database.Users.UsersInfo
 import com.tuwaiq.AndroidGeeks.databinding.FragmentDashboardBinding
+import com.tuwaiq.AndroidGeeks.signup.EMAIL_ID
+import com.tuwaiq.AndroidGeeks.signup.SignupViewModel
+import com.tuwaiq.AndroidGeeks.signup.USERNAME_ID
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -50,8 +55,11 @@ class DashboardFragment : Fragment() {
     private lateinit var updateDate:Date
     private var profilePhotoUri: Uri? = null
     private lateinit var auth: FirebaseAuth
+    private var userInfo=UsersInfo()
     private var post=Posts()
     private val darkModeSwitch get() = context?.let { UserPreference.loadNightModeState(it) }
+    private  val fragmentViewModel by lazy{ ViewModelProvider(this)[DashboardViewModel::class.java] }
+
 
     private val userID= FirebaseAuth.getInstance().currentUser?.uid
     val getResult= registerForActivityResult(ActivityResultContracts.GetContent()){ profilePhotoUri=it
@@ -75,6 +83,12 @@ class DashboardFragment : Fragment() {
         if (userID != null) {
             dataBase.collection("Posts").whereEqualTo("userId",userID).get().addOnSuccessListener {
                 binding.postNumEt.text=it.documents.size.toString()
+            }
+
+            dataBase.collection("users").document(userID).collection("Favorite").whereEqualTo("userId","$userID")
+                .get().addOnSuccessListener {
+                binding.LikeNumEt.text=it.documents.size.toString()
+
             }
             getUserInfo1(userID)
         }
@@ -128,6 +142,9 @@ binding.noBtn.setOnClickListener {
     Firebase.auth.currentUser?.delete()?.addOnCompleteListener {
         if (it.isSuccessful){
             Toast.makeText(context, getString(R.string.delete_user_toast_successful), Toast.LENGTH_SHORT).show()
+            FirebaseAuth.getInstance().currentUser?.delete()?.addOnCompleteListener {
+                Log.d(TAG, "onStart: ")
+            }
         }else{
             Toast.makeText(context, getString(R.string.delete_user_toast_un_successful), Toast.LENGTH_SHORT).show()
 
@@ -177,20 +194,9 @@ binding.noBtn.setOnClickListener {
                     it
                     if (it.result?.exists()!!) {
                         var userName = it.result!!.getString("userName")
-                        var firstName = it.result!!.getString("firstName")
-                        var lastName = it.result!!.getString("lastName")
-                        var phoneNumber = it.result!!.getString("phoneNumber")
-                        /*
-//                        var userEmail = it.result!!.getString("userEmail")
-//                        var userFollowing = it.result!!.get("following")
-//                        var userFollowers = it.result!!.get("followers")
-//                        var userPhone = it.result!!.getString("userPhone")//moreInfo
-//                        var userInfo = it.result!!.getString("moreInfo")//moreInfo
-                      //  Log.e("user Info", "userName ${name.toString()} \n ${userEmail.toString()}")
 
-                         */
-                        binding.firstnameEt.text = userName
-                        binding.phonenumberrEt.setText(phoneNumber)
+                        binding.usernameEt.text = userName
+//                        binding.phonenumberrEt.setText()
                         //   firstNameEt.setText(firstName)
                         //    lastNameEt.setText(lastName)//**//**
                         // phoneNumberEt.setText(phoneNumber)
@@ -200,7 +206,18 @@ binding.noBtn.setOnClickListener {
 //                            binding.userFollowingXml.text = "${userFollowing?.toString()}"
                         //   userPhoneNumber = "${userPhone.toString()}"
                     } else {
-                        Log.e("error \n", "errooooooorr")
+
+
+                        fragmentViewModel.addUserInfo(userInfo,userID!!).observe(viewLifecycleOwner){
+                            Log.d(TAG, "updateUserInfo: $userID")
+                            if (it){
+                                Snackbar.make(requireView(), getString(R.string.success_toast), Snackbar.LENGTH_LONG).show()
+                                Log.d(TAG, "updateUserInfo: success")
+                            }else{
+                                Log.d(TAG, "updateUserInfo: failure")
+                                Snackbar.make(requireView(), getString(R.string.failure_toast), Snackbar.LENGTH_LONG).show()
+                            }
+                        }
                     }
                 }
         } catch (e: Exception) {
@@ -231,35 +248,14 @@ binding.noBtn.setOnClickListener {
                     if (document != null) {
 //                        Log.d(TAG, "DocumentSnapshot data: ${document.data}")
                     } else {
-                        Log.d(TAG, "No such document")
+
                     }
                 }
                 .addOnFailureListener { exception ->
                     Log.d(TAG, "get failed with ", exception)}}
 
     }
-    fun updateUserInfo(/*titleEt:Object,postEt:Object,date: Date*/){
-        dataBase = FirebaseFirestore.getInstance()
 
-        val userName=usernameEt.text.toString().trim()
-        val firstName=firstNameEt.text.toString().trim()
-        val lastName=lastNameEt.text.toString().trim()
-        val phoneNumber=phoneNumberEt.text.toString().trim()
-        val updateDate=updateDate
-
-        //  val userId= auth.currentUser?.let { it.email }
-        val userId= FirebaseAuth.getInstance().currentUser?.uid
-        userId.toString()
-
-        var userInfo= userId?.let { DashboardViewModel(userId,userName,firstName,lastName,phoneNumber,updateDate) }
-        if (userInfo != null) {
-            if (userId != null) {
-                dataBase.collection("users").document(userId)
-                    .set(userInfo)
-
-                    //                .add(userInfo)
-                    .addOnSuccessListener {Toast.makeText(context,getString(R.string.success_toast),Toast.LENGTH_SHORT).show()}
-                    .addOnFailureListener {Toast.makeText(context,getString(R.string.failure_toast),Toast.LENGTH_SHORT).show() }}}}
 
     private fun uploadImage(userName:String,photoUri: Uri) {
 //        val progressDialog= ProgressDialog(context)

@@ -1,30 +1,29 @@
-package com.tuwaiq.AndroidGeeks
+package com.tuwaiq.AndroidGeeks.Post
 
 
-import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
-import androidx.core.net.toUri
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import coil.load
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.tuwaiq.AndroidGeeks.R
+import com.tuwaiq.AndroidGeeks.comment.CommentFragment
 import com.tuwaiq.AndroidGeeks.database.Post.Posts
-import com.tuwaiq.AndroidGeeks.databinding.NewPostFragmentBinding
 import com.tuwaiq.AndroidGeeks.databinding.PostFragmentBinding
-import java.util.*
-
+import com.tuwaiq.AndroidGeeks.ui.home.HomeFragmentDirections
+ const val POST_ID="id"
+const val POST_TEXT="TEXT"
 private const val TAG = "PostFragment"
 class PostFragment : BottomSheetDialogFragment() {
     private val args by navArgs<PostFragmentArgs>()
@@ -41,6 +40,14 @@ class PostFragment : BottomSheetDialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val args = Bundle().apply {
+            putSerializable(POST_ID, args.dataPost.id)
+            putSerializable(POST_TEXT,args.dataPost.description)
+
+        }
+
+
+
        // addCommit()
         dp= FirebaseStorage.getInstance()
         database= FirebaseFirestore.getInstance()
@@ -54,8 +61,16 @@ class PostFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         val id=args.dataPost.id
         val title=args.dataPost.title
+        val dec=args.dataPost.description
 
+        binding.button.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_postFragment_to_commentFragment,
+                Bundle().apply {
+                    putString(POST_ID,id)
+                    putString(POST_TEXT,dec)
 
+                })}
         binding.deleteBtn.setOnClickListener {
             de(title, id)
             database.collection("Posts").document("$id").delete().addOnFailureListener {
@@ -80,7 +95,6 @@ class PostFragment : BottomSheetDialogFragment() {
         Log.d(TAG, "onViewCreated: ${args.dataPost.userId}")
         Log.d(TAG, "onViewCreated: ${args.dataPost.id}")
         if (userId.toString()!=args.dataPost.userId){
-            Toast.makeText(context, "this is your post ", Toast.LENGTH_SHORT).show()
             binding.updateBtn.visibility=View.GONE
             binding.deleteBtn.visibility=View.GONE
             binding.titleBottomTv.isEnabled=false

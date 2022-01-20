@@ -1,5 +1,6 @@
 package com.tuwaiq.AndroidGeeks.signup
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -8,8 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.firestore.FirebaseFirestore
+import com.tuwaiq.AndroidGeeks.MainActivityForTesting
+import com.tuwaiq.AndroidGeeks.Post.POST_ID
 import com.tuwaiq.AndroidGeeks.login.LoginFragment
 import com.tuwaiq.AndroidGeeks.R
 import com.tuwaiq.AndroidGeeks.database.Post.Posts
@@ -19,15 +25,14 @@ import com.tuwaiq.AndroidGeeks.databinding.SignupFragmentBinding
 import com.tuwaiq.AndroidGeeks.ui.dashboard.DashboardViewModel
 import kotlinx.android.synthetic.main.signup_fragment.*
 import java.util.*
-
+const val USERNAME_ID="username"
+const val EMAIL_ID="email"
 private const val TAG = "SignupFragment"
 class SignupFragment : Fragment() {
     private lateinit var emailEt: EditText
     private lateinit var passwordEt: EditText
     private lateinit var signupBtn: Button
     private lateinit var loginLink: TextView
-    private lateinit var firstNameEt:EditText
-    private lateinit var lastNameEt:EditText
     private lateinit var confirmPasswordEt:EditText
     private lateinit var confirmEmailEt:EditText
     private lateinit var gender:EditText
@@ -48,15 +53,12 @@ class SignupFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding= SignupFragmentBinding.inflate(layoutInflater)
+        auth= FirebaseAuth.getInstance()
 
         val view= inflater.inflate(R.layout.signup_fragment, container, false)
 
-        firstNameEt=view.findViewById(R.id.firstname_et)
-        lastNameEt=view.findViewById(R.id.lastname_et)
         usernameEt=view.findViewById(R.id.username_et)
         emailEt=view.findViewById(R.id.email_et)
-        gender=view.findViewById(R.id.gendr_et)
-        phoneNumberEt=view.findViewById(R.id.phonenumber_et)
         passwordEt=view.findViewById(R.id.password_et)
         confirmPasswordEt=view.findViewById(R.id.confirmPassword)
         iDontLikeJava=view.findViewById(R.id.terms_conditions)
@@ -86,67 +88,68 @@ class SignupFragment : Fragment() {
         }
 
         signupBtn.setOnClickListener {
+            try {
             registerUser()
+            }catch (e: FirebaseAuthInvalidCredentialsException){
+                Snackbar.make(requireView(),"FirebaseAuthInvalidCredentialsException",Snackbar.LENGTH_SHORT).show()
+            }
 
 
         }
 
-    }//kk mm nn jkj ll
+    }/**/
     private fun registerUser(){
         val email= emailEt.text.toString()
         val pass=passwordEt.text.toString()
         if (email.isNotEmpty()&& pass.isNotEmpty()){
-            fragmentViewModel.newUser(email,pass)
-           val userId= FirebaseAuth.getInstance().currentUser?.uid
-            Log.d(TAG," registerUser()")
-/*
-//                .addOnCompleteListener{ task->
-//                    if (task.isSuccessful){
-                        Toast.makeText(context,"logged in", Toast.LENGTH_LONG).show()
-//                        val fragment= LoginFragment()
-//                        activity?.supportFragmentManager
-//                            ?.beginTransaction()?.replace(R.id.fragmentContainerView,fragment)
-//                            ?.addToBackStack(null)?.commit()
-//                   }
-//                    else{
-//                        Toast.makeText(context,"Try Again", Toast.LENGTH_LONG).show()
-//                }
-    //    }
 
- */
-            if (userId != null) {
-                //there a problem here, we need to click sign up button two time to add user info
-                    //maybe we need a del this fun for second
-                updateUserInfo(userId)
+          /*  fragmentViewModel.signUp(email,pass).observe(this){
+
+               if (it) {
+                   Toast.makeText(context, "true", Toast.LENGTH_SHORT).show()
+
+                   val intent = Intent(context, MainActivityForTesting::class.java)
+                   startActivity(intent)
+
+
+                   Snackbar.make(requireView(), getString(R.string.success_toast), Snackbar.LENGTH_LONG).show()
+               }else{
+
+             Snackbar.make(requireView(), getString(R.string.failure_toast), Snackbar.LENGTH_LONG).show()
+               }
+                //updateUserInfo()
+
+         }*/
+            auth.signInWithEmailAndPassword(email,pass).addOnCompleteListener {
+                if (it.isSuccessful){
+                    updateUserInfo()
+                    val intent = Intent(context, MainActivityForTesting::class.java)
+                    startActivity(intent)
+                }
+            }.addOnFailureListener {
+                Toast.makeText(context, "FailureListener${it.message}", Toast.LENGTH_LONG).show()
             }
-        }else{
-            Toast.makeText(context,"plz fil all the fields", Toast.LENGTH_LONG).show()
 
+
+    }else{
+        Snackbar.make(requireView(), "plz fill all the filed", Snackbar.LENGTH_LONG).show()
+    }
+    }
+    fun updateUserInfo(){
+
+
+
+
+        fragmentViewModel.addUserInfo(userInfo,userID!!).observe(this){
+            Log.d(TAG, "updateUserInfo: $userID")
+            if (it){
+                Snackbar.make(requireView(), getString(R.string.success_toast), Snackbar.LENGTH_LONG).show()
+                Log.d(TAG, "updateUserInfo: success")
+            }else{
+                Log.d(TAG, "updateUserInfo: failure")
+                Snackbar.make(requireView(), getString(R.string.failure_toast), Snackbar.LENGTH_LONG).show()
+            }
         }
     }
-    fun updateUserInfo(userId:String){
-        dataBase = FirebaseFirestore.getInstance()
-        val userName=usernameEt.text.toString().trim()
-        val firstName=firstNameEt.text.toString().trim()
-        val lastName=lastNameEt.text.toString().trim()
-        val profileImage:String=""
-        val phoneNumber=phoneNumberEt.text.toString().trim()
-        val userIdd= FirebaseAuth.getInstance().currentUser?.uid.toString()
-        val gender= gender.text.toString().trim()
-        var userInfo= UsersInfo(userIdd,userName,firstName,lastName,phoneNumber,profileImage,gender)
-
-        //  val userId= auth.currentUser?.let { it.email }
-
-        userId.toString()
-
-
-        if (userInfo != null) {
-            if (userId != null) {
-                dataBase.collection("users").document(userId)
-                    .set(userInfo)
-
-                    //                .add(userInfo)
-                    .addOnSuccessListener {Toast.makeText(context,getString(R.string.success_toast),Toast.LENGTH_SHORT).show()}
-                    .addOnFailureListener {Toast.makeText(context,getString(R.string.failure_toast),Toast.LENGTH_SHORT).show() }}}}
 
 }

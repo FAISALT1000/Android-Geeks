@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.tuwaiq.AndroidGeeks">
-    <permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
-    <permission android:name="com.tuwaiq.AndroidGeeks.PRIVATE"
-        android:protectionLevel="signature"/>
+
+    <permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+
+    <permission
+        android:name="com.tuwaiq.AndroidGeeks.PRIVATE"
+        android:protectionLevel="signature" />
 
     <application
         android:allowBackup="true"
@@ -14,10 +19,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Blogerrtest">
-        <activity android:name="com.tuwaiq.AndroidGeeks.MainActivity"
-            android:exported="false"/>
         <activity
-            android:name="com.tuwaiq.AndroidGeeks.MainActivityForTesting"
+            android:name=".MainActivityForTesting"
+            android:exported="true" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SplashScreen"
             android:exported="true"
             android:label="@string/title_activity_main">
             <intent-filter>
@@ -26,12 +35,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".notification.PushNotificationService" android:exported="false">
+
+        <service
+            android:name=".notification.PushNotificationService"
+            android:exported="false">
             <intent-filter>
-
-                <action android:name="com.google.firebase.MESSAGING_EVENT">
-
-                </action>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"></action>
             </intent-filter>
         </service>
     </application>

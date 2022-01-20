@@ -10,6 +10,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.util.Assert
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.tuwaiq.AndroidGeeks.database.Post.Posts
 import com.tuwaiq.AndroidGeeks.database.Users.UsersInfo
@@ -22,11 +24,6 @@ class BlogRepo {
     private val auth=FirebaseAuth.getInstance()
     private val userId=auth.currentUser?.uid
         private val posts =Posts()
-        private val userID = posts.userId
-        private val title = posts.title
-        private val description =posts.description
-        private val date =posts.postDate
-    private val imageUrl=posts.postImageUrl
 
 
 
@@ -34,16 +31,12 @@ class BlogRepo {
     fun addPost(userID:String,title:String,description:String,date:Date,photoUri: Uri){
 
         val postss=Posts(userID,title,description,date)
-//        "${title.trim()}_from_${userID}"
+
         dataBase.collection("Posts").document(postss.id.toString()).set(postss)
         uploadImage(title, postss.id,photoUri)
         Log.d(TAG, "title: $title")
         Log.d(TAG, "postss.id: ${postss.id}")
-        Log.d(TAG, "photoUri: $photoUri")//= -0-
-//        dataBase.collection("Posts").document(postss.id).delete()
-//        dataBase.collection("Posts").document(postss.id).update("title","dd","age",15)
-//
-}
+        Log.d(TAG, "photoUri: $photoUri")}
 
     fun addCommit(){
 
@@ -55,7 +48,6 @@ class BlogRepo {
         val todayDate=Date()
         val fileName=formatter.format(todayDate)
         val  storage= FirebaseStorage.getInstance()
-
         val storagee=storage.getReference("image/$title/$postId/$fileName")
         val uploadtask= storagee.putFile(photoUri!!)
         uploadtask.continueWithTask{task->
@@ -87,17 +79,27 @@ class BlogRepo {
     ): Task<AuthResult> {
 
 
-        return this.auth.signInWithEmailAndPassword(email, password)
+        return this.auth.signInWithEmailAndPassword(email, password)}
+
+    fun signUp(email: String,password: String):Task<AuthResult>{
+        return auth.createUserWithEmailAndPassword(email,password)
+
     }
-//**//
-    // user info
-    fun addUserInfo(usersInfo: UsersInfo){
+
+    fun addUserInfo(usersInfo: UsersInfo,USER_ID:String):Task<Void>{
+
+
+        return dataBase.collection("users").document(USER_ID).set(usersInfo)
+    }
+
+
+   /* fun addUserInfo(usersInfo: UsersInfo){
         if (userId != null) {
             dataBase.collection("UsersInfo").document(userId).set(usersInfo).addOnCompleteListener { Log.d(TAG,"addUserInfoRepoComplete") }
-                .addOnFailureListener { Log.d(TAG,"addUserInfoRepoFailure") }}}
+                .addOnFailureListener { Log.d(TAG,"addUserInfoRepoFailure") }}}*/
 
 
-/*how to find one *///do
+
     fun getThePost(): Task<QuerySnapshot>{
     return dataBase.collection("Posts").orderBy("postDate").get()
     }

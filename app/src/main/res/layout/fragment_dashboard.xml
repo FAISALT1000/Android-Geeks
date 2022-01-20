@@ -12,7 +12,8 @@
         android:id="@+id/relativeLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/signout_btn"
+        android:layout_marginBottom="9dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -33,14 +34,14 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_weight="1.5"
                     android:gravity="center"
                     android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Posts"
+                        android:text="@string/posts_profile"
                         android:textSize="20sp" />
 
                     <TextView
@@ -58,18 +59,18 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_weight="1.5"
                     android:gravity="center"
                     android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Followers"
+                        android:text="@string/like_profile"
                         android:textSize="20sp" />
 
                     <TextView
-                        android:id="@+id/followers_num_et"
+                        android:id="@+id/Like_num_et"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingTop="10dp"
@@ -80,30 +81,30 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                <!-- <LinearLayout
+                     android:layout_width="0dp"
+                     android:layout_height="match_parent"
+                     android:layout_weight="1"
+                     android:gravity="center"
+                     android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Following"
-                        android:textSize="20sp" />
+                     <TextView
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:text="Following"
+                         android:textSize="20sp" />
 
-                    <TextView
-                        android:id="@+id/following_num_et"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="10dp"
-                        android:text="0"
-                        android:textColor="@color/startblue"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
+                     <TextView
+                         android:id="@+id/following_num_et"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:paddingTop="10dp"
+                         android:text="0"
+                         android:textColor="@color/startblue"
+                         android:textSize="20sp"
+                         android:textStyle="bold" />
 
-                </LinearLayout>
+                 </LinearLayout>>!-->
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
@@ -119,55 +120,58 @@
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="45dp" />
+                android:layout_marginTop="45dp"
+                android:background="@color/white"
+                app:srcCompat="@drawable/google" />
 
             <TextView
-                android:id="@+id/firstname_et"
+                android:id="@+id/username_et"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
-                android:text="User"
+                android:text="@string/user_name_profile"
                 android:textColor="#fff"
                 android:textSize="21sp"
                 android:textStyle="bold" />
 
             <Switch
+
                 android:id="@+id/switch1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="48dp"
-                android:text="Switch" />
+
+                android:text="@string/profile_switch" />
 
         </LinearLayout>
 
     </RelativeLayout>
 
-    <Button
+    <ImageButton
         android:id="@+id/signout_btn"
         android:layout_width="292dp"
         android:layout_height="50dp"
         android:layout_marginBottom="80dp"
         android:background="@drawable/buttonstyle"
-        android:text="Follow Me"
+        android:text="@string/sign_out_button_profile"
         android:textColor="#fff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/phonenumberr_et"
-        android:layout_width="292dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/buttonstyle"
-        android:text="Follow Me"
-        android:textColor="#fff"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="94dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="12dp"
+        android:text="Sign out"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/signout_btn" />
 
     <Button
         android:id="@+id/no_btn"
@@ -178,6 +182,7 @@
         android:drawableTint="#E41B1B"
         android:text="Follow Me"
         android:textColor="#fff"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"

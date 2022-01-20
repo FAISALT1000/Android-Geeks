@@ -3,7 +3,7 @@ package com.tuwaiq.AndroidGeeks.database.Post
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 import java.util.*
-@Parcelize// like zip the file to extract later
+@Parcelize
 data class Posts(
     var userId:String="",
     var title:String="",
@@ -11,5 +11,5 @@ data class Posts(
     var postDate: Date=Date(),
     var postImageUrl: String ="",
     var id:String= UUID.randomUUID().toString()
-   // val postLike:Int=0,
 ):Parcelable
+

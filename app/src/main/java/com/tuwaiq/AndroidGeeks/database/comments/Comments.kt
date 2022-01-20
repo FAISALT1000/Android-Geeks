@@ -5,11 +5,10 @@ import kotlinx.android.parcel.Parcelize
 import java.util.*
 @Parcelize
 data class Comments(
-    val id:UUID= UUID.randomUUID(),
+    val id:String= UUID.randomUUID().toString(),
     val postId:String="",
     val userId:String="",
     val comment:String="",
     val commentDate: Date=Date(),
-    val userImage:String="",
     val userName:String="",
 ): Parcelable

@@ -26,6 +26,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
+private const val TAG_DATE = "TAG_DATE"
 private const val TAG = "home"
 private const val TAG0 = "home0"
 private const val TAG1 = "home fragment"
@@ -50,28 +51,6 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val dates = SimpleDateFormat("MM/dd/yyyy")
-        var todaysDate: Date = Date()
-        val currentDate = todaysDate
-        val finalDate = todaysDate
-        val date1_temp=dates.format(currentDate)
-        val  date2_temp=dates.format(finalDate)
-        val date1=dates.parse(date1_temp)
-        val  date2=dates.parse(date2_temp)
-        val difference: Long = (date1.time - date2.time)
-        // val difference: Long = (finalDate.time - currentDate.time)
-        val differenceDates = difference / (24 * 60 * 60 * 1000)
-        val dayDifference = differenceDates.toInt()
-        Log.d(TAG0, "onCreateV11iew: $difference")
-//        if (userID==null){
-//            val intent = Intent(context, MainActivity::class.java)
-//            startActivity(intent)
-//            Toast.makeText(context, "you must sign in first", Toast.LENGTH_SHORT).show()
-//
-//        }
-
-        // Log.d(TAG,"${homeViewModel.getAllPost()}")
-
         val view = inflater.inflate(R.layout.fragment_home, container, false)
         val imageUri=FirebaseStorage.getInstance().getReference()
 
@@ -102,7 +81,6 @@ class HomeFragment : Fragment() {
                 }else{
                     for (dc:DocumentChange in value?.documentChanges!!){
 
-
                         if (dc.type == DocumentChange.Type.ADDED){
                            // dc.document.data
                              posts.add(dc.document.toObject(Posts::class.java))
@@ -116,15 +94,12 @@ class HomeFragment : Fragment() {
                     myAdapter.notifyDataSetChanged()
                 }}})
 
-            fun checkF(){
 
-            }
 
 
     }
     private inner class PostAdapter(var post:ArrayList<Posts>):RecyclerView.Adapter<PostViewHolder/**/>(){
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
-            //val view=layoutInflater.from().inflate(R.layout.list_view_item,parent,false)
             val itemView= LayoutInflater.from(parent.context).inflate(R.layout.list_view_item2,parent,false)
             Log.d(TAG,"PostAdapter")
             return PostViewHolder(itemView)
@@ -199,14 +174,14 @@ class HomeFragment : Fragment() {
                 .addOnCompleteListener {
                     if (it.result?.exists()!!) {
 
-                        deleteFavorite("${post.id}",post)
+                        deleteLike("${post.id}",post)
                         hart.setImageResource(R.drawable.ic_baseline_favorite_border_24)
-                        Toast.makeText(context, "no Like", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "remove Like", Toast.LENGTH_SHORT).show()
 
                     } else {
 
                         hart.setImageResource(R.drawable.ic_baseline_favorite_24)
-                        addFavorite("${post.id}", post)
+                        addLike("${post.id}", post)
                         Toast.makeText(context, "Like", Toast.LENGTH_SHORT).show()
 
 
@@ -214,10 +189,10 @@ class HomeFragment : Fragment() {
                 }
         }
 
-        //---------deleteFavorite------------------------------------------------------------------------------------------
-        fun deleteFavorite(postID: String,post: Posts) {
-            val deleteFavoriteFromThePost = FirebaseFirestore.getInstance()
-            deleteFavoriteFromThePost.collection("Posts").document(post.id)
+
+        fun deleteLike(postID: String,post: Posts) {
+            val deleteLikeFromThePost = FirebaseFirestore.getInstance()
+            deleteLikeFromThePost.collection("Posts").document(post.id)
                 .collection("Favorite").document(myID.toString()).delete()
                 .addOnCompleteListener {
                     when {
@@ -227,8 +202,8 @@ class HomeFragment : Fragment() {
                     }
                 }
 
-            val deleteFavoriteFromTheUsersInfo = FirebaseFirestore.getInstance()
-            deleteFavoriteFromTheUsersInfo.collection("users").document(myID.toString())
+            val deleteLikeFromTheUsersInfo = FirebaseFirestore.getInstance()
+            deleteLikeFromTheUsersInfo.collection("users").document(myID.toString())
                 .collection("Favorite").document("${post.id}").delete()
                 .addOnCompleteListener {
                     when {
@@ -237,22 +212,21 @@ class HomeFragment : Fragment() {
                         }
                     }
                 }
-            numberOfFavorite(postID)
+            numberOfLikeInThePost(postID)
         }
 
 
-        //---------------addFavorite-------------------------------------------------------------------------------------------
-        fun addFavorite(postID: String, post: Posts) {
-            val addFavorite = hashMapOf(
+        fun addLike(postID: String, post: Posts) {
+            val addLike = hashMapOf(
                 "PostID" to "${post.id}",
                 "userId" to "${post.userId}",
             )
             //---------------------------------------------------------------------------------
             val userId = FirebaseAuth.getInstance().currentUser?.uid
-            val postFavorite = Firebase.firestore.collection("users")
-            postFavorite.document(userId.toString()).collection("Favorite")
+            val postLike = Firebase.firestore.collection("users")
+            postLike.document(userId.toString()).collection("Favorite")
                 .document("${postID}")
-                .set(addFavorite).addOnCompleteListener {
+                .set(addLike).addOnCompleteListener {
                     it
                     when {
                         it.isSuccessful -> {
@@ -264,24 +238,23 @@ class HomeFragment : Fragment() {
                     }
 
                     //---------------------------------------------------------------------------------
-                    val addFavoriteToThePosts = Firebase.firestore.collection("Posts")
-                    addFavoriteToThePosts.document(postID.toString()).collection("Favorite")
-                        .document("${userId.toString()}").set(addFavorite)
+                    val addLikeToThePosts = Firebase.firestore.collection("Posts")
+                    addLikeToThePosts.document(postID.toString()).collection("Favorite")
+                        .document("${userId.toString()}").set(addLike)
 
 
 
                 }
         }
-        fun numberOfFavorite(postId: String) {
+        fun numberOfLikeInThePost(postId: String) {
             databaseV2.collection("Posts").document(postId)
                 .collection("Favorite").get()
                 .addOnSuccessListener {
-                    var numberOfFavorite = it.size()
+                    var numberOfLike = it.size()
+                    Log.d("Like", "numberOfLikeInThePost: $numberOfLike ")
                     val userRef = Firebase.firestore.collection("Posts")
-                    userRef.document("$postId").update("like", numberOfFavorite)
-                   // numberLikes.setText(numberOfFavorite.toString())
-                }
-        }
+                    userRef.document("$postId").update("like", numberOfLike)
+                    Log.d("Like", "numberOfLikeInThePost: $userRef ")}}
 fun test1(post:Posts){
 
 
@@ -300,7 +273,6 @@ fun test1(post:Posts){
             postss.title=postTitle.text.toString()//weee
             postss.description=postDescription.text.toString()//weee
             postss.postImageUrl=imagePath.toString()//weee
-            Toast.makeText(context, "${userIId.text}", Toast.LENGTH_SHORT).show()//weee
             val viww=HomeFragmentDirections.actionNavigationHomeToPostFragment(postss)//weee
          findNavController().navigate(viww)//weee
         }
@@ -310,13 +282,17 @@ fun test1(post:Posts){
         var todaysDate: Date = Date()
         val currentDate = todaysDate
         val finalDate = date
+        Log.d(TAG_DATE, "finalDate:$finalDate ")
         val date1_temp=dates.format(currentDate)
-        val  date2_temp=dates.format(finalDate)
+
+       // Log.d(TAG_DATE, "date2_temp:$date2_temp ")
         val date1=dates.parse(date1_temp)
-        val  date2=dates.parse(date2_temp)
+        val  date2=finalDate
+        Log.d(TAG_DATE, "date2:$date2 ")
         val difference: Long = (date1.time - date2.time)
         // val difference: Long = (finalDate.time - currentDate.time)
-        val differenceDates = difference / (24 * 60 * 60 * 1000)
+        val differenceDates = difference / ( 24 * 60 * 60 * 1000)
+        Log.d(TAG_DATE, "differenceDates:$differenceDates ")
         val dayDifference = differenceDates.toInt()
         return dayDifference
     }

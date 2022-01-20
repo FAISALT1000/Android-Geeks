@@ -41,20 +41,7 @@ class LoginViewModel:ViewModel() {
                   emit(false)
               }
           }catch (e: FirebaseAuthInvalidUserException){
-              emit(false)
-          }catch (e : Exception){
-              Log.e(TAGe, "loginUser: $e ", e)
-          }
-
-
-
-       }
-
-
-
-
-       }
-}
+              emit(false)}catch (e : Exception){Log.e(TAGe, "loginUser: $e ", e)}}}}
 
 
 

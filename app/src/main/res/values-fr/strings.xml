@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Android Geeks</string>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="title_home">Home</string>
+    <string name="title_activity_main">Android Geeks</string>
+    <string name="title_home">kj</string>
     <string name="title_profile">Profile</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_API">API</string>
@@ -11,7 +11,7 @@
     <string name="sign_up">don\'t have an account? signup right now</string>
     <string name="username">Nom d\'utilisateur</string>
     <string name="password">Mot de passe</string>
-    <string name="login">CONNEXION</string>
+    <string name="login">ll</string>
     <string name="forgot_password">Mot de passe oublié?</string>
     <string name="or_sign_in_with">ou connectez-vous avec</string>
     <string name="login_failed">ÉCHEC DE LA CONNEXION !!!</string>
@@ -30,10 +30,15 @@
     <string name="you_must_sign_toast">vous devez d\'abord vous connecter</string>
     <string name="login_successfully_toast">Connectez-vous avec succès</string>
     <string name="login_not_successfully_toast">le mot de passe ou l\'email sont erronés</string>
-    <string name="your_blog">Your blog</string>
-    <string name="delete_user_toast_successful">Delete User Successfully</string>
-    <string name="delete_user_toast_un_successful">There is problem</string>
-    <string name="sign_out_toast">sign Out</string>
+
+    <string name="sign_out_button_profile">Déconnexion</string>
+    <string name="i_don_t_have_an_account_login">Je n\ai pas de compte</string>
+    <string name="finger_print_button">empreinte digitale</string>
+    <string name="authentication_is_required_finger">L\authentification est requise</string>
+    <string name="uses_fingerprint_finger">cette application utilise la protection des empreintes digitales pour vous aider</string>
+    <string name="cancel_finger">Annuler</string>
+    <string name="authentication_cancelled_finger">Authentification annulée</string>
+    <string name="authentication_has_not_been_enabled">L\'authentification par empreinte digitale n\'a pas été activée dans les paramètres</string>
 
 
 </resources>

@@ -6,7 +6,7 @@ import android.widget.CompoundButton
 import android.widget.Switch
 import androidx.appcompat.app.AppCompatActivity
 import com.tuwaiq.AndroidGeeks.R
-import com.tuwaiq.AndroidGeeks.UserPreference
+import com.tuwaiq.AndroidGeeks.ui.dashboard.UserPreference
 //
 //class J : AppCompatActivity() {
 //    private var myswitch: Switch? = null

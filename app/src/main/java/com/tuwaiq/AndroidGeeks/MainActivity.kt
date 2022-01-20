@@ -13,9 +13,7 @@ import com.tuwaiq.AndroidGeeks.databinding.ActivityMainBinding
 
 private const val TAG = "MainActivity"
 class MainActivity : AppCompatActivity() {
-/**
- * so we need to
- * **/
+
     private lateinit var binding: ActivityMainBinding
 
 
@@ -25,16 +23,16 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val dialog=UpdatePostDialog()
-        dialog.show(supportFragmentManager,"no")
+//        val dialog=UpdatePostDialog()
+//        dialog.show(supportFragmentManager,"no")
+
 
         val navView: BottomNavigationView = binding.navBottomview
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+
         val appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.navigation_home,R.id.navigation_add, R.id.navigation_dashboard, R.id.navigation_notifications)
+            setOf(R.id.navigation_home,R.id.navigation_add, R.id.navigation_dashboard, /*R.id.navigation_notifications*/)
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
