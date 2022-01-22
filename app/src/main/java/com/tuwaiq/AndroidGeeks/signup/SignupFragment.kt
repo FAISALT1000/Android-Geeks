@@ -14,8 +14,10 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.firestore.FirebaseFirestore
+import com.tuwaiq.AndroidGeeks.MainActivity
 import com.tuwaiq.AndroidGeeks.MainActivityForTesting
 import com.tuwaiq.AndroidGeeks.Post.POST_ID
+import com.tuwaiq.AndroidGeeks.Post.POST_TEXT
 import com.tuwaiq.AndroidGeeks.login.LoginFragment
 import com.tuwaiq.AndroidGeeks.R
 import com.tuwaiq.AndroidGeeks.database.Post.Posts
@@ -23,7 +25,9 @@ import com.tuwaiq.AndroidGeeks.database.Users.UsersInfo
 import com.tuwaiq.AndroidGeeks.databinding.PostFragmentBinding
 import com.tuwaiq.AndroidGeeks.databinding.SignupFragmentBinding
 import com.tuwaiq.AndroidGeeks.ui.dashboard.DashboardViewModel
+import kotlinx.android.synthetic.main.fragment_update_post_dialog.*
 import kotlinx.android.synthetic.main.signup_fragment.*
+import kotlinx.coroutines.tasks.await
 import java.util.*
 const val USERNAME_ID="username"
 const val EMAIL_ID="email"
@@ -56,6 +60,7 @@ class SignupFragment : Fragment() {
         auth= FirebaseAuth.getInstance()
 
         val view= inflater.inflate(R.layout.signup_fragment, container, false)
+        val alreadyExists:TextView=view.findViewById(R.id.already_user)
 
         usernameEt=view.findViewById(R.id.username_et)
         emailEt=view.findViewById(R.id.email_et)
@@ -65,10 +70,6 @@ class SignupFragment : Fragment() {
         confirmEmailEt=view.findViewById(R.id.confirmemail_et)
         signupBtn=view.findViewById(R.id.signUpBtn)
         loginLink=view.findViewById(R.id.login_tv)
-//[]
-//        con=view.findViewById(R.id.cons)
-
-       // con.visibility=View.VISIBLE
 
 
 
@@ -96,6 +97,12 @@ class SignupFragment : Fragment() {
 
 
         }
+        already_user.setOnClickListener {
+            val fragment= LoginFragment()
+            activity?.supportFragmentManager
+                ?.beginTransaction()?.replace(R.id.fragmentContainerView,fragment)
+                ?.addToBackStack(null)?.commit()
+        }
 
     }/**/
     private fun registerUser(){
@@ -120,11 +127,18 @@ class SignupFragment : Fragment() {
                 //updateUserInfo()
 
          }*/
-            auth.signInWithEmailAndPassword(email,pass).addOnCompleteListener {
+            auth.createUserWithEmailAndPassword(email,pass)
+                .addOnCompleteListener {
                 if (it.isSuccessful){
-                    updateUserInfo()
-                    val intent = Intent(context, MainActivityForTesting::class.java)
-                    startActivity(intent)
+
+                        val userName=usernameEt.text.toString().trim()
+                        val email=emailEt.text.toString().trim()
+                        val userIdd= FirebaseAuth.getInstance().currentUser?.uid.toString()
+
+                        val userInfo= UsersInfo(userIdd,userName,email)
+                        updateUserInfo(userIdd,userInfo)
+
+
                 }
             }.addOnFailureListener {
                 Toast.makeText(context, "FailureListener${it.message}", Toast.LENGTH_LONG).show()
@@ -135,21 +149,14 @@ class SignupFragment : Fragment() {
         Snackbar.make(requireView(), "plz fill all the filed", Snackbar.LENGTH_LONG).show()
     }
     }
-    fun updateUserInfo(){
+    fun updateUserInfo(userId:String,userInfo:UsersInfo){
+        dataBase = FirebaseFirestore.getInstance()
+            if (userId != null) {
+                dataBase.collection("users").document(userId)
+                    .set(userInfo).addOnCompleteListener {
+                        if (it.isSuccessful){
+                            Toast.makeText(context,getString(R.string.success_toast),Toast.LENGTH_SHORT).show()
+                val intent = Intent(context, MainActivityForTesting::class.java)
+                startActivity(intent)}else{}}
+                    .addOnFailureListener {Toast.makeText(context,getString(R.string.failure_toast),Toast.LENGTH_SHORT).show() }}}}
 
-
-
-
-        fragmentViewModel.addUserInfo(userInfo,userID!!).observe(this){
-            Log.d(TAG, "updateUserInfo: $userID")
-            if (it){
-                Snackbar.make(requireView(), getString(R.string.success_toast), Snackbar.LENGTH_LONG).show()
-                Log.d(TAG, "updateUserInfo: success")
-            }else{
-                Log.d(TAG, "updateUserInfo: failure")
-                Snackbar.make(requireView(), getString(R.string.failure_toast), Snackbar.LENGTH_LONG).show()
-            }
-        }
-    }
-
-}

@@ -205,20 +205,8 @@ binding.noBtn.setOnClickListener {
 //                            binding.userFollowersXml.text = "${userFollowers?.toString()}"
 //                            binding.userFollowingXml.text = "${userFollowing?.toString()}"
                         //   userPhoneNumber = "${userPhone.toString()}"
-                    } else {
-
-
-                        fragmentViewModel.addUserInfo(userInfo,userID!!).observe(viewLifecycleOwner){
-                            Log.d(TAG, "updateUserInfo: $userID")
-                            if (it){
-                                Snackbar.make(requireView(), getString(R.string.success_toast), Snackbar.LENGTH_LONG).show()
-                                Log.d(TAG, "updateUserInfo: success")
-                            }else{
-                                Log.d(TAG, "updateUserInfo: failure")
-                                Snackbar.make(requireView(), getString(R.string.failure_toast), Snackbar.LENGTH_LONG).show()
-                            }
-                        }
                     }
+
                 }
         } catch (e: Exception) {
             withContext(Dispatchers.Main) {
@@ -247,7 +235,7 @@ binding.noBtn.setOnClickListener {
 //                    print(document.data)
                     if (document != null) {
 //                        Log.d(TAG, "DocumentSnapshot data: ${document.data}")
-                    } else {
+
 
                     }
                 }

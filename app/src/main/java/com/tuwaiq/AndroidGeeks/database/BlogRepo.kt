@@ -22,7 +22,7 @@ private const val TAG = "BlogRepo"
 class BlogRepo {
     private val dataBase=FirebaseFirestore.getInstance()
     private val auth=FirebaseAuth.getInstance()
-    private val userId=auth.currentUser?.uid
+    private val userId=auth.currentUser?.uid.toString()
         private val posts =Posts()
 
 
@@ -58,8 +58,8 @@ class BlogRepo {
         }.addOnCompleteListener { task->
             if (task.isSuccessful){
                 task.result
-
-                val ref = dataBase.collection("Posts").document(postId)
+                val ref = dataBase.collection("Posts")
+                    .document(postId)
 
                 ref
                     .update("postImageUrl", task.result.toString())
