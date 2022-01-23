@@ -27,8 +27,8 @@
         android:label="@string/title_profile"
         tools:layout="@layout/fragment_dashboard" >
         <action
-            android:id="@+id/action_navigation_dashboard_to_navigation_home2"
-            app:destination="@id/navigation_home" />
+            android:id="@+id/action_navigation_dashboard_to_notificationFragment"
+            app:destination="@id/notificationFragment" />
     </fragment>
 
     <fragment
@@ -86,5 +86,14 @@
         <argument
             android:name="Comment"
             app:argType="com.tuwaiq.AndroidGeeks.database.Post.Posts" />
+    </fragment>
+    <fragment
+        android:id="@+id/notificationFragment"
+        android:name="com.tuwaiq.AndroidGeeks.notification.NotificationFragment"
+        android:label="notification_fragment"
+        tools:layout="@layout/notification_fragment" >
+        <action
+            android:id="@+id/action_notificationFragment_to_navigation_dashboard"
+            app:destination="@id/navigation_dashboard" />
     </fragment>
 </navigation>

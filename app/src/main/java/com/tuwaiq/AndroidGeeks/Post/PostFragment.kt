@@ -94,7 +94,7 @@ class PostFragment : BottomSheetDialogFragment() {
         setText(args.dataPost.description)//weee
         Log.d(TAG, "onViewCreated: ${args.dataPost.userId}")
         Log.d(TAG, "onViewCreated: ${args.dataPost.id}")
-        if (userId.toString()!=args.dataPost.userId){
+        if (userId.toString()!=args.dataPost.userId || userId.toString()!="YEo8Ff5fDoSrx61U58vkeHe8IPJ3"){
             binding.updateBtn.visibility=View.GONE
             binding.deleteBtn.visibility=View.GONE
             binding.titleBottomTv.isEnabled=false

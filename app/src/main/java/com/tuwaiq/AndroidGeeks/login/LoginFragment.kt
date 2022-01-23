@@ -18,6 +18,7 @@ import com.tuwaiq.AndroidGeeks.MainActivity
 import com.tuwaiq.AndroidGeeks.MainActivityForTesting
 import com.tuwaiq.AndroidGeeks.R
 import com.tuwaiq.AndroidGeeks.signup.SignupFragment
+import com.tuwaiq.AndroidGeeks.ui.dashboard.UserPreference
 import com.tuwaiq.AndroidGeeks.ui.home.HomeFragment
 import kotlinx.android.synthetic.main.fragment_login.*
 
@@ -31,6 +32,8 @@ class LoginFragment : Fragment() {
     private lateinit var progressBar: ProgressBar
     private lateinit var signup:TextView
     private  var auth= FirebaseAuth.getInstance()
+    private val darkModeSwitch get() = context?.let { UserPreference.loadNightModeState(it) }
+
 
 
     private  val fragmentViewModel by lazy{ ViewModelProvider(this)[LoginViewModel::class.java] }
@@ -74,12 +77,23 @@ class LoginFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         val userId= auth.currentUser?.uid
-        if (userId==null){ finger_print.visibility=View.GONE}
-
-        finger_print.setOnClickListener {
-        val intent=Intent(context,MainActivityForTesting::class.java)
-            startActivity(intent)
+        if (userId==null){
+            finger_print.visibility=View.GONE
         }
+        if (darkModeSwitch ==true){
+
+            UserPreference.setNightModeState(requireContext(),true)
+            finger_print.setOnClickListener {
+                val intent=Intent(context,MainActivityForTesting::class.java)
+                startActivity(intent)
+            }
+
+        }else{
+          UserPreference.setNightModeState(requireContext(),false)
+
+        }
+
+
 
 
         signup.setOnClickListener {

@@ -13,12 +13,16 @@ import android.os.CancellationSignal
 import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import com.google.firebase.auth.FirebaseAuth
+import com.tuwaiq.AndroidGeeks.ui.dashboard.UserPreference
 
 class MainActivityForTesting : AppCompatActivity() {
 
     private var cancellationSignal:CancellationSignal?=null
+    private val darkModeSwitch get() = this?.let { UserPreference.loadNightModeState(it) }
+
 
     private val authenticationCallback:BiometricPrompt.AuthenticationCallback
     get() =
@@ -40,8 +44,20 @@ class MainActivityForTesting : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        checkBiometricSupport()
-        fingerPrint()
+        if (darkModeSwitch ==true){
+            UserPreference.setNightModeState(this,true)
+            checkBiometricSupport()
+            fingerPrint()
+
+        }else{
+
+            UserPreference.setNightModeState(this,false)
+            val intent=Intent(this,MainActivityForTesting::class.java)
+            startActivity(intent)
+
+
+        }
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

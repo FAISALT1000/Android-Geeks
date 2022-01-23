@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -27,9 +28,13 @@ import com.tuwaiq.AndroidGeeks.R
 import com.tuwaiq.AndroidGeeks.database.Post.Posts
 import com.tuwaiq.AndroidGeeks.database.Users.UsersInfo
 import com.tuwaiq.AndroidGeeks.databinding.FragmentDashboardBinding
+import com.tuwaiq.AndroidGeeks.notification.NotificationFragment
+import com.tuwaiq.AndroidGeeks.notification.NotificationFragmentDirections
 import com.tuwaiq.AndroidGeeks.signup.EMAIL_ID
+import com.tuwaiq.AndroidGeeks.signup.SignupFragment
 import com.tuwaiq.AndroidGeeks.signup.SignupViewModel
 import com.tuwaiq.AndroidGeeks.signup.USERNAME_ID
+import com.tuwaiq.AndroidGeeks.ui.home.HomeFragmentDirections
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -74,6 +79,10 @@ class DashboardFragment : Fragment() {
         // userSettings=UserPreference().getSharedPreferences()
         val view= inflater.inflate(R.layout.fragment_dashboard, container, false)
 
+        if (userID.toString()=="YEo8Ff5fDoSrx61U58vkeHe8IPJ3"){
+            binding.signoutBtn3.visibility=View.VISIBLE
+        }
+
 
         profileImageView=view.findViewById(R.id.profile_image_view)
 
@@ -95,12 +104,11 @@ class DashboardFragment : Fragment() {
         if (darkModeSwitch ==true){
             binding.switch1.isChecked = true
             UserPreference.setNightModeState(requireContext(),true)
-            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
+
 
         }else{
             binding.switch1.isChecked = false
             UserPreference.setNightModeState(requireContext(),false)
-            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
 
         }
         binding.switch1.setOnClickListener {
@@ -108,7 +116,7 @@ class DashboardFragment : Fragment() {
             if (binding.switch1.isChecked){
                 Log.d("switch1", "onCreateView:isChecked ")
                 UserPreference.setNightModeState(requireContext(),true)
-                AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
+
             }else{
                 Log.d("switch1", "onCreateView:isUnChecked ")
 
@@ -154,15 +162,24 @@ binding.noBtn.setOnClickListener {
 
         binding.signoutBtn.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
+            FirebaseAuth.getInstance().signOut()
             Log.d(TAG, "onStart: sign out")
             //-+k
             val intent = Intent(context, MainActivityForTesting::class.java)
             startActivity(intent)
             Toast.makeText(context, getString(R.string.sign_out_toast), Toast.LENGTH_SHORT).show()
+
+
+        }
+        binding.signoutBtn3.setOnClickListener{
+            val viww= DashboardFragmentDirections.actionNavigationDashboardToNotificationFragment()
+            findNavController().navigate(viww)//weee
+
         }
         profileImageView.setOnClickListener {
 
-            getResult.launch("image/*")
+
+        /*    getResult.launch("image/*")
             dataBase.collection("users")
                 .document("${userID}")
                 .get().addOnCompleteListener { it
@@ -172,6 +189,9 @@ binding.noBtn.setOnClickListener {
                             uploadImage(userName, profilePhotoUri!!)}
 
                     }}
+                    */
+         */
+
 
         }
         binding.postNumEt.setOnClickListener {

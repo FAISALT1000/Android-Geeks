@@ -8,6 +8,19 @@
     android:orientation="vertical"
     tools:context=".ui.dashboard.DashboardFragment">
 
+    <ImageButton
+        android:id="@+id/signout_btn2"
+        android:layout_width="292dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="80dp"
+        android:background="@drawable/buttonstyle"
+        android:text="@string/sign_out_button_profile"
+        android:textColor="#fff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <RelativeLayout
         android:id="@+id/relativeLayout"
         android:layout_width="0dp"
@@ -142,7 +155,7 @@
                 android:layout_height="wrap_content"
                 android:minHeight="48dp"
 
-                android:text="@string/profile_switch" />
+                android:text="finger Print" />
 
         </LinearLayout>
 
@@ -156,6 +169,20 @@
         android:background="@drawable/buttonstyle"
         android:text="@string/sign_out_button_profile"
         android:textColor="#fff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageButton
+        android:id="@+id/signout_btn3"
+        android:layout_width="292dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/buttonstyle"
+        android:text="@string/sign_out_button_profile"
+        android:textColor="#fff"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
