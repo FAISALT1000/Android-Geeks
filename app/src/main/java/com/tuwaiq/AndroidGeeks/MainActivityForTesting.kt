@@ -44,21 +44,16 @@ class MainActivityForTesting : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        if (darkModeSwitch ==true){
-            UserPreference.setNightModeState(this,true)
             checkBiometricSupport()
             fingerPrint()
 
-        }else{
 
-            UserPreference.setNightModeState(this,false)
-            val intent=Intent(this,MainActivityForTesting::class.java)
-            startActivity(intent)
+
 
 
         }
 
-    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
