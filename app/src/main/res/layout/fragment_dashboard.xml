@@ -156,7 +156,7 @@
                 android:minHeight="48dp"
 
                 android:text="finger Print"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
         </LinearLayout>
 
