@@ -1,4 +1,4 @@
-package com.tuwaiq.AndroidGeeks.ui.home
+package com.tuwaiq.AndroidGeeks.ui.notifications
 
 import android.os.Bundle
 import android.util.Log
@@ -22,25 +22,24 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.tuwaiq.AndroidGeeks.R
 import com.tuwaiq.AndroidGeeks.database.Post.Posts
+import com.tuwaiq.AndroidGeeks.ui.home.HomeFragmentDirections
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
-private const val TAG_DATE = "TAG_DATE"
-private const val TAG = "home"
-private const val TAG1 = "home fragment"
-class HomeFragment : Fragment() {
+private const val TAG = "FavoriteFragment"
+class FavoriteFragment : Fragment() {
 
+    private  var userID= FirebaseAuth.getInstance().currentUser?.uid
     private lateinit var blogRecyclerView: RecyclerView
-    private lateinit var database:FirebaseFirestore
+    private lateinit var database: FirebaseFirestore
     private lateinit var myAdapter:PostAdapter
     private lateinit var posts:ArrayList<Posts>
-   private val databaseV2 = FirebaseFirestore.getInstance()
+    private val databaseV2 = FirebaseFirestore.getInstance()
     val myID = FirebaseAuth.getInstance().currentUser?.uid
 
-    private  var postss: Posts=Posts()
+    private  var postss: Posts = Posts()
 
-    val homeViewModel by lazy{ ViewModelProvider(this)[HomeViewModel::class.java] }
+    val favoriteViewModel by lazy{ ViewModelProvider(this)[FavoriteViewModel::class.java] }
 
 
 
@@ -49,14 +48,14 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_home, container, false)
-        val imageUri=FirebaseStorage.getInstance().getReference()
+        val view = inflater.inflate(R.layout.fragment_notifications, container, false)
+        val imageUri= FirebaseStorage.getInstance().getReference()
 
 
 
 
 
-        blogRecyclerView = view.findViewById(R.id.blog_recyclerView)
+        blogRecyclerView = view.findViewById(R.id.favorite_ryv)
         val linearLayoutManager = LinearLayoutManager(context)
         blogRecyclerView.layoutManager = linearLayoutManager
         blogRecyclerView.setHasFixedSize(true)
@@ -68,23 +67,21 @@ class HomeFragment : Fragment() {
         hi()
         return view
     }
-        fun hi(){
+    fun hi(){
 
 
         database= FirebaseFirestore.getInstance()
-        database.collection("Posts").addSnapshotListener(object : EventListener<QuerySnapshot>{
+        database.collection("Posts").addSnapshotListener(object : EventListener<QuerySnapshot> {
             override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
                 if (error !=null){
-                    Log.e(TAG,error.message.toString())// if there are error
                 }else{
-                    for (dc:DocumentChange in value?.documentChanges!!){
+                    for (dc: DocumentChange in value?.documentChanges!!){
 
                         if (dc.type == DocumentChange.Type.ADDED){
-                             posts.add(dc.document.toObject(Posts::class.java))
-                           Log.d(TAG,"${ dc.document.data}")
+                            posts.add(dc.document.toObject(Posts::class.java))
                         }
-                        }
-                    Log.d(TAG, "onCreateView: $posts")
+                    }
+
                     myAdapter.notifyDataSetChanged()
                 }}})
 
@@ -92,21 +89,20 @@ class HomeFragment : Fragment() {
 
 
     }
-    private inner class PostAdapter(var post:ArrayList<Posts>):RecyclerView.Adapter<PostViewHolder/**/>(){
+    private inner class PostAdapter(var post:ArrayList<Posts>): RecyclerView.Adapter<PostViewHolder/**/>(){
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
-            val itemView= LayoutInflater.from(parent.context).inflate(R.layout.list_view_item2,parent,false)
-            Log.d(TAG,"PostAdapter")
+            val itemView= LayoutInflater.from(parent.context).inflate(R.layout.item_view_fveorte,parent,false)
+
             return PostViewHolder(itemView)
         }
 
         override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
-            val post:Posts=posts[position]
+            val post: Posts =posts[position]
             holder.postId.text=post.id
             holder.userIId.text=post.userId
             holder.postTitle.text=post.title
             holder.test1(post)
             holder.imagePath = post.postImageUrl
-            Log.d(TAG1, "${post.postImageUrl}")
             dateFormat(post.postDate)
             holder.postDate.text=dateFormat(post.postDate).toString()
             holder.postDescription.text=post.description
@@ -116,7 +112,7 @@ class HomeFragment : Fragment() {
 
                 .addOnCompleteListener {
 
-                    if (it.result?.exists()!!) {
+                    if (it.result?.exists()!!) {     //Network Problem
                         holder.hart.setImageResource(R.drawable.ic_baseline_favorite_24)
 
                     } else {
@@ -127,10 +123,7 @@ class HomeFragment : Fragment() {
 
 
                     holder.hart.setOnClickListener {
-                        holder.upDateFavorite("${(postss.id)}", post)    //Network Problem
-                    }
-                }
-        }
+                        holder.upDateFavorite("${(postss.id)}", post)     }}}
 
         override fun getItemCount(): Int {
             return post.size
@@ -140,15 +133,14 @@ class HomeFragment : Fragment() {
 
     private inner class PostViewHolder (view:View)
         : RecyclerView.ViewHolder(view),View.OnClickListener{ /*,View.OnClickListener*/
-        val hart:ImageView=view.findViewById(R.id.imageView2)
+        val hart: ImageView =view.findViewById(R.id.imageView2)
         val postId:TextView=view.findViewById(R.id.id_tv)
         val userIId:TextView=view.findViewById(R.id.userid_tv2)
-        val postImageView: ImageView=view.findViewById(R.id.post_image_preview)
-         val postTitle: TextView =view.findViewById(R.id.post_title_tv)
-          val postDate:TextView =view.findViewById(R.id.date_tv)
-          val postDescription:TextView =view.findViewById(R.id.postdec_tv)
+        val postImageView: ImageView =view.findViewById(R.id.post_image_preview)
+        val postTitle: TextView =view.findViewById(R.id.post_title_tv)
+        val postDate:TextView =view.findViewById(R.id.date_tv)
+        val postDescription:TextView =view.findViewById(R.id.postdec_tv)
         var imagePath:String = ""
-
         fun upDateFavorite(postID: String, post: Posts) {
 
             val db = FirebaseFirestore.getInstance()
@@ -202,12 +194,13 @@ class HomeFragment : Fragment() {
         fun addLike(postID: String, post: Posts) {
             val addLike = hashMapOf(
                 "PostID" to "${post.id}",
-                "userId" to "${post.userId}",)
+                "userId" to "${post.userId}",
+            )
+            //---------------------------------------------------------------------------------
             val userId = FirebaseAuth.getInstance().currentUser?.uid
-
-            val postLike = Firebase.firestore
-
-            postLike.collection("Favorite").document(userId.toString())
+            val postLike = Firebase.firestore.collection("users")
+            postLike.document(userId.toString()).collection("Favorite")
+                .document("${postID}")
                 .set(addLike).addOnCompleteListener {
                     it
                     when {
@@ -218,8 +211,6 @@ class HomeFragment : Fragment() {
                             Log.d(TAG, " not Successful ")
                         }
                     }
-
-                    //---------------------------------------------------------------------------------
                     val addLikeToThePosts = Firebase.firestore.collection("Posts")
                     addLikeToThePosts.document(postID.toString()).collection("Favorite")
                         .document("${userId.toString()}").set(addLike)
@@ -237,26 +228,26 @@ class HomeFragment : Fragment() {
                     val userRef = Firebase.firestore.collection("Posts")
                     userRef.document("$postId").update("like", numberOfLike)
                     Log.d("Like", "numberOfLikeInThePost: $userRef ")}}
-fun test1(post:Posts){
+        fun test1(post: Posts){
 
 
-    postImageView.load(post.postImageUrl)
+            postImageView.load(post.postImageUrl)
 
-}
+        }
 
         init {
             itemView.setOnClickListener(this)
         }
         override fun onClick(v: View?) {//weee
-            val postss=Posts()//weee
+            val postss= Posts()//weee
 
             postss.id=postId.text.toString()
             postss.userId=userIId.text.toString()
             postss.title=postTitle.text.toString()//weee
             postss.description=postDescription.text.toString()//weee
             postss.postImageUrl=imagePath.toString()//weee
-            val viww=HomeFragmentDirections.actionNavigationHomeToPostFragment(postss)//weee
-         findNavController().navigate(viww)//weee
+            val viww= HomeFragmentDirections.actionNavigationHomeToPostFragment(postss)//weee
+            findNavController().navigate(viww)//weee
         }
     }
     private fun dateFormat(date: Date):Int{
@@ -264,16 +255,12 @@ fun test1(post:Posts){
         var todaysDate: Date = Date()
         val currentDate = todaysDate
         val finalDate = date
-        Log.d(TAG_DATE, "finalDate:$finalDate ")
         val date1_temp=dates.format(currentDate)
         val date1=dates.parse(date1_temp)
         val  date2=finalDate
-        Log.d(TAG_DATE, "date2:$date2 ")
         val difference: Long = (date1.time - date2.time)
         val differenceDates = difference / ( 24 * 60 * 60 * 1000)
-        Log.d(TAG_DATE, "differenceDates:$differenceDates ")
         val dayDifference = differenceDates.toInt()
         return dayDifference
     }
-
 }

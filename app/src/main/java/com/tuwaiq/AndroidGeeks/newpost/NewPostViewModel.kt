@@ -12,10 +12,7 @@ import java.util.*
 class NewPostViewModel() : ViewModel() {
     private  var repo=BlogRepo()
     private val posts =Posts()
-    private val userID = posts.userId
-    private val title = posts.title
-    private val description =posts.description
-    private val date =posts.postDate
+
 
 
 

@@ -20,13 +20,6 @@ class SignupViewModel : ViewModel() {
 
     private  var repo= BlogRepo()
 
-
-  /*  fun newUser(email:String,password:String){
-        Log.d(TAG,"newUser viewModel")
-        viewModelScope.launch(Dispatchers.IO) {
-            Log.d(TAG,"newUser viewModelScope")
-            repo.newUser(email, password) }.invokeOnCompletion { viewModelScope.launch {}}}*/
-
     fun addUserInfo(usersInfo: UsersInfo,UserId:String): LiveData<Boolean>{
         val task =  repo.addUserInfo(usersInfo,UserId)
         viewModelScope.launch(Dispatchers.IO) {

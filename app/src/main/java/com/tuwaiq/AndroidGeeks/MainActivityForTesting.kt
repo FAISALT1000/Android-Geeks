@@ -47,10 +47,6 @@ class MainActivityForTesting : AppCompatActivity() {
             checkBiometricSupport()
             fingerPrint()
 
-
-
-
-
         }
 
 

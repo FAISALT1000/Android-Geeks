@@ -179,18 +179,7 @@ binding.noBtn.setOnClickListener {
         profileImageView.setOnClickListener {
 
 
-        /*    getResult.launch("image/*")
-            dataBase.collection("users")
-                .document("${userID}")
-                .get().addOnCompleteListener { it
-                    if (it.result?.exists()!!){
-                        var userName = it.result!!.getString("userName")
-                        if (userName!=null ){
-                            uploadImage(userName, profilePhotoUri!!)}
 
-                    }}
-                    */
-         */
 
 
         }
@@ -216,21 +205,11 @@ binding.noBtn.setOnClickListener {
                         var userName = it.result!!.getString("userName")
 
                         binding.usernameEt.text = userName
-//                        binding.phonenumberrEt.setText()
-                        //   firstNameEt.setText(firstName)
-                        //    lastNameEt.setText(lastName)//**//**
-                        // phoneNumberEt.setText(phoneNumber)
-                        //---------
-                        //usernameEt.setText(userName)
-//                            binding.userFollowersXml.text = "${userFollowers?.toString()}"
-//                            binding.userFollowingXml.text = "${userFollowing?.toString()}"
-                        //   userPhoneNumber = "${userPhone.toString()}"
                     }
 
                 }
         } catch (e: Exception) {
             withContext(Dispatchers.Main) {
-                // Toast.makeText(coroutineContext,0,0, e.message, Toast.LENGTH_LONG).show()
                 Log.e("FUNCTION createUserFirestore", "${e.message}")
             }
         }
@@ -252,12 +231,7 @@ binding.noBtn.setOnClickListener {
             dataBase.collection("users").document(userId)
                 .get()
                 .addOnSuccessListener { document ->
-//                    print(document.data)
-                    if (document != null) {
-//                        Log.d(TAG, "DocumentSnapshot data: ${document.data}")
 
-
-                    }
                 }
                 .addOnFailureListener { exception ->
                     Log.d(TAG, "get failed with ", exception)}}
@@ -265,56 +239,6 @@ binding.noBtn.setOnClickListener {
     }
 
 
-    private fun uploadImage(userName:String,photoUri: Uri) {
-//        val progressDialog= ProgressDialog(context)
-//        progressDialog.setMessage("Uploading File.....")
-//        progressDialog.setCancelable(false)
-//        progressDialog.show()
-
-        val formatter= SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.getDefault())
-        val todayDate=Date()
-        val fileName=formatter.format(todayDate)
-        val  storage= FirebaseStorage.getInstance()
-
-        val storagee=storage.getReference("profiles/image/$userName/$fileName")
-        val uploadtask= storagee.putFile(photoUri!!)
-        uploadtask.continueWithTask{task->
-            if (!task.isSuccessful){
-                task.exception?.let { throw it }
-            }
-            storagee.downloadUrl
-        }.addOnCompleteListener { task->
-            if (task.isSuccessful){
-                task.result
-                if (userID!=null){
-                    val ref = dataBase.collection("users").document(userID)
-
-                    ref
-                        .update("profileImageUrl", task.result.toString())
-                        .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully updated!") }
-                        .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }
-                }}
-        }
-        /*.addOnSuccessListener{ binding.postImageView.setImageURI(null)
-
-        Toast.makeText(context,"Successfully Upload The Image",Toast.LENGTH_SHORT).show()
-
-            if (progressDialog.isShowing) progressDialog.dismiss()
-        }
-        .addOnFailureListener{
-            if (progressDialog.isShowing)progressDialog.dismiss()
-            Toast.makeText(context,"Field",Toast.LENGTH_SHORT).show()
-        }*/
-        /*
-
-
-
-
-
-
-        */
-
-    }
 
 
 }

@@ -10,12 +10,10 @@ const val THEME_KEY="customTheme";
 //;
 object UserPreference {
 
-    // this method will save the nightMode State : True or False
     fun setNightModeState(context: Context, state: Boolean) {
       PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean(THEME_KEY,state).apply()
     }
 
-    // this method will load the Night Mode State
     fun loadNightModeState(context: Context): Boolean {
         val preferencesM =PreferenceManager.getDefaultSharedPreferences(context)
 

@@ -25,7 +25,6 @@ import com.tuwaiq.AndroidGeeks.database.Users.UsersInfo
 import com.tuwaiq.AndroidGeeks.databinding.PostFragmentBinding
 import com.tuwaiq.AndroidGeeks.databinding.SignupFragmentBinding
 import com.tuwaiq.AndroidGeeks.ui.dashboard.DashboardViewModel
-import kotlinx.android.synthetic.main.fragment_update_post_dialog.*
 import kotlinx.android.synthetic.main.signup_fragment.*
 import kotlinx.coroutines.tasks.await
 import java.util.*
@@ -39,16 +38,11 @@ class SignupFragment : Fragment() {
     private lateinit var loginLink: TextView
     private lateinit var confirmPasswordEt:EditText
     private lateinit var confirmEmailEt:EditText
-    private lateinit var gender:EditText
     private lateinit var iDontLikeJava:CheckBox
     private lateinit var usernameEt:EditText
-    private lateinit var phoneNumberEt:EditText
     private  var dataBase= FirebaseFirestore.getInstance()
     private lateinit var binding: SignupFragmentBinding
-    private lateinit var logoutBtn:Button
     private lateinit var auth: FirebaseAuth
-    private var userInfo= UsersInfo()
-    private val userID= FirebaseAuth.getInstance().currentUser?.uid
     private  val fragmentViewModel by lazy{ ViewModelProvider(this)[SignupViewModel::class.java] }
 
 
@@ -108,45 +102,52 @@ class SignupFragment : Fragment() {
     private fun registerUser(){
         val email= emailEt.text.toString()
         val pass=passwordEt.text.toString()
+        val pass2=confirmPasswordEt.toString()
+        val email2=confirmEmailEt.toString()
+
         if (email.isNotEmpty()&& pass.isNotEmpty()){
+            if (email!=email2){
+                Snackbar.make(requireView(), getString(R.string.confirm_emai), Snackbar.LENGTH_LONG).show()
+            }else {
+                if (pass != pass2) {
+                    Snackbar.make(
+                        requireView(),
+                        getString(R.string.confirm_password),
+                        Snackbar.LENGTH_LONG
+                    ).show()
 
-          /*  fragmentViewModel.signUp(email,pass).observe(this){
+                }else{
+                    if (iDontLikeJava.isChecked){
+                    auth.createUserWithEmailAndPassword(email,pass)
+                        .addOnCompleteListener {
+                            if (it.isSuccessful){
+                                val intent=Intent(context,MainActivityForTesting::class.java)
+                                startActivity(intent)
 
-               if (it) {
-                   Toast.makeText(context, "true", Toast.LENGTH_SHORT).show()
+                                val userName=usernameEt.text.toString().trim()
+                                val email=emailEt.text.toString().trim()
+                                val userIdd= FirebaseAuth.getInstance().currentUser?.uid.toString()
 
-                   val intent = Intent(context, MainActivityForTesting::class.java)
-                   startActivity(intent)
-
-
-                   Snackbar.make(requireView(), getString(R.string.success_toast), Snackbar.LENGTH_LONG).show()
-               }else{
-
-             Snackbar.make(requireView(), getString(R.string.failure_toast), Snackbar.LENGTH_LONG).show()
-               }
-                //updateUserInfo()
-
-         }*/
-            auth.createUserWithEmailAndPassword(email,pass)
-                .addOnCompleteListener {
-                if (it.isSuccessful){
-
-                        val userName=usernameEt.text.toString().trim()
-                        val email=emailEt.text.toString().trim()
-                        val userIdd= FirebaseAuth.getInstance().currentUser?.uid.toString()
-
-                        val userInfo= UsersInfo(userIdd,userName,email)
-                        updateUserInfo(userIdd,userInfo)
+                                val userInfo= UsersInfo(userIdd,userName,email)
+                                updateUserInfo(userIdd,userInfo)
 
 
+                            }
+                        }.addOnFailureListener {
+                            Toast.makeText(context, "FailureListener${it.message}", Toast.LENGTH_LONG).show()
+                        }
+
+                }else{
+                        Snackbar.make(requireView(), getString(R.string.you_must_accept_the_terms), Snackbar.LENGTH_LONG).show()
+                    }
                 }
-            }.addOnFailureListener {
-                Toast.makeText(context, "FailureListener${it.message}", Toast.LENGTH_LONG).show()
+
+
             }
 
 
     }else{
-        Snackbar.make(requireView(), "plz fill all the filed", Snackbar.LENGTH_LONG).show()
+        Snackbar.make(requireView(), getString(R.string.please_fill_all_the_filed), Snackbar.LENGTH_LONG).show()
     }
     }
     fun updateUserInfo(userId:String,userInfo:UsersInfo){

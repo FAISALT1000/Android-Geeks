@@ -28,7 +28,6 @@ import com.tuwaiq.AndroidGeeks.R
 import com.tuwaiq.AndroidGeeks.database.Post.Posts
 import com.tuwaiq.AndroidGeeks.database.comments.Comments
 import com.tuwaiq.AndroidGeeks.databinding.CommentFragmentBinding
-import kotlinx.android.synthetic.main.fragment_update_post_dialog.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -36,8 +35,6 @@ import kotlin.collections.ArrayList
 private const val TAG = "CommentFragment"
 
 class CommentFragment : Fragment() {
-
-    private val args by navArgs<CommentFragmentArgs>()
 
     private lateinit var binding: CommentFragmentBinding
     private lateinit var postId:String
@@ -48,8 +45,6 @@ class CommentFragment : Fragment() {
     private lateinit var myAdapter: CommentAdapter
     private lateinit var commentt:ArrayList<Comments>
     private val commentId=Comments().id
-    private val commentUserId=Comments().userId
-    private val post=Posts()
 
 
 
@@ -62,7 +57,6 @@ class CommentFragment : Fragment() {
         Log.d(TAG, "onCreateView: $postText")
 
         Log.d(TAG, "onCreateView: ${postId}")
-      //  binding= PostFragmentBinding.inflate(layoutInflater)
         binding= CommentFragmentBinding.inflate(layoutInflater)
         val linearLayoutManager = LinearLayoutManager(context)
         binding.postDecTv.text=postText
@@ -118,7 +112,6 @@ class CommentFragment : Fragment() {
             holder.userName.text=comment.userName
             holder.commentText.text=comment.comment
             holder.commentDate.text=dateFormat(comment.commentDate).toString()
-         //   holder.userImage.tooltipText = comment.userImage
             database.collection("Comment").document(comment.id.toString()).get()
 
 
@@ -193,12 +186,10 @@ class CommentFragment : Fragment() {
 
         val date1_temp=dates.format(currentDate)
 
-        // Log.d(TAG_DATE, "date2_temp:$date2_temp ")
         val date1=dates.parse(date1_temp)
         val  date2=finalDate
 
         val difference: Long = (date1.time - date2.time)
-        // val difference: Long = (finalDate.time - currentDate.time)
         val differenceDates = difference / ( 60 * 60 * 1000)
         val dayDifference = differenceDates.toInt()
         return dayDifference

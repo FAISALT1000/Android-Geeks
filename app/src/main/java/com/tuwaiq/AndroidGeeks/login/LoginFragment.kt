@@ -50,11 +50,7 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         Log.d(TAG, "onCreateView: waaw")
-//        if (userId!=null){
-//
-//            val intent= Intent(context, MainActivity::class.java)
-//            startActivity(intent)
-//        }
+
 
 
         val view= inflater.inflate(R.layout.fragment_login, container, false)

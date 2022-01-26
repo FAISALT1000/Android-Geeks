@@ -3,7 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:background="@drawable/gradientbackground2"
+    android:background="@drawable/new_color"
     android:padding="20dp" >
 
     <TextView
@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="10dp"
-        android:text="signUp" />
+        android:text="@string/signup" />
 
     <View
         android:layout_width="fill_parent"
@@ -67,7 +67,7 @@
         android:background="@android:color/transparent"
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
-        android:hint="conform email"
+        android:hint="@string/confirm_email"
         android:inputType="textEmailAddress"
         android:padding="10dp"
         android:singleLine="true"
@@ -94,7 +94,7 @@
         android:background="@android:color/transparent"
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
-        android:hint="passowrd"
+        android:hint="@string/password_p"
         android:inputType="textPassword"
         android:padding="10dp"
         android:singleLine="true"
@@ -112,7 +112,7 @@
         android:background="@android:color/transparent"
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
-        android:hint="confirmPassword"
+        android:hint="@string/confirmpassword"
         android:inputType="textPassword"
         android:padding="10dp"
         android:singleLine="true"
@@ -123,7 +123,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="7dp"
-        android:text="I dont Like Java"
+        android:text="@string/i_agree_for_the_terms"
         android:textSize="14sp" />
 
     <Button
@@ -132,7 +132,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:padding="3dp"
-        android:text="signUp"
+        android:text="@string/signup"
         android:textSize="17sp"
         android:textStyle="bold" />
 
@@ -144,7 +144,7 @@
         android:layout_marginTop="5dp"
         android:gravity="center"
         android:padding="10dp"
-        android:text="already user? Login"
+        android:text="@string/already_user_login"
         android:textSize="15sp" />
 
     <Button
@@ -152,7 +152,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="136dp"
-        android:text="Sign up"
+        android:text="@string/signup"
         android:visibility="gone" />
 
     <TextView
@@ -161,7 +161,7 @@
         android:layout_height="29dp"
         android:layout_marginBottom="220dp"
         android:clickable="true"
-        android:text="already have user? Login"
+        android:text="@string/already_have_user_login"
         android:visibility="gone" />
 
 </LinearLayout>

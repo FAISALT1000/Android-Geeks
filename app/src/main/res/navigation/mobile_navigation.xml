@@ -33,7 +33,7 @@
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.tuwaiq.AndroidGeeks.ui.notifications.NotificationsFragment"
+        android:name="com.tuwaiq.AndroidGeeks.ui.notifications.FavoriteFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" >
         <action

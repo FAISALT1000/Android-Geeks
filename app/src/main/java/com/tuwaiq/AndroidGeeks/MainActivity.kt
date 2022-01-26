@@ -22,11 +22,6 @@ class MainActivity : AppCompatActivity() {
         Log.d(TAG,"MainActivity")
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-//        val dialog=UpdatePostDialog()
-//        dialog.show(supportFragmentManager,"no")
-
-
         val navView: BottomNavigationView = binding.navBottomview
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)

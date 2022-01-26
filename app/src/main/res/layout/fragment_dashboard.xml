@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/graylight"
+    android:background="@drawable/new_color"
     android:orientation="vertical"
     tools:context=".ui.dashboard.DashboardFragment">
 
@@ -144,7 +144,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
                 android:text="@string/user_name_profile"
-                android:textColor="#fff"
+                android:textColor="@color/black"
                 android:textSize="21sp"
                 android:textStyle="bold" />
 

@@ -1,171 +1,198 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/graylight"
     android:orientation="vertical"
-    tools:context=".ui.dashboard.DashboardFragment">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="20dp"
+    >
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="#11000000"
+        android:scaleType="centerCrop"
+        />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/post_image_preview"
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintHorizontal_bias="0.989"
+        app:layout_constraintStart_toEndOf="@+id/post_title_tv"
+        app:srcCompat="@drawable/ic_baseline_favorite_24" />
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textSize="18sp"
+        />
+
+</LinearLayout>
 
 
-<!--    <ImageView-->
-<!--        android:layout_width="150dp"-->
-<!--        android:layout_height="150dp"-->
-<!--        android:layout_gravity="center_horizontal"-->
-<!--        android:src="@drawable/common_google_signin_btn_icon_dark"-->
-<!--        tools:layout_editor_absoluteX="198dp"-->
-<!--        tools:layout_editor_absoluteY="157dp" />-->
+    <!--    <ImageView-->
+    <!--        android:layout_width="150dp"-->
+    <!--        android:layout_height="150dp"-->
+    <!--        android:layout_gravity="center_horizontal"-->
+    <!--        android:src="@drawable/common_google_signin_btn_icon_dark"-->
+    <!--        tools:layout_editor_absoluteX="198dp"-->
+    <!--        tools:layout_editor_absoluteY="157dp" />-->
 
-<!--    <TextView-->
-<!--        android:id="@+id/firstname_et"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_gravity="center_horizontal"-->
-<!--        android:layout_marginTop="10dp"-->
-<!--        android:text="User"-->
-<!--        android:textColor="#fff"-->
-<!--        android:textSize="21sp"-->
-<!--        android:textStyle="bold" />-->
-
-
-
-<!--        android:layout_width="400dp"-->
-<!--        android:layout_height="120dp"-->
-<!--        android:layout_centerHorizontal="true"-->
-<!--        tools:layout_editor_absoluteX="29dp"-->
-<!--        tools:layout_editor_absoluteY="314dp">-->
-
-<!--    <TextView-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Posts"-->
-<!--        android:textSize="20sp" />-->
-
-<!--    <TextView-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:paddingTop="10dp"-->
-<!--        android:text="0"-->
-<!--        android:textColor="@color/startblue"-->
-<!--        android:textSize="20sp"-->
-<!--        android:textStyle="bold" />-->
+    <!--    <TextView-->
+    <!--        android:id="@+id/firstname_et"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_gravity="center_horizontal"-->
+    <!--        android:layout_marginTop="10dp"-->
+    <!--        android:text="User"-->
+    <!--        android:textColor="#fff"-->
+    <!--        android:textSize="21sp"-->
+    <!--        android:textStyle="bold" />-->
 
 
-<!--    <TextView-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Followers"-->
-<!--        android:textSize="20sp"-->
-<!--        tools:layout_editor_absoluteX="145dp"-->
-<!--        tools:layout_editor_absoluteY="112dp" />-->
+    <!--        android:layout_width="400dp"-->
+    <!--        android:layout_height="120dp"-->
+    <!--        android:layout_centerHorizontal="true"-->
+    <!--        tools:layout_editor_absoluteX="29dp"-->
+    <!--        tools:layout_editor_absoluteY="314dp">-->
 
-<!--    <TextView-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:paddingTop="10dp"-->
-<!--        android:text="0"-->
-<!--        android:textColor="@color/startblue"-->
-<!--        android:textSize="20sp"-->
-<!--        android:textStyle="bold" />-->
+    <!--    <TextView-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Posts"-->
+    <!--        android:textSize="20sp" />-->
 
-
-<!--    <TextView-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Following"-->
-<!--        android:textSize="20sp"-->
-<!--        tools:layout_editor_absoluteX="51dp"-->
-<!--        tools:layout_editor_absoluteY="91dp" />-->
-
-<!--    <TextView-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:paddingTop="10dp"-->
-<!--        android:text="0"-->
-<!--        android:textColor="@color/startblue"-->
-<!--        android:textSize="20sp"-->
-<!--        android:textStyle="bold" />-->
+    <!--    <TextView-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:paddingTop="10dp"-->
+    <!--        android:text="0"-->
+    <!--        android:textColor="@color/startblue"-->
+    <!--        android:textSize="20sp"-->
+    <!--        android:textStyle="bold" />-->
 
 
-<!--    <ImageView-->
-<!--        android:layout_width="36dp"-->
-<!--        android:layout_height="36dp"-->
-<!--        android:src="@drawable/ic_home_black_24dp" />-->
+    <!--    <TextView-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Followers"-->
+    <!--        android:textSize="20sp"-->
+    <!--        tools:layout_editor_absoluteX="145dp"-->
+    <!--        tools:layout_editor_absoluteY="112dp" />-->
+
+    <!--    <TextView-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:paddingTop="10dp"-->
+    <!--        android:text="0"-->
+    <!--        android:textColor="@color/startblue"-->
+    <!--        android:textSize="20sp"-->
+    <!--        android:textStyle="bold" />-->
 
 
-<!--    <TextView-->
-<!--        android:id="@+id/email_tv"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:paddingLeft="20dp"-->
-<!--        android:text="faisal@gmail.com"-->
-<!--        android:textStyle="bold"-->
-<!--        tools:layout_editor_absoluteX="87dp"-->
-<!--        tools:layout_editor_absoluteY="52dp" />-->
+    <!--    <TextView-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Following"-->
+    <!--        android:textSize="20sp"-->
+    <!--        tools:layout_editor_absoluteX="51dp"-->
+    <!--        tools:layout_editor_absoluteY="91dp" />-->
 
-<!--    <ImageView-->
-<!--        android:layout_width="36dp"-->
-<!--        android:layout_height="36dp"-->
-<!--        android:src="@drawable/ic_home_black_24dp" />-->
-
-
-<!--    <TextView-->
-<!--        android:id="@+id/phonenamber_et"-->
-
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:paddingLeft="20dp"-->
-<!--        android:text="1   2   3"-->
-<!--        android:textStyle="bold"-->
-<!--        tools:layout_editor_absoluteX="247dp"-->
-<!--        tools:layout_editor_absoluteY="100dp" />-->
+    <!--    <TextView-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:paddingTop="10dp"-->
+    <!--        android:text="0"-->
+    <!--        android:textColor="@color/startblue"-->
+    <!--        android:textSize="20sp"-->
+    <!--        android:textStyle="bold" />-->
 
 
-<!--    <ImageView-->
-<!--        android:layout_width="36dp"-->
-<!--        android:layout_height="36dp"-->
-<!--        android:src="@drawable/ic_home_black_24dp"-->
-<!--        tools:layout_editor_absoluteX="196dp"-->
-<!--        tools:layout_editor_absoluteY="9dp" />-->
-
-<!--    <Button-->
-<!--        android:id="@+id/firstname_et"-->
-
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:paddingLeft="20dp"-->
-<!--        android:text="Foloow"-->
-<!--        android:textStyle="bold"-->
-<!--        tools:layout_editor_absoluteX="77dp"-->
-<!--        tools:layout_editor_absoluteY="229dp" />-->
+    <!--    <ImageView-->
+    <!--        android:layout_width="36dp"-->
+    <!--        android:layout_height="36dp"-->
+    <!--        android:src="@drawable/ic_home_black_24dp" />-->
 
 
-<!--    <ImageView-->
-<!--        android:layout_width="36dp"-->
-<!--        android:layout_height="36dp"-->
-<!--        android:src="@drawable/ic_home_black_24dp"-->
-<!--        tools:layout_editor_absoluteX="129dp"-->
-<!--        tools:layout_editor_absoluteY="16dp" />-->
+    <!--    <TextView-->
+    <!--        android:id="@+id/email_tv"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:paddingLeft="20dp"-->
+    <!--        android:text="faisal@gmail.com"-->
+    <!--        android:textStyle="bold"-->
+    <!--        tools:layout_editor_absoluteX="87dp"-->
+    <!--        tools:layout_editor_absoluteY="52dp" />-->
 
-<!--    <TextView-->
-<!--        android:id="@+id/uid_tv"-->
+    <!--    <ImageView-->
+    <!--        android:layout_width="36dp"-->
+    <!--        android:layout_height="36dp"-->
+    <!--        android:src="@drawable/ic_home_black_24dp" />-->
 
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:paddingLeft="20dp"-->
-<!--        android:text="Show all comments"-->
-<!--        android:textStyle="bold"-->
-<!--        tools:layout_editor_absoluteX="232dp"-->
-<!--        tools:layout_editor_absoluteY="45dp" />-->
 
-<!--    <Button-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:background="@drawable/ic_home_black_24dp"-->
-<!--        android:text="Follow Me"-->
-<!--        android:textColor="#fff"-->
-<!--        tools:layout_editor_absoluteX="-7dp"-->
-<!--        tools:layout_editor_absoluteY="139dp" />-->
+    <!--    <TextView-->
+    <!--        android:id="@+id/phonenamber_et"-->
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:paddingLeft="20dp"-->
+    <!--        android:text="1   2   3"-->
+    <!--        android:textStyle="bold"-->
+    <!--        tools:layout_editor_absoluteX="247dp"-->
+    <!--        tools:layout_editor_absoluteY="100dp" />-->
+
+
+    <!--    <ImageView-->
+    <!--        android:layout_width="36dp"-->
+    <!--        android:layout_height="36dp"-->
+    <!--        android:src="@drawable/ic_home_black_24dp"-->
+    <!--        tools:layout_editor_absoluteX="196dp"-->
+    <!--        tools:layout_editor_absoluteY="9dp" />-->
+
+    <!--    <Button-->
+    <!--        android:id="@+id/firstname_et"-->
+
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:paddingLeft="20dp"-->
+    <!--        android:text="Foloow"-->
+    <!--        android:textStyle="bold"-->
+    <!--        tools:layout_editor_absoluteX="77dp"-->
+    <!--        tools:layout_editor_absoluteY="229dp" />-->
+
+
+    <!--    <ImageView-->
+    <!--        android:layout_width="36dp"-->
+    <!--        android:layout_height="36dp"-->
+    <!--        android:src="@drawable/ic_home_black_24dp"-->
+    <!--        tools:layout_editor_absoluteX="129dp"-->
+    <!--        tools:layout_editor_absoluteY="16dp" />-->
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/uid_tv"-->
+
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:paddingLeft="20dp"-->
+    <!--        android:text="Show all comments"-->
+    <!--        android:textStyle="bold"-->
+    <!--        tools:layout_editor_absoluteX="232dp"-->
+    <!--        tools:layout_editor_absoluteY="45dp" />-->
+
+    <!--    <Button-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:background="@drawable/ic_home_black_24dp"-->
+    <!--        android:text="Follow Me"-->
+    <!--        android:textColor="#fff"-->
+    <!--        tools:layout_editor_absoluteX="-7dp"-->
+    <!--        tools:layout_editor_absoluteY="139dp" />-->
+
