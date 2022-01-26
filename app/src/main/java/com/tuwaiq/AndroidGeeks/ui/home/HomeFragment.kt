@@ -28,9 +28,11 @@ import kotlin.collections.ArrayList
 
 private const val TAG_DATE = "TAG_DATE"
 private const val TAG = "home"
+private const val TAG0 = "home0"
 private const val TAG1 = "home fragment"
 class HomeFragment : Fragment() {
 
+    private  var userID=FirebaseAuth.getInstance().currentUser?.uid
     private lateinit var blogRecyclerView: RecyclerView
     private lateinit var database:FirebaseFirestore
     private lateinit var myAdapter:PostAdapter
@@ -80,8 +82,12 @@ class HomeFragment : Fragment() {
                     for (dc:DocumentChange in value?.documentChanges!!){
 
                         if (dc.type == DocumentChange.Type.ADDED){
+                           // dc.document.data
                              posts.add(dc.document.toObject(Posts::class.java))
                            Log.d(TAG,"${ dc.document.data}")
+                         //   Log.d(TAG,"${ dc.document.toString().toList()}")
+//                            Log.d(TAG,"${ posts.trimToSize()}")
+                           // Log.d(TAG,"${myAdapter.post}")
                         }
                         }
                     Log.d(TAG, "onCreateView: $posts")
@@ -110,26 +116,36 @@ class HomeFragment : Fragment() {
             dateFormat(post.postDate)
             holder.postDate.text=dateFormat(post.postDate).toString()
             holder.postDescription.text=post.description
+//            holder.itemView.setOnClickListener {
+//                Toast.makeText(context, "${holder.postTitle}", Toast.LENGTH_SHORT).show()
+//           //     findNavController().navigate(R.id.action_newPostFragment_to_navigation_notifications)
+//            }
+            //   holder.postTitle.text=post.title
             val db = FirebaseFirestore.getInstance()
             db.collection("users").document(myID.toString()).collection("Favorite")
                 .document(post.id).get()
 
                 .addOnCompleteListener {
 
-                    if (it.result?.exists()!!) {
+                    if (it.result?.exists()!!) {     //Network Problem
+                      //  Toast.makeText(holder.itemView.context, "like", Toast.LENGTH_SHORT).show()
                         holder.hart.setImageResource(R.drawable.ic_baseline_favorite_24)
 
-                    } else {
+                    } else {   //Network Problem
 
+                       // Toast.makeText(holder.itemView.context, "no like", Toast.LENGTH_SHORT).show()  ///
                         holder.hart.setImageResource(R.drawable.ic_baseline_favorite_border_24)
 
-                    }
+                    }   //Network Problem
 
 
                     holder.hart.setOnClickListener {
                         holder.upDateFavorite("${(postss.id)}", post)    //Network Problem
                     }
                 }
+//                .addOnFailureListener {
+//                    holder.hart.visibility=View.GONE
+//                }
         }
 
         override fun getItemCount(): Int {
@@ -148,7 +164,8 @@ class HomeFragment : Fragment() {
           val postDate:TextView =view.findViewById(R.id.date_tv)
           val postDescription:TextView =view.findViewById(R.id.postdec_tv)
         var imagePath:String = ""
-
+        // private  var postLike:TextView
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         fun upDateFavorite(postID: String, post: Posts) {
 
             val db = FirebaseFirestore.getInstance()
@@ -202,12 +219,13 @@ class HomeFragment : Fragment() {
         fun addLike(postID: String, post: Posts) {
             val addLike = hashMapOf(
                 "PostID" to "${post.id}",
-                "userId" to "${post.userId}",)
+                "userId" to "${post.userId}",
+            )
+            //---------------------------------------------------------------------------------
             val userId = FirebaseAuth.getInstance().currentUser?.uid
-
-            val postLike = Firebase.firestore
-
-            postLike.collection("Favorite").document(userId.toString())
+            val postLike = Firebase.firestore.collection("users")
+            postLike.document(userId.toString()).collection("Favorite")
+                .document("${postID}")
                 .set(addLike).addOnCompleteListener {
                     it
                     when {
@@ -266,10 +284,13 @@ fun test1(post:Posts){
         val finalDate = date
         Log.d(TAG_DATE, "finalDate:$finalDate ")
         val date1_temp=dates.format(currentDate)
+
+       // Log.d(TAG_DATE, "date2_temp:$date2_temp ")
         val date1=dates.parse(date1_temp)
         val  date2=finalDate
         Log.d(TAG_DATE, "date2:$date2 ")
         val difference: Long = (date1.time - date2.time)
+        // val difference: Long = (finalDate.time - currentDate.time)
         val differenceDates = difference / ( 24 * 60 * 60 * 1000)
         Log.d(TAG_DATE, "differenceDates:$differenceDates ")
         val dayDifference = differenceDates.toInt()
