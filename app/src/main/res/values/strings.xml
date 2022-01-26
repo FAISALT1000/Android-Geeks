@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Android Geeks</string>
     <string name="title_activity_main">Android Geeks</string>
-    <string name="title_home" translatable="false">Home</string>
+    <string name="title_home">Home</string>
     <string name="title_profile">Profile</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_API">API</string>
@@ -50,13 +50,12 @@
     <string name="you_must_accept_the_terms">\"You must accept the terms \"</string>
     <string name="please_fill_all_the_filed">please fill all the filed</string>
     <string name="confirm_password">\"The Confirm Password does not match The Password \"</string>
-    <string name="confirm_emai">\"The Confirm Email does not match The Email \"</string>
+    <string name="confirm_emai">\The Confirm Email does not match The Email </string>
     <string name="signup">signUp</string>
     <string name="confirm_email">Confirm Email</string>
     <string name="password_p">passowrd</string>
     <string name="confirmpassword">confirmPassword</string>
     <string name="i_agree_for_the_terms">I agree for the terms</string>
-    <string name="signup">signUp</string>
     <string name="already_user_login">already user? Login</string>
     <string name="already_have_user_login">already have user? Login</string>
     <string name="new_post">NEW POST</string>

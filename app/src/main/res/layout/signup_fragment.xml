@@ -59,20 +59,6 @@
         android:layout_width="match_parent"
         android:layout_height="1px" />
 
-    <EditText
-        android:id="@+id/confirmemail_et"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:background="@android:color/transparent"
-        android:drawablePadding="8dp"
-        android:gravity="center_vertical"
-        android:hint="@string/confirm_email"
-        android:inputType="textEmailAddress"
-        android:padding="10dp"
-        android:singleLine="true"
-        android:textSize="16sp" />
-
     <View
         android:id="@+id/view2"
         android:layout_width="match_parent"
@@ -103,20 +89,6 @@
     <View
         android:layout_width="fill_parent"
         android:layout_height="1px" />
-
-    <EditText
-        android:id="@+id/confirmPassword"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:background="@android:color/transparent"
-        android:drawablePadding="8dp"
-        android:gravity="center_vertical"
-        android:hint="@string/confirmpassword"
-        android:inputType="textPassword"
-        android:padding="10dp"
-        android:singleLine="true"
-        android:textSize="16sp" />
 
     <CheckBox
         android:id="@+id/terms_conditions"

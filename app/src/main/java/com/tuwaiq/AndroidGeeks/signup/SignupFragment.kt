@@ -36,8 +36,6 @@ class SignupFragment : Fragment() {
     private lateinit var passwordEt: EditText
     private lateinit var signupBtn: Button
     private lateinit var loginLink: TextView
-    private lateinit var confirmPasswordEt:EditText
-    private lateinit var confirmEmailEt:EditText
     private lateinit var iDontLikeJava:CheckBox
     private lateinit var usernameEt:EditText
     private  var dataBase= FirebaseFirestore.getInstance()
@@ -59,9 +57,7 @@ class SignupFragment : Fragment() {
         usernameEt=view.findViewById(R.id.username_et)
         emailEt=view.findViewById(R.id.email_et)
         passwordEt=view.findViewById(R.id.password_et)
-        confirmPasswordEt=view.findViewById(R.id.confirmPassword)
         iDontLikeJava=view.findViewById(R.id.terms_conditions)
-        confirmEmailEt=view.findViewById(R.id.confirmemail_et)
         signupBtn=view.findViewById(R.id.signUpBtn)
         loginLink=view.findViewById(R.id.login_tv)
 
@@ -102,22 +98,10 @@ class SignupFragment : Fragment() {
     private fun registerUser(){
         val email= emailEt.text.toString()
         val pass=passwordEt.text.toString()
-        val pass2=confirmPasswordEt.toString()
-        val email2=confirmEmailEt.toString()
+
 
         if (email.isNotEmpty()&& pass.isNotEmpty()){
-            if (email!=email2){
-                Snackbar.make(requireView(), getString(R.string.confirm_emai), Snackbar.LENGTH_LONG).show()
-            }else {
-                if (pass != pass2) {
-                    Snackbar.make(
-                        requireView(),
-                        getString(R.string.confirm_password),
-                        Snackbar.LENGTH_LONG
-                    ).show()
-
-                }else{
-                    if (iDontLikeJava.isChecked){
+            if(iDontLikeJava.isChecked){
                     auth.createUserWithEmailAndPassword(email,pass)
                         .addOnCompleteListener {
                             if (it.isSuccessful){
@@ -134,22 +118,21 @@ class SignupFragment : Fragment() {
 
                             }
                         }.addOnFailureListener {
-                            Toast.makeText(context, "FailureListener${it.message}", Toast.LENGTH_LONG).show()
+                            Toast.makeText(
+                                context,
+                                "FailureListener${it.message}",
+                                Toast.LENGTH_LONG
+                            ).show()
+
+                        }}else{
+                            Snackbar.make(requireView(),getString(R.string.you_must_accept_the_terms),Snackbar.LENGTH_LONG).show()
+
                         }
-
-                }else{
-                        Snackbar.make(requireView(), getString(R.string.you_must_accept_the_terms), Snackbar.LENGTH_LONG).show()
-                    }
-                }
-
-
-            }
-
 
     }else{
         Snackbar.make(requireView(), getString(R.string.please_fill_all_the_filed), Snackbar.LENGTH_LONG).show()
-    }
-    }
+    }}
+
     fun updateUserInfo(userId:String,userInfo:UsersInfo){
         dataBase = FirebaseFirestore.getInstance()
             if (userId != null) {
@@ -159,5 +142,7 @@ class SignupFragment : Fragment() {
                             Toast.makeText(context,getString(R.string.success_toast),Toast.LENGTH_SHORT).show()
                 val intent = Intent(context, MainActivityForTesting::class.java)
                 startActivity(intent)}else{}}
-                    .addOnFailureListener {Toast.makeText(context,getString(R.string.failure_toast),Toast.LENGTH_SHORT).show() }}}}
+                    .addOnFailureListener {Toast.makeText(context,getString(R.string.failure_toast),Toast.LENGTH_SHORT).show() }}}
+
+}
 
